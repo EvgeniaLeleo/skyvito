@@ -4,7 +4,11 @@
 
   box-sizing: border-box;
   width: 100%;
-  padding: 20px 140px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
+  margin-bottom: 43px;
 
   background-color: #009ee4;
 }

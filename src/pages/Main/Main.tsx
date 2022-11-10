@@ -9,6 +9,7 @@
 // import { ROUTES } from '../../routes'
 // import { selectCurrentUser } from '../../slices/currentUserSlice'
 
+import { Gallery } from '../../components/Gallery/Gallery'
 import { Header } from '../../components/Header/Header'
 import styles from './style.module.css'
 
@@ -18,10 +19,10 @@ const Main = () => {
 
   return (
     <>
-      <Header type="main" />
-      <div>p</div>
+      {/* <Header type="main" /> */}
       <Header />
       <div className={styles.wrapper}>
+        <Gallery />
         {/* <header className={styles.header}>
           <nav className={styles.nav}>
             <Logo color={LOGO_COLOR_LIGHT} />
