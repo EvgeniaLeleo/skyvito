@@ -1,0 +1,122 @@
+/* COMMON STYLES */
+
+.button {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+
+  text-align: center;
+
+  min-height: 50px;
+  padding: 10px 37px;
+
+  border-radius: 6px;
+  outline: none;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/*  ACTION */
+
+.action {
+  color: #fff;
+  background-color: #009ee4;
+  border: 1px solid #009ee4;
+}
+
+.action:hover {
+  background-color: #0080c1;
+  border: 1px solid #0080c1;
+}
+
+.action:active {
+  background-color: #009ee4;
+  border: 1px solid #009ee4;
+}
+
+/* OUTLINED */
+
+.outlined {
+  color: #009ee4;
+  background-color: transparent;
+  border: 1px solid #009ee4;
+}
+
+.outlined:hover {
+  color: #0080c1;
+  border: 1px solid #0080c1;
+}
+
+.outlined:active {
+  color: #009ee4;
+  border: 1px solid #009ee4;
+}
+
+/* DISABLED */
+
+.disabled,
+.disabled:hover,
+.disabled:active {
+  color: #ffffff;
+  background-color: #d9d9d9;
+  border: 1px solid #d9d9d9;
+
+  transform: none;
+  cursor: default;
+}
+
+/* SECONDARY */
+
+.secondary {
+  color: #ffffff;
+
+  background-color: transparent;
+  border: 1px solid #ffffff;
+}
+
+.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.secondary:active {
+  background-color: transparent;
+}
+
+/* SIZE */
+.xl {
+  font-size: 18px;
+  line-height: 1.33;
+
+  width: 100%;
+}
+/* 
+.l {
+  max-width: 100%;
+} */
+
+.m {
+  min-width: 158px;
+}
+
+/* .s {
+  width: 224px;
+}
+
+.xs {
+  width: 158px;
+} */
+/* 
+@media (max-width: 425px) {
+  .l {
+    width: 250px;
+  }
+
+  .button {
+    font-size: 16px;
+    min-height: 40px;
+    padding: 14px;
+  }
+} */
