@@ -8,7 +8,7 @@ export type ButtonProps = {
   size?: 's' | 'm' | 'l' | 'xl'
   buttonStatus?: 'normal' | 'disabled'
   children?: string
-  btnType?: 'button' | 'submit' | 'reset'
+  // btnType?: 'button' | 'submit' | 'reset'
   onClick?: VoidFunction
 }
 
@@ -17,7 +17,7 @@ export const Button: FC<ButtonProps> = ({
   buttonStatus = 'normal',
   size = 'l',
   children,
-  btnType,
+  // btnType,
   onClick,
 }) => {
   const buttonClassName = cn(
@@ -31,7 +31,7 @@ export const Button: FC<ButtonProps> = ({
     <button
       className={buttonClassName}
       onClick={onClick}
-      type={btnType}
+      // type={btnType}
       disabled={buttonStatus === 'disabled'}
     >
       {children ? children : ''}

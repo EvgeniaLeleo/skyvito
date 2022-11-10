@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  justify-content: flex-end;
+
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px 140px;
+
+  background-color: #009ee4;
+}
+
+/* 
+@media (max-width: 425px) {
+  .l {
+    width: 250px;
+  }
+
+  .button {
+    font-size: 16px;
+    min-height: 40px;
+    padding: 14px;
+  }
+} */
