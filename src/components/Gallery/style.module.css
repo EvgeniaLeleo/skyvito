@@ -10,6 +10,19 @@
   margin: 0 auto;
   margin-bottom: 40px;
 }
+
+@media (max-width: 1280px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* 
 .link {
   text-decoration: none;
@@ -32,12 +45,7 @@
   min-height: 480px;
 }
 
-@media (max-width: 1200px) {
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-  }
-}
+
 
 @media (max-width: 840px) {
   .skeleton {

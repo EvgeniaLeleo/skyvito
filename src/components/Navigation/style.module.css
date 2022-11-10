@@ -1,3 +1,9 @@
+.nav,
+.items {
+  margin: 0;
+  padding: 0;
+}
+
 .items {
   display: flex;
   flex-wrap: wrap;

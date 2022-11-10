@@ -19,6 +19,7 @@ export const Card: FC<Props> = ({ item }) => {
       </div>
       {/* <p className={styles.title}>{item.name}</p>
       <p className={styles.price}>{item.price}</p>
+      <p className={styles.location}>{item.location} ₽</p>
       <p className={styles.date}>{item.date}</p> */}
       <p className={styles.title}>{item.name}</p>
       <p className={styles.price}>{item.weight_min} ₽</p>

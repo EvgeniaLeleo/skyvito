@@ -1,6 +1,4 @@
-import { Button } from './components/Button/Button'
-
-import Main from './pages/Main/Main'
+import { Main } from './pages/Main/Main'
 
 function App() {
   return (
