@@ -20,7 +20,9 @@ import styles from './style.module.css'
 
 const dataPrev = [data[0], data[1], data[2], data[3], data[4]]
 
-export const ProductPage: FC = () => {
+type Props = { state?: 'buyer' | 'seller' }
+
+export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
   // const { localId } = useAppSelector(selectCurrentUser)
   // const isLoggedIn = localId ? true : false
 
@@ -65,9 +67,16 @@ export const ProductPage: FC = () => {
             </p>
             <p className={styles.price}>{product?.weight_min} ₽</p>
 
-            <Button size="l" mb="34px">
-              Показать&nbsp;телефон 8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ
-            </Button>
+            {state === 'buyer' ? (
+              <Button size="l" mb="34px">
+                Показать&nbsp;телефон 8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ
+              </Button>
+            ) : (
+              <div className={styles.buttonWrapper}>
+                <Button size="xl">Редактировать</Button>
+                <Button size="xl">Снять с публикации</Button>
+              </div>
+            )}
 
             <div className={styles.seller}>
               <div className={styles.avatarWrapper}>

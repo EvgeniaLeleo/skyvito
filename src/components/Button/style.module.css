@@ -89,12 +89,19 @@
 }
 
 /* SIZE */
-.xl {
+.xxl {
   font-size: 18px;
   line-height: 1.33;
 
   width: 100%;
   padding: 10px 37px;
+}
+
+.xl {
+  font-size: 16px;
+  line-height: 1.5;
+
+  padding: 13px 37px;
 }
 
 .l {

@@ -31,7 +31,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
       <h2 className={styles.subtitle}>Настройки профиля</h2>
       <div className={styles.userSettings}>
         <div className={styles.avatarBlock}>
-          <Avatar user={user} />
+          <Avatar user={user} mb="10px" />
           <span className={styles.changeAvatar}>Заменить</span>
         </div>
 

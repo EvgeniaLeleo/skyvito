@@ -8,8 +8,11 @@ import { ROUTES } from '../../routes'
 import data from '../../data.json'
 
 import styles from './style.module.css'
+import { FC } from 'react'
 
-export const Gallery = () => {
+type Props = { state?: 'buyer' | 'seller' }
+
+export const Gallery: FC<Props> = ({ state = 'buyer' }) => {
   // const { data: courses, isLoading, error } = useGetCoursesQuery()
   // const prefetchCourse = usePrefetch('getCourse')
 
