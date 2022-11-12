@@ -15,12 +15,6 @@ export const USER = {
 
 // import { ErrorTypes } from "./types"
 
-// export const LOGO_COLOR_DARK = '#000000'
-
-// export const LOGO_COLOR_LIGHT = '#ffffff'
-
-// export const SKELETON_COLOR = '#ffffffaa'
-
 // export const NUMBER_OF_SKELETONS = 6
 
 // export const API_URL =

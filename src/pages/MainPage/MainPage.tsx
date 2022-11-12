@@ -20,17 +20,9 @@ export const MainPage = () => {
         <h1 className={styles.title}>Объявления</h1>
         <Gallery />
 
-        {/* <header className={styles.header}>
-          <nav className={styles.nav}>
-            <Logo color={LOGO_COLOR_LIGHT} />
-            <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
-              <Button type="tertiary" size="s">
-                Войти
-              </Button>
+        {/* <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
             </Link>
-          </nav> 
-        </header>          
-        </main>*/}
+          */}
       </div>
       {/* <Footer />  */}
     </>

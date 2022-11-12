@@ -24,7 +24,6 @@ export const ROUTES = {
   main: '/',
   login: '/login',
   signup: '/signup',
-  // admin: '/admin',
   product: '/product',
   sellerProfile: '/sellerprofile',
   profile: '/profile',

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 // import { usePrefetch } from '../../api/courses.api'
 import { Card } from '../Card/Card'
 import { ROUTES } from '../../routes'
+
 import data from '../../data.json'
 
 import styles from './style.module.css'

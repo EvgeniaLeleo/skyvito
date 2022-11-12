@@ -1,4 +1,5 @@
 import { FC, useState } from 'react'
+
 import { UserRESTAPI } from '../../types'
 import { Avatar } from '../Avatar/Avatar'
 import { Button } from '../Button/Button'
@@ -11,9 +12,9 @@ type Props = {
 }
 
 export const UserSettings: FC<Props> = ({ user }) => {
-  const [name, setName] = useState('')
+  const [name, setName] = useState<string>('')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
   }
 
@@ -39,7 +40,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
             <Input
               label="Имя"
               placeholder="Имя"
-              onChange={handleChange}
+              onChange={handleChangeImage}
               value={name}
             />
             <Input label="Фамилия" placeholder="Фамилия" />

@@ -22,17 +22,11 @@ export const ProfilePage = () => {
         <h2 className={styles.subtitle}>Мои товары</h2>
         <Gallery />
 
-        {/* <header className={styles.header}>
-          <nav className={styles.nav}>
-            <Logo color={LOGO_COLOR_LIGHT} />
-            <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
+        {/* <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
               <Button type="tertiary" size="s">
                 Войти
               </Button>
-            </Link>
-          </nav> 
-        </header>          
-        </main>*/}
+            </Link>*/}
       </div>
       {/* <Footer />  */}
     </>

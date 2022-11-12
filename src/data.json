@@ -13,7 +13,8 @@
     "diet": "Krill, crustaceans, fish, and squid",
     "geo_range": "Sub-Antarctic islands and southern South America",
     "image_link": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Gorfou_sauteur_-_Rockhopper_Penguin.jpg",
-    "id": 167
+    "id": 167,
+    "description": "Southern Rockhopper Penguin Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae consequatur non commodi, explicabo perspiciatis provident dolore? Deleniti hic ipsum quam ea facere alias omnis laboriosam rerum ratione! Quidem, porro libero."
   },
   {
     "name": "King Cobra",
@@ -29,7 +30,8 @@
     "diet": "Lizards and snakes, including venomous species",
     "geo_range": "Southeastern Asia and the Philippines",
     "image_link": "https://upload.wikimedia.org/wikipedia/commons/4/4d/12_-_The_Mystical_King_Cobra_and_Coffee_Forests.jpg",
-    "id": 98
+    "id": 98,
+    "description": "King Cobra Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae consequatur non commodi, explicabo perspiciatis provident dolore? Deleniti hic ipsum quam ea facere alias omnis laboriosam rerum ratione! Quidem, porro libero."
   },
   {
     "name": "Alligator Gar",

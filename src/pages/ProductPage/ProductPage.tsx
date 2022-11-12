@@ -1,27 +1,24 @@
 // import { Link } from 'react-router-dom'
 
-// import { Button } from '../../components/Button/Button'
-// import { Footer } from '../../components/Footer/Footer'
-// import { Gallery } from '../../components/Gallery/Gallery'
-// import { Logo } from '../../components/Logo/Logo'
-// import { LOGO_COLOR_LIGHT } from '../../constants'
 // import { useAppSelector } from '../../hooks/appHooks'
 // import { ROUTES } from '../../routes'
 // import { selectCurrentUser } from '../../slices/currentUserSlice'
 
-import { FC, useState } from 'react'
+import { FC, SetStateAction, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Header } from '../../components/Header/Header'
-
-import styles from './style.module.css'
-
-import data from '../../data.json'
 import { ending } from '../../utils'
 import { Button } from '../../components/Button/Button'
 import { Avatar } from '../../components/Avatar/Avatar'
 import { USER } from '../../constants'
 import { ImageWrapper } from '../../components/ImageWrapper/ImageWrapper'
+
+import data from '../../data.json'
+
+import styles from './style.module.css'
+
+const dataPrev = [data[0], data[1], data[2], data[3], data[4]]
 
 export const ProductPage: FC = () => {
   // const { localId } = useAppSelector(selectCurrentUser)
@@ -30,25 +27,37 @@ export const ProductPage: FC = () => {
   const params = useParams()
   const product = data.find((item) => item.id === Number(params.productId))
 
+  const [imgUrl, setImgUrl] = useState(product?.image_link)
+
+  const handleShowImage = (e: {
+    target: { src: SetStateAction<string | undefined> }
+  }) => {
+    setImgUrl(e.target.src)
+  }
+
   return (
     <>
       <Header />
       <div className={styles.wrapper}>
         <div className={styles.productContent}>
           <div className={styles.imgBlock}>
-            <ImageWrapper
-              imageUrl={product?.image_link}
-              name={product?.name}
-              mb="30px"
-            />
-            <div className={styles.previewWrapper}></div>
+            <ImageWrapper imageUrl={imgUrl} name={product?.name} mb="30px" />
+            <div className={styles.previewWrapper}>
+              {dataPrev.map((product) => (
+                <ImageWrapper
+                  imageUrl={product.image_link}
+                  name={product.name}
+                  key={product.image_link}
+                  onClick={handleShowImage}
+                  cursor="pointer"
+                />
+                // </Link>
+              ))}
+            </div>
           </div>
 
           <div className={styles.productData}>
             <h1 className={styles.title}>{product?.name}</h1>
-            {/* <p className={styles.price}>{item.price}</p>
-            <p className={styles.location}>{item.location} ₽</p>
-            <p className={styles.date}>{item.date}</p> */}
             <p className={styles.location}>{product?.animal_type}</p>
             <p className={styles.date}>{product?.length_min}</p>
             <p className={styles.feedback}>
@@ -57,8 +66,7 @@ export const ProductPage: FC = () => {
             <p className={styles.price}>{product?.weight_min} ₽</p>
 
             <Button size="l" mb="34px">
-              Показать телефон
-              <br />8 905 ХХХ ХХ ХХ
+              Показать&nbsp;телефон 8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ
             </Button>
 
             <div className={styles.seller}>
@@ -75,21 +83,13 @@ export const ProductPage: FC = () => {
           </div>
         </div>
 
-        {/* <UserSettings user={USER} />
-        <h2 className={styles.subtitle}>Мои товары</h2>
-        <Gallery /> */}
+        <h2 className={styles.subtitle}>Описание товара</h2>
+        <p className={styles.description}>
+          {product?.description ? product?.description : 'Описание отсутствует'}
+        </p>
 
-        {/* <header className={styles.header}>
-          <nav className={styles.nav}>
-            <Logo color={LOGO_COLOR_LIGHT} />
-            <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
-              <Button type="tertiary" size="s">
-                Войти
-              </Button>
-            </Link>
-          </nav> 
-        </header>          
-        </main>*/}
+        {/* <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
+            </Link>*/}
       </div>
       {/* <Footer />  */}
     </>
