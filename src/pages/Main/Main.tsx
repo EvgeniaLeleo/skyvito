@@ -11,7 +11,6 @@
 
 import { Gallery } from '../../components/Gallery/Gallery'
 import { Header } from '../../components/Header/Header'
-import { SearchBar } from '../../components/SearchBar/SearchBar'
 
 import styles from './style.module.css'
 
@@ -24,7 +23,6 @@ export const Main = () => {
       {/* <Header type="main" /> */}
       <Header />
       <div className={styles.wrapper}>
-        <SearchBar />
         <h1 className={styles.title}>Объявления</h1>
         <Gallery />
 
