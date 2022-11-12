@@ -1,21 +1,17 @@
-import { MainPage } from './pages/MainPage/MainPage'
-import { ProfilePage } from './pages/ProfilePage/ProfilePage'
+// import { useEffect } from 'react'
+
+// import { useLoadCredentialsFromCookies } from './hooks/authHooks'
+import { AppRoutes } from './routes'
 
 function App() {
-  return (
-    <>
-      {/* <MainPage /> */}
-      <ProfilePage />
-      {/* <div>
-      <div className="App"> 
-        <Button>Сохранить</Button>
-        <Button type="secondary">Категории товаров</Button>
-        <Button size="xl">Войти</Button>
-        <Button size="xl">Зарегистрироваться</Button>
-      </div>
-    </div> */}
-    </>
-  )
+  // const { loadCredentials } = useLoadCredentialsFromCookies()
+
+  // useEffect(() => {
+  //   loadCredentials()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
+
+  return <AppRoutes />
 }
 
 export default App

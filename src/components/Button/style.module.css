@@ -11,7 +11,7 @@
 
   min-height: 40px;
   min-width: 158px;
-  padding: 8px 24px;
+  padding: 13px 36px;
 
   border-radius: 6px;
   outline: none;
@@ -73,6 +73,8 @@
 
 .secondary {
   color: #ffffff;
+
+  padding: 8px 24px;
 
   background-color: transparent;
   border: 1px solid #ffffff;

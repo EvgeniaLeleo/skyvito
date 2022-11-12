@@ -1,6 +1,6 @@
-import { Skeleton } from '@mui/material'
 import { FC, useState } from 'react'
 import { UserRESTAPI } from '../../types'
+import { Avatar } from '../Avatar/Avatar'
 import { Button } from '../Button/Button'
 import { Input } from './Input'
 
@@ -16,12 +16,7 @@ type Props = {
 }
 
 export const UserSettings: FC<Props> = ({ user }) => {
-  // export const UserInfo: FC<Props> = ({ user }) => {
-
-  const [loading, setLoading] = useState<boolean>(true)
   const [name, setName] = useState('')
-
-  const handleLoad = () => setLoading(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
@@ -40,19 +35,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
       <h2 className={styles.subtitle}>Настройки профиля</h2>
       <div className={styles.userSettings}>
         <div className={styles.avatarBlock}>
-          <div className={styles.imgWrapper}>
-            {loading && (
-              <Skeleton variant="rectangular" className={styles.skeleton} />
-            )}
-            <img
-              className={styles.img}
-              width="100%"
-              height="100%"
-              src={`${user.avatarLink}`}
-              alt={user.name}
-              onLoad={handleLoad}
-            />
-          </div>
+          <Avatar user={user} />
           <span className={styles.changeAvatar}>Заменить</span>
         </div>
 

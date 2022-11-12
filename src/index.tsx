@@ -1,11 +1,29 @@
-import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import { createRoot } from 'react-dom/client'
+// import { Provider } from 'react-redux'
+
+import App from './App'
+// import { store } from './store'
+// import { ScrollToTop } from './components/ScrollToTop/ScrollToTop'
+// import { SpinnerModal } from './components/SpinnerModal/SpinnerModal'
+// import { SuspenseRouter } from './components/SuspenseRouter/SuspenseRouter'
 
 import './index.css'
 
-import App from './App'
-import reportWebVitals from './reportWebVitals'
+const container = document.getElementById('root')!
+const root = createRoot(container)
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-root.render(<App />)
+root.render(
+  // <Provider store={store}>
+  // <SuspenseRouter>
+  //   <ScrollToTop />
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+  // <SpinnerModal />
+)
 
-reportWebVitals()
+{
+  /* </SuspenseRouter>
+  </Provider> */
+}

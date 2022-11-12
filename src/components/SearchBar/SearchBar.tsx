@@ -1,4 +1,7 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
+import { ROUTES } from '../../routes'
+
 import { Button } from '../Button/Button'
 import { Logo } from '../Logo/Logo'
 
@@ -7,7 +10,9 @@ import styles from './style.module.css'
 export const SearchBar: FC = () => {
   return (
     <div className={styles.wrapper}>
-      <Logo mr="60px" />
+      <Link to={ROUTES.main} className={styles.link}>
+        <Logo mr="60px" />
+      </Link>
       <form className={styles.form}>
         <input className={styles.input} placeholder="Поиск по объявлениям" />
         <Button btnType="submit">Найти</Button>
