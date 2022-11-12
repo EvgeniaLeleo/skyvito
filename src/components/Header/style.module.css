@@ -53,3 +53,35 @@
     padding-left: calc(50% - 350px);
   }
 }
+
+@media (max-width: 840px) {
+  .navWrapper,
+  .searchWrapper {
+    padding-right: calc(50% - 320px);
+    padding-left: calc(50% - 320px);
+  }
+}
+
+@media (max-width: 768px) {
+  .navWrapper,
+  .searchWrapper {
+    padding-right: calc(50% - 300px);
+    padding-left: calc(50% - 300px);
+  }
+}
+
+@media (max-width: 680px) {
+  .navWrapper,
+  .searchWrapper {
+    padding-right: calc(50% - 180px);
+    padding-left: calc(50% - 180px);
+  }
+}
+
+@media (max-width: 425px) {
+  .navWrapper,
+  .searchWrapper {
+    padding-right: calc(50% - 150px);
+    padding-left: calc(50% - 150px);
+  }
+}

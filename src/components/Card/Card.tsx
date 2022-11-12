@@ -1,11 +1,11 @@
 import { Skeleton } from '@mui/material'
 import { FC, useState } from 'react'
 
-import { CourseMainData } from '../../types'
+import { CardMainData } from '../../types'
 
 import styles from './style.module.css'
 
-type Props = { item: CourseMainData }
+type Props = { item: CardMainData }
 
 export const Card: FC<Props> = ({ item }) => {
   const [loading, setLoading] = useState<boolean>(true)

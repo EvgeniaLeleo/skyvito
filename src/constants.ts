@@ -1,4 +1,17 @@
-export const LOGO_COLOR_DARK = '#000000'
+export const USER = {
+  username: 'друг любезный',
+  avatarLink:
+    'https://upload.wikimedia.org/wikipedia/commons/e/ee/Gorfou_sauteur_-_Rockhopper_Penguin.jpg',
+  // id: 1,
+  // password: 'MySecret12345',
+  // uid: 'kwtEgq2ylcZI0iUjgDAWlRqHixB3',
+  // courses: [
+  //   {
+  //     id: 1,
+  //     name: 'Йога',
+  //   },
+  // ],
+}
 
 // import { ErrorTypes } from "./types"
 

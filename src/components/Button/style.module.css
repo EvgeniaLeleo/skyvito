@@ -9,9 +9,9 @@
 
   text-align: center;
 
-  min-height: 50px;
+  min-height: 40px;
   min-width: 158px;
-  padding: 10px 37px;
+  padding: 8px 24px;
 
   border-radius: 6px;
   outline: none;
@@ -92,11 +92,8 @@
   line-height: 1.33;
 
   width: 100%;
+  padding: 10px 37px;
 }
-/* 
-.l {
-  max-width: 100%;
-} */
 
 .m {
   min-width: 158px;

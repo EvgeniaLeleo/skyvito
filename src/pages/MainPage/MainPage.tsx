@@ -14,14 +14,13 @@ import { Header } from '../../components/Header/Header'
 
 import styles from './style.module.css'
 
-export const Main = () => {
-  // const { localId } = useAppSelector(selectCurrentUser)
-  // const isLoggedIn = localId ? true : false
+export const MainPage = () => {
+  let localId // const { localId } = useAppSelector(selectCurrentUser)
+  const isLoggedIn = localId ? true : false
 
   return (
     <>
-      {/* <Header type="main" /> */}
-      <Header />
+      <Header type={isLoggedIn ? 'auth' : 'main'} />
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Объявления</h1>
         <Gallery />

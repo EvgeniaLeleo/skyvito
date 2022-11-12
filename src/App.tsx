@@ -1,13 +1,13 @@
-import { Main } from './pages/Main/Main'
+import { MainPage } from './pages/MainPage/MainPage'
+import { ProfilePage } from './pages/ProfilePage/ProfilePage'
 
 function App() {
   return (
     <>
-      <Main />
+      {/* <MainPage /> */}
+      <ProfilePage />
       {/* <div>
-      <div className="App">
-        <Button>Найти</Button>
-        <Button>Вернуться на главную</Button>
+      <div className="App"> 
         <Button>Сохранить</Button>
         <Button type="secondary">Категории товаров</Button>
         <Button size="xl">Войти</Button>
