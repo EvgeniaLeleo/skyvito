@@ -1,6 +1,7 @@
 import { FC, lazy, useEffect, useState } from 'react'
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom'
 import { MainPage } from './pages/MainPage/MainPage'
+import { ProductPage } from './pages/ProductPage/ProductPage'
 import { ProfilePage } from './pages/ProfilePage/ProfilePage'
 // import Cookies from 'js-cookie'
 
@@ -24,8 +25,10 @@ export const ROUTES = {
   login: '/login',
   signup: '/signup',
   // admin: '/admin',
+  product: '/product',
   sellerProfile: '/sellerprofile',
   profile: '/profile',
+  aboutProduct: '/product/:productId', // '/courses/:id/workouts/:day'
   // workout: '/courses/{}/workouts/{}', // '/courses/:id/workouts/:day'
 }
 
@@ -81,6 +84,7 @@ export const AppRoutes = () => {
       {/* <Route path={`${ROUTES.aboutCourse}/:id`} element={<AboutCourse />} /> */}
       <Route element={<ProtectedRoute isAllowed={isLoggedIn} />}>
         <Route path={ROUTES.profile} element={<ProfilePage />} />
+        <Route path={ROUTES.aboutProduct} element={<ProductPage />} />
         {/* <Route
           path={formatString(ROUTES.workout, [':id', ':day'])}
           element={<Workout />}

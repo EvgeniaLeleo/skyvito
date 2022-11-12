@@ -10,6 +10,12 @@
   margin-bottom: 40px;
 }
 
+.link {
+  text-decoration: none;
+
+  width: 100%;
+}
+
 @media (max-width: 1280px) {
   .gallery {
     grid-template-columns: repeat(3, 1fr);

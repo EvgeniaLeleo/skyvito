@@ -1,25 +1,26 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import cn from 'classnames'
 
 import styles from './style.module.css'
 
-export type ButtonProps = {
+type Props = {
   type?: 'action' | 'outlined' | 'secondary'
   size?: 's' | 'm' | 'l' | 'xl'
   buttonStatus?: 'normal' | 'disabled'
-  children?: string
-  // btnType?: 'button' | 'submit' | 'reset'
-  btnType?: 'button' | 'submit'
+  children?: string | ReactNode
+  btnType?: 'button' | 'submit' //| 'reset'
   onClick?: VoidFunction
+  mb?: string
 }
 
-export const Button: FC<ButtonProps> = ({
+export const Button: FC<Props> = ({
   type = 'action',
   buttonStatus = 'normal',
-  size = 'l',
   children,
   btnType,
   onClick,
+  mb,
+  size,
 }) => {
   const buttonClassName = cn(
     styles.button,
@@ -34,6 +35,7 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       type={btnType}
       disabled={buttonStatus === 'disabled'}
+      style={{ marginBottom: mb }}
     >
       {children ? children : ''}
     </button>

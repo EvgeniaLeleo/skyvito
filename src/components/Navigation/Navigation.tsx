@@ -21,7 +21,9 @@ export const Navigation: FC<Props> = ({ type = 'auth' }) => {
     type === 'auth'
       ? [
           <Button type="secondary">Разместить объявление</Button>,
-          <Button type="secondary">Личный кабинет</Button>,
+          <Button type="secondary" onClick={handleGoToProfile}>
+            Личный кабинет
+          </Button>,
         ]
       : [
           <Button type="secondary" onClick={handleGoToProfile}>

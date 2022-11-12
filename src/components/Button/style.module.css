@@ -5,7 +5,7 @@
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-  line-height: 150%;
+  line-height: 1.5;
 
   text-align: center;
 
@@ -95,6 +95,14 @@
 
   width: 100%;
   padding: 10px 37px;
+}
+
+.l {
+  font-size: 16px;
+  line-height: 1.4;
+
+  padding: 10px 37px;
+  width: 214px;
 }
 
 .m {

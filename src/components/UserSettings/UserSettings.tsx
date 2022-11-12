@@ -4,11 +4,6 @@ import { Avatar } from '../Avatar/Avatar'
 import { Button } from '../Button/Button'
 import { Input } from './Input'
 
-// import { FirebaseUserRESTAPI } from '../../types'
-// import { Button } from '../Button/Button'
-// import { EmailModal } from '../ProfileModal/EmailModal'
-// import { PasswordModal } from '../ProfileModal/PasswordModal'
-
 import styles from './style.module.css'
 
 type Props = {

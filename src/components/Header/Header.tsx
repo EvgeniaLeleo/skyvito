@@ -1,4 +1,5 @@
 import { FC } from 'react'
+
 import { Navigation } from '../Navigation/Navigation'
 import { ProfileHeader } from '../ProfileHeader/ProfileHeader'
 import { SearchBar } from '../SearchBar/SearchBar'

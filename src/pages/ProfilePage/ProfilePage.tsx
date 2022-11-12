@@ -1,12 +1,5 @@
 // import { Link } from 'react-router-dom'
-
-// import { Button } from '../../components/Button/Button'
-// import { Footer } from '../../components/Footer/Footer'
-// import { Gallery } from '../../components/Gallery/Gallery'
-// import { Logo } from '../../components/Logo/Logo'
-// import { LOGO_COLOR_LIGHT } from '../../constants'
 // import { useAppSelector } from '../../hooks/appHooks'
-// import { ROUTES } from '../../routes'
 // import { selectCurrentUser } from '../../slices/currentUserSlice'
 
 import { Gallery } from '../../components/Gallery/Gallery'
