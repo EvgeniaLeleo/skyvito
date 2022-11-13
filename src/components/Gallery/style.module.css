@@ -89,3 +89,12 @@
     font-size: 16px;
   }
 } */
+
+@media (max-width: 425px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+
+    margin-bottom: 84px;
+  }
+}

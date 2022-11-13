@@ -1,7 +1,6 @@
-import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { FC, useState } from 'react'
 
-import { ROUTES } from '../../routes'
+import { LoginModal } from '../../modals/LoginModal/LoginModal'
 import { Button } from '../Button/Button'
 
 import styles from './style.module.css'
@@ -11,33 +10,43 @@ type Props = {
 }
 
 export const Navigation: FC<Props> = ({ type = 'auth' }) => {
-  const navigate = useNavigate()
+  const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(false)
 
-  const handleGoToProfile = () => {
-    navigate(ROUTES.profile)
+  const handleLoginClick = () => {
+    setIsLoginModalShown(true)
   }
+
+  // const navigate = useNavigate()
+
+  // const handleGoToProfile = () => {
+  //   navigate(ROUTES.profile)
+  // }
 
   const nav =
     type === 'auth'
       ? [
           <Button type="secondary">Разместить объявление</Button>,
-          <Button type="secondary" onClick={handleGoToProfile}>
+          <Button type="secondary" onClick={handleLoginClick}>
             Личный кабинет
           </Button>,
         ]
       : [
-          <Button type="secondary" onClick={handleGoToProfile}>
+          <Button type="secondary" onClick={handleLoginClick}>
             Вход в личный кабинет
           </Button>,
         ]
 
   return (
-    <nav className={styles.nav}>
-      <ul className={styles.items}>
-        {nav.map((item, index) => (
-          <li key={index.toString()}>{item}</li>
-        ))}
-      </ul>
-    </nav>
+    <>
+      <nav className={styles.nav}>
+        <ul className={styles.items}>
+          {nav.map((item, index) => (
+            <li key={index.toString()}>{item}</li>
+          ))}
+        </ul>
+      </nav>
+
+      {isLoginModalShown && <LoginModal setIsOpened={setIsLoginModalShown} />}
+    </>
   )
 }

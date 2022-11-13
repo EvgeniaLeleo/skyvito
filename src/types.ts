@@ -20,3 +20,22 @@ export type UserRESTAPI = {
   // expiresIn?: string
   // needRelogin?: boolean
 }
+
+export type ErrorTypes = {
+  [index: string]: string
+}
+
+export type AuthErrorType = {
+  status: number
+  data: {
+    error: {
+      message: string
+    }
+  }
+}
+
+export type FormData = {
+  email: string
+  password: string
+  confirmPassword?: string
+}

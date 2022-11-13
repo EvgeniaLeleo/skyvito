@@ -1,4 +1,5 @@
 import { FC } from 'react'
+
 import { UserRESTAPI } from '../../types'
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper'
 

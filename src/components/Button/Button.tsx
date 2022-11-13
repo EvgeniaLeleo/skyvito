@@ -5,7 +5,7 @@ import styles from './style.module.css'
 
 type Props = {
   type?: 'action' | 'outlined' | 'secondary'
-  size?: 's' | 'm' | 'l' | 'xl'
+  size?: 's' | 'm' | 'l' | 'xl' | 'xxl'
   buttonStatus?: 'normal' | 'disabled'
   children?: string | ReactNode
   btnType?: 'button' | 'submit' //| 'reset'

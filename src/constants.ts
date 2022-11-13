@@ -1,3 +1,5 @@
+import { ErrorTypes } from './types'
+
 export const USER = {
   username: 'друг любезный',
   avatarLink:
@@ -13,8 +15,6 @@ export const USER = {
   // ],
 }
 
-// import { ErrorTypes } from "./types"
-
 // export const NUMBER_OF_SKELETONS = 6
 
 // export const API_URL =
@@ -22,14 +22,14 @@ export const USER = {
 
 // export const API_AUTH_URL = 'https://identitytoolkit.googleapis.com/v1'
 
-// export const ERRORS: ErrorTypes = {
-//   EMAIL_NOT_FOUND: 'Неверный email',
-//   INVALID_PASSWORD: 'Неверный пароль',
-//   EMAIL_EXISTS: 'Email занят',
-// }
+export const ERRORS: ErrorTypes = {
+  EMAIL_NOT_FOUND: 'Неверный email',
+  INVALID_PASSWORD: 'Неверный пароль',
+  EMAIL_EXISTS: 'Email занят',
+}
 
 // export const EXP_MESSAGE = 'Ваша сессия истекла. Пожалуйста, войдите в систему!'
 
 // export const accessTokenName = 'idToken'
 
-// export const validPasswordLength = 6
+export const validPasswordLength = 6

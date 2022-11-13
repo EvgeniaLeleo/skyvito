@@ -62,7 +62,24 @@
 
 @media (max-width: 425px) {
   .wrapper {
-    padding-right: calc(50% - 150px);
-    padding-left: calc(50% - 150px);
+    padding-right: calc(50% - 160px);
+    padding-left: calc(50% - 160px);
+  }
+
+  .title {
+    font-style: normal;
+    font-weight: 600;
+    /* font-weight: 500; */
+    font-size: 24px;
+    line-height: 1.2;
+
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 375px) {
+  .wrapper {
+    padding-right: calc(50% - 142px);
+    padding-left: calc(50% - 142px);
   }
 }
