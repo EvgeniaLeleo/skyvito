@@ -29,6 +29,7 @@ export const LoginModal: FC<Props> = ({ setIsOpened }) => {
 
   const [error, setError] = useState<string>('')
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
+  const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(true)
   const [isSignUpModalShown, setIsSignUpModalShown] = useState<boolean>(false)
 
   // const [login] = useSignInMutation()
@@ -46,8 +47,8 @@ export const LoginModal: FC<Props> = ({ setIsOpened }) => {
 
   //?
   // useEffect(() => {
-  //   return () => setIsSignUpModalShown(true)
-  // }, [setIsOpened])
+  //   //  return () => setIsLoginModalShown(true)
+  // }, [isLoginModalShown, isSignUpModalShown])
 
   const {
     register,
@@ -66,88 +67,85 @@ export const LoginModal: FC<Props> = ({ setIsOpened }) => {
     //   setError(getErrorMessage(error as AuthErrorType))
     //   setIsBlocked(false)
     // }
-    console.log('ok')
   }
 
   const focusHandler = () => setError('')
 
   const handleSignUpClick = () => {
+    setIsLoginModalShown(false)
     setIsSignUpModalShown(true)
-    // setIsOpened(false)
-    setTimeout(() => {
-      setIsOpened(false)
-    }, 1000)
   }
 
-  console.log(isSignUpModalShown)
+  console.log(isLoginModalShown)
 
   const inputPasswordStyle = classNames(styles.input, styles.inputPassword)
-  console.log(isSignUpModalShown, 'reg ')
 
   return (
     <>
-      <Modal isOpen={setIsOpened}>
-        {/* {formMessage && <h2 className={styles.formMessage}>{formMessage}</h2>} */}
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <img className={styles.logo} src={logo} alt="logo" />
-          <div className={styles.inputs}>
-            <input
-              onFocus={focusHandler}
-              className={styles.input}
-              placeholder="E-mail"
-              {...register('email', {
-                required: 'Введите e-mail',
-                pattern: {
-                  value: validEmail,
-                  message: 'Введите корректный e-mail',
-                },
-              })}
-            />
-            <p className={styles.error}>
-              {errors.email && <span>{errors.email.message}</span>}
-            </p>
+      {isLoginModalShown && (
+        <Modal isOpen={setIsOpened}>
+          {/* {formMessage && <h2 className={styles.formMessage}>{formMessage}</h2>} */}
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            <img className={styles.logo} src={logo} alt="logo" />
+            <div className={styles.inputs}>
+              <input
+                onFocus={focusHandler}
+                className={styles.input}
+                placeholder="E-mail"
+                {...register('email', {
+                  required: 'Введите e-mail',
+                  pattern: {
+                    value: validEmail,
+                    message: 'Введите корректный e-mail',
+                  },
+                })}
+              />
+              <p className={styles.error}>
+                {errors.email && <span>{errors.email.message}</span>}
+              </p>
 
-            <input
-              onFocus={focusHandler}
-              className={inputPasswordStyle}
-              placeholder="Пароль"
-              type="password"
-              {...register('password', {
-                required: 'Введите пароль',
-                minLength: {
-                  value: validPasswordLength,
-                  message: `Пароль должен быть не менее ${validPasswordLength} символов`,
-                },
-              })}
-            />
-            <p className={styles.error}>
-              {errors.password && <span>{errors.password.message}</span>}
+              <input
+                onFocus={focusHandler}
+                className={inputPasswordStyle}
+                placeholder="Пароль"
+                type="password"
+                {...register('password', {
+                  required: 'Введите пароль',
+                  minLength: {
+                    value: validPasswordLength,
+                    message: `Пароль должен быть не менее ${validPasswordLength} символов`,
+                  },
+                })}
+              />
+              <p className={styles.error}>
+                {errors.password && <span>{errors.password.message}</span>}
+              </p>
+            </div>
+            <p className={classNames(styles.error, styles.back)}>
+              {error && <span>{error}</span>}
             </p>
-          </div>
-          <p className={classNames(styles.error, styles.back)}>
-            {error && <span>{error}</span>}
-          </p>
-          <div className={styles.buttons}>
-            <Button
-              buttonStatus={isBlocked ? 'disabled' : 'normal'}
-              size="xxl"
-              mb="20px"
-              btnType="submit"
-            >
-              Войти
-            </Button>
-            <Button
-              type="outlined"
-              btnType="button"
-              onClick={handleSignUpClick}
-              buttonStatus={isBlocked ? 'disabled' : 'normal'}
-              size="xxl"
-            >
-              Зарегистрироваться
-            </Button>
-          </div>
-        </form>
-      </Modal>
+            <div className={styles.buttons}>
+              <Button
+                buttonStatus={isBlocked ? 'disabled' : 'normal'}
+                size="xxl"
+                mb="20px"
+                btnType="submit"
+              >
+                Войти
+              </Button>
+              <Button
+                type="outlined"
+                btnType="button"
+                onClick={handleSignUpClick}
+                buttonStatus={isBlocked ? 'disabled' : 'normal'}
+                size="xxl"
+              >
+                Зарегистрироваться
+              </Button>
+            </div>
+          </form>
+        </Modal>
+      )}
 
       {isSignUpModalShown && (
         <SignUpModal setIsOpened={setIsSignUpModalShown} />

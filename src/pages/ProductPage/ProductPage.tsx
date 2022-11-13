@@ -1,7 +1,6 @@
 // import { Link } from 'react-router-dom'
 
 // import { useAppSelector } from '../../hooks/appHooks'
-// import { ROUTES } from '../../routes'
 // import { selectCurrentUser } from '../../slices/currentUserSlice'
 
 import { FC, SetStateAction, useState } from 'react'
@@ -17,6 +16,7 @@ import { ImageWrapper } from '../../components/ImageWrapper/ImageWrapper'
 import data from '../../data.json'
 
 import styles from './style.module.css'
+import { FeedbackModal } from '../../modals/FeedbackModal/FeedbackModal'
 
 const dataPrev = [data[0], data[1], data[2], data[3], data[4]]
 
@@ -29,7 +29,13 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
   const params = useParams()
   const product = data.find((item) => item.id === Number(params.productId))
 
+  const handleFeedbackClick = () => {
+    setIsFeedbackModalShown(true)
+  }
+
   const [imgUrl, setImgUrl] = useState(product?.image_link)
+  const [isFeedbackModalShown, setIsFeedbackModalShown] =
+    useState<boolean>(false)
 
   const handleShowImage = (e: {
     target: { src: SetStateAction<string | undefined> }
@@ -53,7 +59,6 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
                   onClick={handleShowImage}
                   cursor="pointer"
                 />
-                // </Link>
               ))}
             </div>
           </div>
@@ -62,7 +67,7 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
             <h1 className={styles.title}>{product?.name}</h1>
             <p className={styles.location}>{product?.animal_type}</p>
             <p className={styles.date}>{product?.length_min}</p>
-            <p className={styles.feedback}>
+            <p className={styles.feedback} onClick={handleFeedbackClick}>
               {product?.lifespan} отзыв{ending(product?.lifespan)}
             </p>
             <p className={styles.price}>{product?.weight_min} ₽</p>
@@ -97,8 +102,9 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
           {product?.description ? product?.description : 'Описание отсутствует'}
         </p>
 
-        {/* <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
-            </Link>*/}
+        {isFeedbackModalShown && (
+          <FeedbackModal setIsOpened={setIsFeedbackModalShown} />
+        )}
       </div>
       {/* <Footer />  */}
     </>

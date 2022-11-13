@@ -89,6 +89,8 @@
   margin: 0;
   padding: 0;
   margin-bottom: 4px;
+
+  transition: all 0.2s ease;
 }
 
 .input {
@@ -104,6 +106,8 @@
 
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
+
+  transition: all 0.2s ease;
 }
 
 .sizeM {

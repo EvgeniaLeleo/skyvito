@@ -19,6 +19,12 @@ export type UserRESTAPI = {
   // kind?: string
   // expiresIn?: string
   // needRelogin?: boolean
+
+  image_link?: string
+  lifespan?: string
+  weight_min?: string
+  animal_type?: string
+  description?: string
 }
 
 export type ErrorTypes = {
