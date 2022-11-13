@@ -16,12 +16,6 @@ export const Navigation: FC<Props> = ({ type = 'auth' }) => {
     setIsLoginModalShown(true)
   }
 
-  // const navigate = useNavigate()
-
-  // const handleGoToProfile = () => {
-  //   navigate(ROUTES.profile)
-  // }
-
   const nav =
     type === 'auth'
       ? [

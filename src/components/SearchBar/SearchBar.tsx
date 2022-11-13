@@ -11,11 +11,16 @@ export const SearchBar: FC = () => {
   return (
     <div className={styles.wrapper}>
       <Link to={ROUTES.main} className={styles.link}>
-        <Logo mr="60px" />
+        {/* <Logo mr="60px" /> */}
+        <div className={styles.logoWrapper}>
+          <Logo />
+        </div>
       </Link>
       <form className={styles.form}>
         <input className={styles.input} placeholder="Поиск по объявлениям" />
-        <Button btnType="submit">Найти</Button>
+        <div className={styles.buttonWrapper}>
+          <Button btnType="submit">Найти</Button>
+        </div>
       </form>
     </div>
   )

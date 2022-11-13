@@ -15,6 +15,10 @@
   width: 100%;
 }
 
+.logoWrapper {
+  margin-right: 60px;
+}
+
 .input {
   font-family: inherit;
   font-style: normal;
@@ -32,8 +36,40 @@
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
+  outline: none;
 }
 
 .input ::placeholder {
   color: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 680px) {
+  .input {
+    font-size: 16px;
+
+    height: 32px;
+    margin-right: 0;
+
+    background: #ffffff;
+    border-radius: 30px;
+  }
+
+  .logoWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+
+    background-color: #ffffff;
+
+    border-radius: 50%;
+  }
+
+  .buttonWrapper {
+    display: none;
+  }
 }

@@ -14,13 +14,11 @@ type Props = {
 export const Header: FC<Props> = ({ type = 'auth', page = 'regular' }) => {
   return (
     <>
-      <div className={styles.header}>
-        <div className={styles.navWrapper}>
-          <Navigation type={type} />
-        </div>
-        <div className={styles.searchWrapper}>
-          {page === 'profile' ? <ProfileHeader /> : <SearchBar />}
-        </div>
+      <div className={styles.navWrapper}>
+        <Navigation type={type} />
+      </div>
+      <div className={styles.searchWrapper}>
+        {page === 'profile' ? <ProfileHeader /> : <SearchBar />}
       </div>
     </>
   )

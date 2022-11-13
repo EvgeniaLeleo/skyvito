@@ -3,3 +3,11 @@
   height: 38px;
   box-sizing: border-box;
 }
+
+@media (max-width: 768px) {
+  .logo {
+    width: 20px;
+    height: 13px;
+    box-sizing: border-box;
+  }
+}

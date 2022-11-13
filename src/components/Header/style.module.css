@@ -1,41 +1,62 @@
-.header {
+/* .header {
   position: fixed;
   z-index: 1;
   width: 100%;
 
   transition: 200ms ease box-shadow;
   will-change: box-shadow;
-}
+} */
 
-.headerShadow {
+/* .headerShadow {
   -webkit-box-shadow: 0 10px 10px -10px rgb(0 0 0 / 10%);
   box-shadow: 0 10px 10px -10px rgb(0 0 0 / 10%);
-}
+} */
 
-.navWrapper,
-.searchWrapper {
-  padding-left: calc(50% - 580px);
-  padding-right: calc(50% - 580px);
-}
+/* .header {
+  position: relative;
+
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+} */
 
 .navWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+
   display: flex;
   justify-content: flex-end;
 
   box-sizing: border-box;
   width: 100%;
+  min-height: 79px;
   padding-top: 20px;
   padding-bottom: 20px;
-  /* margin-bottom: 43px; */
 
   background-color: #009ee4;
 }
 
 .searchWrapper {
+  position: fixed;
+  top: 79px;
+  left: 0;
+  z-index: 1;
+
+  width: 100%;
+  min-height: 79px;
   padding-top: 43px;
   padding-bottom: 43px;
 
   background-color: #ffffff;
+}
+
+.navWrapper,
+.searchWrapper {
+  box-sizing: border-box;
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
 }
 
 @media (max-width: 1280px) {
@@ -73,15 +94,44 @@
 @media (max-width: 680px) {
   .navWrapper,
   .searchWrapper {
-    padding-right: calc(50% - 180px);
-    padding-left: calc(50% - 180px);
+    padding-right: calc(50% - 200px);
+    padding-left: calc(50% - 200px);
+  }
+
+  .searchWrapper {
+    top: 0;
+
+    min-height: 55px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+
+    background: #009ee4;
+    box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.05);
+  }
+
+  .navWrapper {
+    top: auto;
+    bottom: 0;
+
+    min-height: 54px;
+
+    background: #ffffff;
+    box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
   }
 }
 
 @media (max-width: 425px) {
   .navWrapper,
   .searchWrapper {
-    padding-right: calc(50% - 150px);
-    padding-left: calc(50% - 150px);
+    padding-right: calc(50% - 160px);
+    padding-left: calc(50% - 160px);
+  }
+}
+
+@media (max-width: 375px) {
+  .navWrapper,
+  .searchWrapper {
+    padding-right: calc(50% - 142px);
+    padding-left: calc(50% - 142px);
   }
 }
