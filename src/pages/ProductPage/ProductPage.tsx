@@ -18,6 +18,7 @@ import data from '../../data.json'
 import styles from './style.module.css'
 import { FeedbackModal } from '../../modals/FeedbackModal/FeedbackModal'
 import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
+import { ScrollToTop } from '../../components/ScrollToTop/ScrollToTop'
 
 const dataPrev = [data[0], data[1], data[2], data[3], data[4]]
 
@@ -51,6 +52,7 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
 
   return (
     <>
+      <ScrollToTop />
       <Header />
       <div className={styles.wrapper}>
         <div className={styles.productContent}>
