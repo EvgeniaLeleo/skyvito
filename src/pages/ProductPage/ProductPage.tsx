@@ -17,6 +17,7 @@ import data from '../../data.json'
 
 import styles from './style.module.css'
 import { FeedbackModal } from '../../modals/FeedbackModal/FeedbackModal'
+import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 
 const dataPrev = [data[0], data[1], data[2], data[3], data[4]]
 
@@ -33,9 +34,14 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
     setIsFeedbackModalShown(true)
   }
 
+  const handleEditProduct = () => {
+    setIsEditModalShown(true)
+  }
+
   const [imgUrl, setImgUrl] = useState(product?.image_link)
   const [isFeedbackModalShown, setIsFeedbackModalShown] =
     useState<boolean>(false)
+  const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
 
   const handleShowImage = (e: {
     target: { src: SetStateAction<string | undefined> }
@@ -78,7 +84,9 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
               </Button>
             ) : (
               <div className={styles.buttonWrapper}>
-                <Button size="xl">Редактировать</Button>
+                <Button size="xl" onClick={handleEditProduct}>
+                  Редактировать
+                </Button>
                 <Button size="xl">Снять с публикации</Button>
               </div>
             )}
@@ -104,6 +112,10 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
 
         {isFeedbackModalShown && (
           <FeedbackModal setIsOpened={setIsFeedbackModalShown} />
+        )}
+
+        {isEditModalShown && (
+          <EditProductModal setIsOpened={setIsEditModalShown} mode="edit" />
         )}
       </div>
       {/* <Footer />  */}
