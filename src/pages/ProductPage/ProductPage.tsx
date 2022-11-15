@@ -57,7 +57,7 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
       <div className={styles.wrapper}>
         <div className={styles.productContent}>
           <div className={styles.imgBlock}>
-            <ImageWrapper imageUrl={imgUrl} name={product?.name} mb="30px" />
+            <ImageWrapper imageUrl={imgUrl} name={product?.name} mb="20px" />
             <div className={styles.previewWrapper}>
               {dataPrev.map((product) => (
                 <ImageWrapper

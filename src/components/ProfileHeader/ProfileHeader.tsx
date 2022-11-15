@@ -17,9 +17,13 @@ export const ProfileHeader: FC = () => {
   return (
     <div className={styles.wrapper}>
       <Link to={ROUTES.main} className={styles.link}>
-        <Logo mr="60px" />
+        <div className={styles.logoWrapper}>
+          <Logo />
+        </div>
       </Link>
-      <Button onClick={handleGoToMainPage}>Вернуться на главную</Button>
+      <div className={styles.buttonWrapper}>
+        <Button onClick={handleGoToMainPage}>Вернуться на главную</Button>
+      </div>
     </div>
   )
 }
