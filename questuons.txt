@@ -1,3 +1,4 @@
 1. Тень под хедером при прокрутке
 2. Тип onClick в ImageWrapper
 3. Как реализовать приложение для мобильника? Там модалки заменяются на полноценные страницы
+"build": "react-scripts build && echo '/* /index.html  200' | cat >build/_redirects ",

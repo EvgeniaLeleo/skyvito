@@ -23,8 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "buildLocal": "react-scripts build",
-    "prod": "react-scripts build netlify deploy --prod",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint:fix": "eslint src/ --fix --max-warnings=0",
@@ -48,6 +47,7 @@
       "last 1 safari version"
     ]
   },
+  "homepage": ".",
   "devDependencies": {
     "classnames": "^2.3.2",
     "eslint-config-prettier": "^8.5.0",
