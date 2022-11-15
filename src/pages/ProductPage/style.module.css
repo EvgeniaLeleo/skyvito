@@ -221,11 +221,6 @@
 }
 
 @media (max-width: 425px) {
-  .wrapper {
-    padding-right: calc(50% - 150px);
-    padding-left: calc(50% - 150px);
-  }
-
   .productContent {
     display: grid;
     grid-template-columns: 1fr;
