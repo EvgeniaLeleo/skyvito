@@ -41,10 +41,18 @@ export const Navigation: FC<Props> = ({ type = 'auth' }) => {
   return (
     <>
       <nav className={styles.nav}>
-        <ul className={styles.items}>
-          {nav.map((item, index) => (
-            <li key={index.toString()}>{item}</li>
-          ))}
+        <div className={styles.buttonWrapper}>
+          <ul className={styles.items}>
+            {nav.map((item, index) => (
+              <li key={index.toString()}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <ul className={styles.icons}>
+          <img src="./assets/images/home.svg" alt="Home"></img>
+          <img src="./assets/images/plus.svg" alt="Add"></img>
+          <img src="./assets/images/profile.svg" alt="Profile"></img>
         </ul>
       </nav>
 
