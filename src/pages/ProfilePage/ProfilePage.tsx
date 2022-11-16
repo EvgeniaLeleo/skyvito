@@ -4,6 +4,7 @@
 
 import { Gallery } from '../../components/Gallery/Gallery'
 import { Header } from '../../components/Header/Header'
+import { ScrollToTop } from '../../components/ScrollToTop/ScrollToTop'
 import { UserSettings } from '../../components/UserSettings/UserSettings'
 import { USER } from '../../constants'
 
@@ -15,9 +16,11 @@ export const ProfilePage = () => {
 
   return (
     <>
+      <ScrollToTop />
       <Header page="profile" />
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Здравствуйте, {USER.username}!</h1>
+        <h2 className={styles.subtitle}>Настройки профиля</h2>
         <UserSettings user={USER} />
         <h2 className={styles.subtitle}>Мои товары</h2>
         <Gallery />

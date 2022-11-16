@@ -74,7 +74,24 @@
 
 @media (max-width: 425px) {
   .wrapper {
-    padding-right: calc(50% - 150px);
-    padding-left: calc(50% - 150px);
+    padding-right: calc(50% - 139px);
+    padding-left: calc(50% - 139px);
+  }
+
+  .title {
+    font-size: 24px;
+    line-height: 1.2;
+
+    color: #000000;
+
+    padding-top: 85px;
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    line-height: 1;
+
+    margin-bottom: 30px;
   }
 }

@@ -1,7 +1,9 @@
 import { FC, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 
 import { LoginModal } from '../../modals/LoginModal/LoginModal'
+import { ROUTES } from '../../routes'
 import { Button } from '../Button/Button'
 
 import styles from './style.module.css'
@@ -50,9 +52,27 @@ export const Navigation: FC<Props> = ({ type = 'auth' }) => {
         </div>
 
         <ul className={styles.icons}>
-          <img src="./assets/images/home.svg" alt="Home"></img>
-          <img src="./assets/images/plus.svg" alt="Add"></img>
-          <img src="./assets/images/profile.svg" alt="Profile"></img>
+          <img
+            className={styles.icon}
+            src="./assets/images/home.svg"
+            alt="Home"
+          />
+          <img
+            className={styles.icon}
+            src="./assets/images/plus.svg"
+            alt="Add"
+          />
+          <Link
+            to={ROUTES.profile}
+            className={styles.link}
+            // onMouseEnter={() => prefetchCourse(product.id!)}
+          >
+            <img
+              className={styles.icon}
+              src="./assets/images/profile.svg"
+              alt="Profile"
+            />
+          </Link>
         </ul>
       </nav>
 

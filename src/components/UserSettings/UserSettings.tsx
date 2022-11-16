@@ -27,31 +27,29 @@ export const UserSettings: FC<Props> = ({ user }) => {
   // }
 
   return (
-    <>
-      <h2 className={styles.subtitle}>Настройки профиля</h2>
-      <div className={styles.userSettings}>
-        <div className={styles.avatarBlock}>
-          <Avatar user={user} mb="10px" />
-          <span className={styles.changeAvatar}>Заменить</span>
+    <div className={styles.userSettings}>
+      <div className={styles.avatarBlock}>
+        <Avatar user={user} mb="10px" />
+        <span className={styles.changeAvatar}>Заменить</span>
+      </div>
+
+      <form className={styles.settingsForm} action="#">
+        <div className={styles.nameWrapper}>
+          <Input
+            label="Имя"
+            placeholder="Имя"
+            onChange={handleChangeImage}
+            value={name}
+          />
+          <Input label="Фамилия" placeholder="Фамилия" />
         </div>
+        <Input label="Город" placeholder="Город" size="m" />
+        <Input label="Телефон" type="tel" placeholder="Телефон" size="l" />
 
-        <form className={styles.settingsForm} action="#">
-          <div className={styles.nameWrapper}>
-            <Input
-              label="Имя"
-              placeholder="Имя"
-              onChange={handleChangeImage}
-              value={name}
-            />
-            <Input label="Фамилия" placeholder="Фамилия" />
-          </div>
-          <Input label="Город" placeholder="Город" size="m" />
-          <Input label="Телефон" type="tel" placeholder="Телефон" size="l" />
+        <Button>Сохранить</Button>
+      </form>
 
-          <Button>Сохранить</Button>
-        </form>
-
-        {/* <div className={styles.infoBlock}>
+      {/* <div className={styles.infoBlock}>
         <p className={styles.user}>
           {`Логин: ${user.displayName || user.email}`}
         </p>
@@ -59,7 +57,6 @@ export const UserSettings: FC<Props> = ({ user }) => {
       <div className={styles.editBlock} data-cy="edit-data-user">
         <Button onClick={handleEmailClick}>Редактировать e-mail</Button>
         <Button onClick={handlePasswordClick}>Редактировать пароль</Button> </div> */}
-      </div>
-    </>
+    </div>
   )
 }
