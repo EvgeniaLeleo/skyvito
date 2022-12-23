@@ -63,9 +63,9 @@ export const FeedbackModal: FC<Props> = ({ setIsOpened }) => {
                 </Button>
               </form>
 
-              {FEEDBACKS.map((feedback: number) => (
+              {/* {FEEDBACKS.map((feedback: number) => (
                 <Feedback review={data[feedback]} key={feedback} />
-              ))}
+              ))} */}
             </div>
 
             {/* {data && data.workouts && (

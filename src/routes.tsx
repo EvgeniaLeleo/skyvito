@@ -83,7 +83,8 @@ export const AppRoutes = () => {
       {/* <Route path={`${ROUTES.aboutCourse}/:id`} element={<AboutCourse />} /> */}
       <Route element={<ProtectedRoute isAllowed={isLoggedIn} />}>
         <Route path={ROUTES.profile} element={<ProfilePage />} />
-        <Route path={ROUTES.aboutProduct} element={<ProductPage />} />
+        {/* <Route path={ROUTES.aboutProduct} element={<ProductPage />} /> */}
+        <Route path={ROUTES.product + '/:id'} element={<ProductPage />} />
         {/* <Route
           path={formatString(ROUTES.workout, [':id', ':day'])}
           element={<Workout />}

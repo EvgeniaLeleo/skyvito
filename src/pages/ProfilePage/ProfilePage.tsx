@@ -21,7 +21,7 @@ export const ProfilePage = () => {
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Здравствуйте, {USER.username}!</h1>
         <h2 className={styles.subtitle}>Настройки профиля</h2>
-        <UserSettings user={USER} />
+        {/* <UserSettings user={USER} /> */}
         <h2 className={styles.subtitle}>Мои товары</h2>
         <Gallery />
 

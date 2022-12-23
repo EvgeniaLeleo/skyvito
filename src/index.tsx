@@ -1,8 +1,9 @@
 import { BrowserRouter } from 'react-router-dom'
 import { createRoot } from 'react-dom/client'
-// import { Provider } from 'react-redux'
+import { Provider } from 'react-redux'
 
 import App from './App'
+import { store } from './store'
 // import { store } from './store'
 // import { ScrollToTop } from './components/ScrollToTop/ScrollToTop'
 // import { SpinnerModal } from './components/SpinnerModal/SpinnerModal'
@@ -14,16 +15,13 @@ const container = document.getElementById('root')!
 const root = createRoot(container)
 
 root.render(
-  // <Provider store={store}>
-  // <SuspenseRouter>
-  //   <ScrollToTop />
   <BrowserRouter>
-    <App />
+    <Provider store={store}>
+      {/* <SuspenseRouter> */}
+      {/* <ScrollToTop /> */}
+      <App />
+      {/* </SuspenseRouter> */}
+    </Provider>
   </BrowserRouter>
-  // <SpinnerModal />
+  // </React.StrictMode>
 )
-
-{
-  /* </SuspenseRouter>
-  </Provider> */
-}

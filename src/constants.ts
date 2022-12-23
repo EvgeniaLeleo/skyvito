@@ -1,5 +1,7 @@
 import { ErrorTypes } from './types'
 
+export const API_URL = 'http://localhost:8090/'
+
 export const USER = {
   username: 'друг любезный',
   avatarLink:
