@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { API_URL } from '../../constants'
 
 import { User } from '../../types'
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper'
@@ -13,7 +14,11 @@ type Props = {
 export const Avatar: FC<Props> = ({ user, mb }) => {
   return (
     <div className={styles.wrapper} style={{ marginBottom: mb }}>
-      <ImageWrapper imageUrl={user?.avatarLink} name={user?.name} mb="10px" />
+      <ImageWrapper
+        imageUrl={user?.avatar ? API_URL + user?.avatar : ''}
+        name={user?.name}
+        mb="10px"
+      />
     </div>
   )
 }

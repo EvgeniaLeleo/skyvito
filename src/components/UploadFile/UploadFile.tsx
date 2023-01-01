@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { API_URL, TOKEN } from '../../constants'
 import { useAppDispatch } from '../../hook'
@@ -13,10 +13,9 @@ type Props = {
 }
 
 export const UploadFile: FC<Props> = ({ productId }) => {
-  const filePicker = useRef<HTMLInputElement>(null)
   const [uploaded, setUploaded] = useState<Product>()
 
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   const handleChange = async (event: any) => {
     const file = event.target.files[0]
@@ -40,25 +39,18 @@ export const UploadFile: FC<Props> = ({ productId }) => {
     setUploaded(data)
   }
 
-  const handlePick = () => {
-    if (filePicker.current) {
-      filePicker.current.click()
-    }
-  }
-
   return (
     <>
       {!uploaded && (
-        <div>
-          <PlusIconInSquare onClick={handlePick} />
+        <label>
+          <PlusIconInSquare />
           <input
             className={styles.input}
             type="file"
-            ref={filePicker}
             onChange={handleChange}
             accept="image/*"
           ></input>
-        </div>
+        </label>
       )}
       {!!uploaded && (
         <ImageWrapper

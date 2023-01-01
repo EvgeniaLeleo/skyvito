@@ -6,8 +6,9 @@ export type User = {
   name: string
   surname: string
   phone: string
-  avatarLink?: string
+  avatar?: string
   idToken?: string
+  sells_from?: string
 }
 
 export type ChangeUserDetailsArg = {

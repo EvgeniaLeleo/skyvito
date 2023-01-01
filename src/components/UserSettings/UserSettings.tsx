@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { API_URL, TOKEN } from '../../constants'
 
 import { useChangeUserDetailsMutation } from '../../services/usersApi'
 import { User } from '../../types'
@@ -14,10 +15,16 @@ type Props = {
 }
 
 export const UserSettings: FC<Props> = ({ user }) => {
+  // console.log('user', user)
   // const user = useAppSelector(selectCurrentUser)
   const [name, setName] = useState<string | undefined>(user?.name)
   const [surname, setSurname] = useState<string | undefined>(user?.surname)
-  console.log(name, surname)
+  // console.log(name, surname)
+  const [uploaded, setUploaded] = useState()
+
+  // const [imgUrl, setImgUrl] = useState(
+  //   user?.avatar ? API_URL + user?.avatar : ''
+  // )
 
   const [changeUserDetails] = useChangeUserDetailsMutation()
   // console.log(user?.name)
@@ -32,21 +39,21 @@ export const UserSettings: FC<Props> = ({ user }) => {
 
   // useEffect(() => {
   //   setName(user?.name)
-  //   console.log('g')
-  // }, [user?.name])
+  //   setSurname(user?.surname)
+  //   setImgUrl(user?.avatar ? API_URL + user?.avatar : '')
 
-  useEffect(() => {
-    setName(user?.name)
-    setSurname(user?.surname)
-    // console.log('n', name)
-    return () => setName(user?.name)
-  }, [user?.name, user?.surname])
+  //   return () => {
+  //     setName(user?.name)
+  //     setSurname(user?.surname)
+  //     setImgUrl(user?.avatar ? API_URL + user?.avatar : '')
+  //   }
+  // }, [user?.name, user?.surname, user?.avatar])
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ mode: 'onTouched' })
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm({ mode: 'onTouched' })
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     // if (!user.idToken) {
@@ -70,6 +77,29 @@ export const UserSettings: FC<Props> = ({ user }) => {
     }
   }
 
+  const handleChange = async (event: any) => {
+    const file = event.target.files[0]
+
+    if (!file) {
+      console.log('no file')
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const res = await fetch(`${API_URL}user/avatar`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${TOKEN}` },
+      body: formData,
+    })
+
+    const data = await res.json()
+    // console.log(data)
+
+    setUploaded(data)
+  }
+
   // const handleEmailClick = () => {
   //   setIsModalEmailShown(true)
   // }
@@ -81,14 +111,27 @@ export const UserSettings: FC<Props> = ({ user }) => {
   return (
     <div className={styles.userSettings}>
       <div className={styles.avatarBlock}>
-        <Avatar user={user} mb="10px" />
-        <span className={styles.changeAvatar}>Заменить</span>
+        {!uploaded && <Avatar user={user} mb="10px" />}
+        {!!uploaded && <Avatar user={uploaded} mb="10px" />}
+        {/* <span className={styles.changeAvatar} onClick={handleClick}>
+          Заменить
+        </span> */}
+        <label className={styles.changeAvatar}>
+          Загрузить
+          <input
+            className={styles.changeAvatarInput}
+            type="file"
+            // ref={filePicker}
+            onChange={handleChange}
+            accept="image/*"
+          ></input>
+        </label>
       </div>
 
       <form
         className={styles.settingsForm}
         action="#"
-        onSubmit={handleSubmit(onSubmit)}
+        // onSubmit={handleSubmit(onSubmit)}
       >
         <div className={styles.nameWrapper}>
           <Input

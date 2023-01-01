@@ -16,12 +16,14 @@ import { PageWrapper } from '../PageWrapper/PageWrapper'
 import { API_URL } from '../../constants'
 
 import styles from './style.module.css'
+import { useGetCurrentUserQuery } from '../../services/usersApi'
 
 type Props = { state?: 'buyer' | 'seller' }
 
 export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
   const productId = Number(useParams()?.id)
 
+  const { data: user } = useGetCurrentUserQuery()
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
   const { data: comments } = useGetProductCommentsQuery(productId)
@@ -113,12 +115,13 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
 
             <div className={styles.seller}>
               <div className={styles.avatarWrapper}>
-                {/* <Avatar user={USER} /> */}
+                <Avatar user={user} />
               </div>
               <div className={styles.sellerData}>
                 <p className={styles.sellerName}>{product?.user.name}</p>
                 <p className={styles.sellerExp}>
-                  Продает товары с{/*  {product?.user.} */}
+                  Продает товары с{' '}
+                  {user?.sells_from?.split('-').reverse().join('.')}
                 </p>
               </div>
             </div>
