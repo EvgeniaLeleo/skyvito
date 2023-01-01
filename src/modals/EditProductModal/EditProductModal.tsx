@@ -5,20 +5,18 @@ import { Button } from '../../components/Button/Button'
 import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 import { Modal } from '../Modal/Modal'
 import { ImageWrapper } from '../../components/ImageWrapper/ImageWrapper'
-import { CardMainData } from '../../types'
-
-import data from '../../data.json'
+import { Product } from '../../types'
+import { UploadFile } from '../../components/UploadFile/UploadFile'
+import { API_URL, NUMBER_OF_IMAGES } from '../../constants'
 
 import styles from './style.module.css'
-import { PlusIconInSquare } from '../../components/PlusIconInSquare/PlusIconInSquare'
 
-const IMAGES = [1, 2, 3, 4, 5]
-const dataPrev = [data[5], data[6], data[7], data[8], data[9]]
+const imgArray = Array.from(Array(NUMBER_OF_IMAGES).keys())
 
 type Props = {
   setIsOpened: Function
   mode?: 'new' | 'edit'
-  product?: CardMainData
+  product?: Product
 }
 
 type Form = {
@@ -41,6 +39,11 @@ export const EditProductModal: FC<Props> = ({
 }) => {
   // const dispatch = useAppDispatch()
   // const modalShownName = useAppSelector(selectModal)
+  // const { data: product, isLoading: productIsLoading } =
+  //   useGetProductQuery(productId)
+
+  // console.log(product)
+
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
 
   const title = mode === 'new' ? 'Новое объявление' : 'Редактировать объявление'
@@ -71,6 +74,11 @@ export const EditProductModal: FC<Props> = ({
 
     return true
   }
+
+  const additionArrayLength = product?.images.length
+  const additionArray = additionArrayLength
+    ? Array.from(Array(imgArray.length - additionArrayLength).keys())
+    : imgArray
 
   return (
     <Modal isOpen={setIsOpened}>
@@ -108,25 +116,35 @@ export const EditProductModal: FC<Props> = ({
           <div className={styles.formContent}>
             <p className={styles.textPhoto}>
               Фотографии товара&nbsp;&nbsp;
-              <span className={styles.limit}>не более 5 фотографий</span>
+              <span className={styles.limit}>
+                не более {NUMBER_OF_IMAGES} фотографий
+              </span>
             </p>
             <div className={styles.imagesWrapper}>
               {mode === 'new' &&
-                IMAGES.map((image) => (
-                  <PlusIconInSquare
-                    key={image}
-                    onClick={() => console.log(`image ${product}`)}
-                  />
+                imgArray.map((image) => (
+                  <React.Fragment key={image}>
+                    <UploadFile productId={product?.id} />
+                  </React.Fragment>
                 ))}
               {mode === 'edit' &&
-                dataPrev.map((product) => (
-                  <ImageWrapper
-                    imageUrl={product.image_link}
-                    name={product.name}
-                    key={product.image_link}
-                    onClick={() => console.log(`image ${product}`)}
-                    cursor="pointer"
-                  />
+                product?.images.map((image, index) => (
+                  <React.Fragment key={image?.url}>
+                    <ImageWrapper
+                      imageUrl={image?.url ? API_URL + image?.url : ''}
+                      name={`Фото ${index}`}
+                      key={image?.url}
+                      cursor="default"
+                    />
+                  </React.Fragment>
+                ))}
+              {mode === 'edit' &&
+                !!product &&
+                product?.images.length < NUMBER_OF_IMAGES &&
+                additionArray.map((el) => (
+                  <React.Fragment key={el}>
+                    <UploadFile productId={product?.id} />
+                  </React.Fragment>
                 ))}
             </div>
           </div>

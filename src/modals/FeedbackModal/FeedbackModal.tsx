@@ -4,10 +4,9 @@ import { Button } from '../../components/Button/Button'
 import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 import { Feedback } from '../../components/Feedback/Feedback'
 import { Modal } from '../Modal/Modal'
-
-import data from '../../data.json'
-import styles from './style.module.css'
 import { useEscapeKey } from '../../hooks/useEscapeKey'
+
+import styles from './style.module.css'
 
 type Props = {
   // courseId: number

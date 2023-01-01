@@ -1,6 +1,8 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { UserRESTAPI } from '../../types'
+import { useChangeUserDetailsMutation } from '../../services/usersApi'
+import { User } from '../../types'
 import { Avatar } from '../Avatar/Avatar'
 import { Button } from '../Button/Button'
 import { Input } from './Input'
@@ -8,14 +10,64 @@ import { Input } from './Input'
 import styles from './style.module.css'
 
 type Props = {
-  user: UserRESTAPI
+  user?: User
 }
 
 export const UserSettings: FC<Props> = ({ user }) => {
-  const [name, setName] = useState<string>('')
+  // const user = useAppSelector(selectCurrentUser)
+  const [name, setName] = useState<string | undefined>(user?.name)
+  const [surname, setSurname] = useState<string | undefined>(user?.surname)
+  console.log(name, surname)
 
-  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [changeUserDetails] = useChangeUserDetailsMutation()
+  // console.log(user?.name)
+
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
+  }
+
+  const handleChangeSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSurname(e.target.value)
+  }
+
+  // useEffect(() => {
+  //   setName(user?.name)
+  //   console.log('g')
+  // }, [user?.name])
+
+  useEffect(() => {
+    setName(user?.name)
+    setSurname(user?.surname)
+    // console.log('n', name)
+    return () => setName(user?.name)
+  }, [user?.name, user?.surname])
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'onTouched' })
+
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    // if (!user.idToken) {
+    //   goToLoginWithMessage(EXP_MESSAGE)
+    //   return
+    // }
+    console.log('dd', data.name)
+    try {
+      // dispatch(showSpinner())
+      await changeUserDetails({
+        // idToken: user?.idToken,
+        email: data.email,
+        name: data.name,
+        surname: data.surname,
+      }).unwrap()
+      // dispatch(hideSpinner())
+      // setIsOpened(false)
+    } catch {
+      // dispatch(hideSpinner())
+      // goToLoginWithMessage(EXP_MESSAGE)
+    }
   }
 
   // const handleEmailClick = () => {
@@ -33,15 +85,26 @@ export const UserSettings: FC<Props> = ({ user }) => {
         <span className={styles.changeAvatar}>Заменить</span>
       </div>
 
-      <form className={styles.settingsForm} action="#">
+      <form
+        className={styles.settingsForm}
+        action="#"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className={styles.nameWrapper}>
           <Input
             label="Имя"
-            placeholder="Имя"
-            onChange={handleChangeImage}
+            // placeholder={user?.name || 'Имя'}
+            placeholder={name}
+            onChange={handleChangeName}
             value={name}
           />
-          <Input label="Фамилия" placeholder="Фамилия" />
+          <Input
+            label="Фамилия"
+            // placeholder="Фамилия"
+            placeholder={surname}
+            onChange={handleChangeSurname}
+            value={surname}
+          />
         </div>
         <Input label="Город" placeholder="Город" size="m" />
         <Input label="Телефон" type="tel" placeholder="Телефон" size="l" />

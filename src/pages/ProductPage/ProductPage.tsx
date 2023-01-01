@@ -1,48 +1,33 @@
-// import { Link } from 'react-router-dom'
-
-// import { useAppSelector } from '../../hooks/appHooks'
-// import { selectCurrentUser } from '../../slices/currentUserSlice'
-
-import { FC, SetStateAction, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Header } from '../../components/Header/Header'
 import { ending } from '../../utils/ending'
 import { Button } from '../../components/Button/Button'
 import { Avatar } from '../../components/Avatar/Avatar'
-import { USER } from '../../constants'
 import { ImageWrapper } from '../../components/ImageWrapper/ImageWrapper'
-
-// import data from '../../data.json'
-
-import styles from './style.module.css'
 import { FeedbackModal } from '../../modals/FeedbackModal/FeedbackModal'
 import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
-import { ScrollToTop } from '../../components/ScrollToTop/ScrollToTop'
 import {
   useGetProductCommentsQuery,
   useGetProductQuery,
 } from '../../services/productsApi'
 import { convertDate } from '../../utils/convertDate'
+import { PageWrapper } from '../PageWrapper/PageWrapper'
+import { API_URL } from '../../constants'
+
+import styles from './style.module.css'
 
 type Props = { state?: 'buyer' | 'seller' }
 
 export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
   const productId = Number(useParams()?.id)
+
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
   const { data: comments } = useGetProductCommentsQuery(productId)
-  const productPreview = [
-    product?.images[0],
-    product?.images[1],
-    product?.images[2],
-    product?.images[3],
-    product?.images[4],
-  ]
+
   // const { localId } = useAppSelector(selectCurrentUser)
   // const isLoggedIn = localId ? true : false
-
-  // const product = product.find((item) => item.id === Number(params.productId))
 
   const handleFeedbackClick = () => {
     setIsFeedbackModalShown(true)
@@ -52,39 +37,43 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
     setIsEditModalShown(true)
   }
 
-  const [imgUrl, setImgUrl] = useState(product?.images[0]?.url || '')
+  const [imgUrl, setImgUrl] = useState(
+    product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
+  )
+
+  useEffect(() => {
+    setImgUrl(product?.images[0]?.url ? API_URL + product?.images[0]?.url : '')
+  }, [product])
+
   const [isFeedbackModalShown, setIsFeedbackModalShown] =
     useState<boolean>(false)
   const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
 
-  const handleShowImage = (e: {
-    target: { src: SetStateAction<string | undefined> }
-  }) => {
-    // let target = e.target.src ? e.target.src : ''
-    // setImgUrl(target)
+  const handleShowImage = (event: { target: { src: string } }) => {
+    let target = event.target.src //? event.target.src : ''
+    setImgUrl(target)
   }
 
   if (productIsLoading)
     return (
-      // <Page>
-      <div className={styles.content}>Загрузка...</div>
-      // </Page>
+      <PageWrapper>
+        <div>Загрузка...</div>
+      </PageWrapper>
     )
 
   return (
-    <>
-      <ScrollToTop />
-      <Header />
+    <PageWrapper scrollToTop={true}>
+      {/* {productIsLoading && <div className={styles.content}>Загрузка...</div>} */}
+
       <div className={styles.wrapper}>
         <div className={styles.productContent}>
           <div className={styles.imgBlock}>
             <ImageWrapper imageUrl={imgUrl} name={product?.title} mb="20px" />
             <div className={styles.previewWrapper}>
-              {productPreview.map((product, index) => (
+              {product?.images.map((image, index) => (
                 <ImageWrapper
-                  imageUrl={product?.url}
-                  // name={product?.title}
-                  key={index.toString() + product?.url}
+                  imageUrl={image?.url ? API_URL + image?.url : ''}
+                  key={index.toString() + image?.url}
                   onClick={handleShowImage}
                   cursor="pointer"
                 />
@@ -99,11 +88,13 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
               {convertDate(product?.created_on || '')}
             </p>
             <p className={styles.feedback} onClick={handleFeedbackClick}>
-              {comments?.map((comment, index) => (
-                <span key={index.toString() + comment?.text}>
-                  {comment?.text} отзыв{ending(comment?.text)}
-                </span>
-              ))}
+              {comments?.length
+                ? comments.map((comment, index) => (
+                    <span key={index.toString() + comment?.text}>
+                      {comment?.text} отзыв{ending(comment?.text)}
+                    </span>
+                  ))
+                : 'Нет отзывов'}
             </p>
             <p className={styles.price}>{product?.price} ₽</p>
 
@@ -144,10 +135,13 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
         )}
 
         {isEditModalShown && (
-          <EditProductModal setIsOpened={setIsEditModalShown} mode="edit" />
+          <EditProductModal
+            setIsOpened={setIsEditModalShown}
+            mode="edit"
+            product={product}
+          />
         )}
       </div>
-      {/* <Footer />  */}
-    </>
+    </PageWrapper>
   )
 }

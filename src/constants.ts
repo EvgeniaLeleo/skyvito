@@ -1,6 +1,13 @@
 import { ErrorTypes } from './types'
 
+export const TOKEN =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcyNjA4MTg3fQ.p3iHVA3zErIvk9w7u61qQSCawH7s77_WTRcVFAIR1L8'
+
 export const API_URL = 'http://localhost:8090/'
+
+export const API_AUTH_URL = 'https://identitytoolkit.googleapis.com/v1'
+
+export const NUMBER_OF_IMAGES = 5
 
 export const USER = {
   username: 'друг любезный',

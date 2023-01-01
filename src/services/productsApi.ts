@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { API_URL } from '../constants'
+import { API_URL, TOKEN } from '../constants'
 import { Feedback, Product } from '../types'
 
 export const productsApi = createApi({
@@ -14,7 +14,6 @@ export const productsApi = createApi({
     }),
     getProduct: build.query<Product, number>({
       query: (idx: number) => `ads/${idx}`,
-      // query: (idx: number) => `products/${idx}`,
 
       // transformResponse: (response: CourseData) => {
       //   if (!response) throw Error('Нет такого курса')
@@ -26,6 +25,25 @@ export const productsApi = createApi({
     getProductComments: build.query<Feedback[], number>({
       query: (idx: number) => `ads/${idx}/comments`,
     }),
+    deleteProduct: build.mutation<void, any>({
+      query: ({ idx }) => ({
+        url: `ads/${idx}`,
+        method: 'DELETE',
+      }),
+    }),
+    uploadProductPicture: build.mutation<void, any>({
+      query: ({ idx, body }) => ({
+        url: `ads/${idx}/image`,
+        headers: { Authorization: `Bearer ${TOKEN}` },
+        method: 'POST',
+        body: body,
+      }),
+      // invalidatesTags: (result, error, arg) => [
+      //   { type: 'UserCourse', id: arg.arg.courseId },
+      //   { type: 'UserCourse', id: 'LIST' },
+      //   'User',
+      // ],
+    }),
   }),
 })
 
@@ -33,4 +51,6 @@ export const {
   useGetProductsQuery,
   useGetProductQuery,
   useGetProductCommentsQuery,
+  useUploadProductPictureMutation,
+  useDeleteProductMutation,
 } = productsApi

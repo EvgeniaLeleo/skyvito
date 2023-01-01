@@ -1,6 +1,11 @@
 {
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcxODI4MzE4fQ.fe-OfFmrfKjguZ_4eAGtticduHqouE65bjHWI9PLlpo",
-    "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcxOTEyOTE4fQ.qr2I8x78XuwLiOe2s_aqB-CSoug58UajJVVNpGovJGs",
+  "email": "user@example.com",
+  "password": "string"
+}
+
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcxODM2ODE1fQ.jqvXpw_14GgTWVDGRJk3GbjRG2232wHN0kf05bx8xXo",
+    "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcxOTIxNDE1fQ.1qtaNs9oHLMTbpmCg8ReRpdXszTpZEfNUPkjfEvP4SQ",
     "token_type": "bearer"
 }
 
@@ -9,6 +14,12 @@
   "description": "Текст описания",
   "price": 10
 }
+{
+  "title": "Второе",
+  "description": "Текст описания",
+  "price": 11
+}
+
 
 
 У вас должен быть установлен docker и docker-compose
@@ -19,7 +30,17 @@ $ docker-compose up -d
 остановить работу бэкенда можно командой:
 $ docker-compose down
 
-Если интересно, можете управлять мощностью бэкенда. Для этого нужно в присланном мной файле раскомментировать конец  13 стоки. Можно менять количество воркеров. Чем больше, тем производительнее beckend, но при этом он будет потреблять больше мощности вашего процессора. 
+
+Удали у себя имидж v1.5
+
+набери команду docker images
+
+найди там нужный имидж
+
+скопируй его айдишник
+и набери команду docker rmi image_id
+
+Если интересно, можете управлять мощностью бэкенда. Для этого нужно в присланном мной файле раскомментировать конец  13 стоки. Можно менять количество воркеров. Чем больше, тем производительнее backend, но при этом он будет потреблять больше мощности вашего процессора. 
 
 Вся документация в Swagger GUI по указанному пути http::confused:/localhost:8090/
 

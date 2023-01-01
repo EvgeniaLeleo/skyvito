@@ -9,13 +9,10 @@ import { FormData } from '../../types'
 import { useEscapeKey } from '../../hooks/useEscapeKey'
 import { Modal } from '../Modal/Modal'
 
-// import { useSignUpMutation } from '../../api/auth.api'
-// import { useAddUserMutation } from '../../api/users.api'
-// import { getErrorMessage } from '../../utils'
-
 import logo from './skyLogo.svg'
 
 import styles from './style.module.css'
+// import { useSignUpMutation } from '../../services/authApi'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.\w{2,3}$/i)
 const validPasswordLength = 6
@@ -25,6 +22,7 @@ type Props = {
 }
 
 export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
+  const navigate = useNavigate()
   useEscapeKey(() => setIsOpened(false))
 
   const [error, setError] = useState('')
@@ -43,12 +41,16 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
     setError('')
     setIsBlocked(true)
     // try {
-    //   const { localId } = await signUp({ email: data.email, password: data.password }).unwrap()
+    //   const { id } = await signUp({
+    //     email: data.email,
+    //     password: data.password,
+    //   }).unwrap()
     //   // добавляем пользователя в таблицу users
-    //   if (localId) await addUser({ uid: localId }).unwrap()
+    //   if (id) await addUser({ uid: id }).unwrap()
     //   navigate(ROUTES.profile)
-    // } catch (error: any) { // TODO выяснить, какой тип сюда вписать
-    //   setError(getErrorMessage(error, 'Что-то пошло не так...'))
+    // } catch (error: any) {
+    //   // TODO выяснить, какой тип сюда вписать
+    //   // setError(getErrorMessage(error, 'Что-то пошло не так...'))
     //   setIsBlocked(false)
     // }
   }

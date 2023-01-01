@@ -1,6 +1,4 @@
-import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
 import { Navigation } from '../Navigation/Navigation'
 import { ProfileHeader } from '../ProfileHeader/ProfileHeader'

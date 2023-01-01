@@ -1,11 +1,11 @@
 import { FC } from 'react'
 
-import { UserRESTAPI } from '../../types'
+import { User } from '../../types'
 import { Avatar } from '../Avatar/Avatar'
 
 import styles from './style.module.css'
 
-type Props = { review: UserRESTAPI }
+type Props = { review: User }
 
 export const Feedback: FC<Props> = ({ review }) => {
   return (

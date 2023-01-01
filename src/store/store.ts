@@ -1,11 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import { productsApi } from './services/productsApi'
 
-// import modalReducer from './slices/modalSlice'
-
-// import { authApi } from './api/auth.api'
-// // import { coursesApi } from './api/courses.api'
-import { usersApi } from './services/usersApi'
+import { productsApi } from '../services/productsApi'
+import { usersApi } from '../services/usersApi'
 
 export const store = configureStore({
   reducer: {

@@ -1,12 +1,12 @@
 import { FC } from 'react'
 
-import { UserRESTAPI } from '../../types'
+import { User } from '../../types'
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper'
 
 import styles from './style.module.css'
 
 type Props = {
-  user?: UserRESTAPI
+  user?: User
   mb?: string
 }
 

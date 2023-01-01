@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 
+import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 import { LoginModal } from '../../modals/LoginModal/LoginModal'
 import { ROUTES } from '../../routes'
 import { Button } from '../Button/Button'

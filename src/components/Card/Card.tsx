@@ -1,27 +1,31 @@
 import { FC } from 'react'
 
-import { CardMainData } from '../../types'
+import { API_URL } from '../../constants'
+import { Product } from '../../types'
+import { convertDate } from '../../utils/convertDate'
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper'
 
 import styles from './style.module.css'
 
-type Props = { product: CardMainData }
+type Props = { product: Product }
 
 export const Card: FC<Props> = ({ product }) => {
   return (
     <div className={styles.card}>
       <div className={styles.wrapperMB}>
         <ImageWrapper
-          imageUrl={product?.image_link}
-          name={product?.name}
+          imageUrl={
+            product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
+          }
+          name={product?.title}
           cursor="pointer"
         />
       </div>
       <div className={styles.textWrapper}>
-        <p className={styles.title}>{product.name}</p>
-        <p className={styles.price}>{product.weight_min} ₽</p>
-        <p className={styles.location}>{product.animal_type} ₽</p>
-        <p className={styles.date}>{product.lifespan}</p>
+        <p className={styles.title}>{product.title}</p>
+        <p className={styles.price}>{product.price} ₽</p>
+        <p className={styles.location}>{product.user.city}</p>
+        <p className={styles.date}>{convertDate(product.created_on)}</p>
       </div>
     </div>
   )
