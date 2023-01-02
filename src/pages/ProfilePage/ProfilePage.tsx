@@ -18,7 +18,7 @@ export const ProfilePage = () => {
           Здравствуйте{user?.name ? `, ${user?.name}` : ''}!
         </h1>
         <h2 className={styles.subtitle}>Настройки профиля</h2>
-        <UserSettings user={user} />
+        {!!user && <UserSettings user={user} />}
         <h2 className={styles.subtitle}>Мои товары</h2>
         <Gallery />
 

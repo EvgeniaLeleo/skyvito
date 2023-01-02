@@ -12,16 +12,16 @@ export const productsApi = createApi({
   endpoints: (build) => ({
     getProducts: build.query<Product[], void>({
       query: () => 'ads',
-      // providesTags: (result) =>
-      //   result
-      //     ? [
-      //         { type: 'Products', id: 'LIST' },
-      //         ...result.map(({ id }) => ({
-      //           type: 'Products' as const,
-      //           id,
-      //         })),
-      //       ]
-      //     : [{ type: 'Products', id: 'LIST' }],
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Products', id: 'LIST' },
+              ...result.map(({ id }) => ({
+                type: 'Products' as const,
+                id,
+              })),
+            ]
+          : [{ type: 'Products', id: 'LIST' }],
     }),
     getProduct: build.query<Product, number>({
       query: (idx: number) => `ads/${idx}`,
@@ -58,13 +58,22 @@ export const productsApi = createApi({
       //   'User',
       // ],
     }),
+    deleteProductImage: build.mutation<void, any>({
+      query: ({ idx, imgUrl }) => ({
+        url: `ads/${idx}/image?file_url=${imgUrl}`,
+        headers: { Authorization: `Bearer ${TOKEN}` },
+        method: 'DELETE',
+      }),
+      invalidatesTags: [{ type: 'Products', id: 'LIST' }],
+    }),
   }),
 })
 
 export const {
-  useGetProductsQuery,
   useGetProductQuery,
+  useGetProductsQuery,
   useGetProductCommentsQuery,
   useUploadProductImageMutation,
   useDeleteProductMutation,
+  useDeleteProductImageMutation,
 } = productsApi

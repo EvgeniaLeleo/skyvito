@@ -34,6 +34,7 @@ export const usersApi = createApi({
           // returnSecureToken: true,
         },
       }),
+      invalidatesTags: [{ type: 'User', id: 'UserDetails' }],
     }),
     uploadUserAvatar: build.mutation<void, any>({
       query: ({ body }) => ({

@@ -4,10 +4,10 @@ import cn from 'classnames'
 import { Button } from '../../components/Button/Button'
 import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 import { Modal } from '../Modal/Modal'
-import { ImageWrapper } from '../../components/ImageWrapper/ImageWrapper'
 import { Product } from '../../types'
 import { UploadFile } from '../../components/UploadFile/UploadFile'
-import { API_URL, NUMBER_OF_IMAGES } from '../../constants'
+import { NUMBER_OF_IMAGES } from '../../constants'
+import { ProductImages } from '../../components/ProductImages/ProductImages'
 
 import styles from './style.module.css'
 
@@ -75,11 +75,6 @@ export const EditProductModal: FC<Props> = ({
     return true
   }
 
-  const additionArrayLength = product?.images.length
-  const additionArray = additionArrayLength
-    ? Array.from(Array(imgArray.length - additionArrayLength).keys())
-    : imgArray
-
   return (
     <Modal isOpen={setIsOpened}>
       <div className={styles.content}>
@@ -127,25 +122,9 @@ export const EditProductModal: FC<Props> = ({
                     <UploadFile productId={product?.id} />
                   </React.Fragment>
                 ))}
-              {mode === 'edit' &&
-                product?.images.map((image, index) => (
-                  <React.Fragment key={image?.url}>
-                    <ImageWrapper
-                      imageUrl={image?.url ? API_URL + image?.url : ''}
-                      name={`Фото ${index}`}
-                      key={image?.url}
-                      cursor="default"
-                    />
-                  </React.Fragment>
-                ))}
-              {mode === 'edit' &&
-                !!product &&
-                product?.images.length < NUMBER_OF_IMAGES &&
-                additionArray.map((el) => (
-                  <React.Fragment key={el}>
-                    <UploadFile productId={product?.id} />
-                  </React.Fragment>
-                ))}
+              {mode === 'edit' && !!product && (
+                <ProductImages product={product} />
+              )}
             </div>
           </div>
           <div className={cn(styles.formContent, styles.priceBlock)}>

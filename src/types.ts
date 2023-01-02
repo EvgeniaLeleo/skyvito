@@ -12,9 +12,11 @@ export type User = {
 }
 
 export type ChangeUserDetailsArg = {
-  email: string
+  email?: string
   name: string
   surname: string
+  city: string
+  phone: string
   role?: 'user' | 'admin'
 }
 

@@ -32,7 +32,7 @@ export const UploadFile: FC<Props> = ({ productId }) => {
     const formData = new FormData()
     formData.append('file', file)
 
-    await uploadImage({ idx: productId, body: formData })
+    await uploadImage({ idx: productId, body: formData }).unwrap()
   }
 
   // console.log(uploadedImage)

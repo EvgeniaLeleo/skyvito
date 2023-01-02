@@ -1,0 +1,24 @@
+.imgContainer {
+  position: relative;
+}
+
+.deleteImageButton,
+.blocked {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+
+  width: 24px;
+  height: 24px;
+
+  background-color: #ffffff;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+}
+
+.blocked {
+  cursor: not-allowed;
+}

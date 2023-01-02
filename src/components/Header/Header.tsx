@@ -1,4 +1,5 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
+import cn from 'classnames'
 
 import { Navigation } from '../Navigation/Navigation'
 import { ProfileHeader } from '../ProfileHeader/ProfileHeader'
@@ -12,21 +13,20 @@ type Props = {
 }
 
 export const Header: FC<Props> = ({ type = 'auth', page = 'regular' }) => {
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    window.onscroll = function () {
+      if (window.scrollY > 15) {
+        setScrolled(true)
+      } else {
+        setScrolled(false)
+      }
+    }
+  }, [])
   // const [open, setOpen] = useState(false)
   // const handleOpen = () => setOpen(true)
   // const handleClose = () => setOpen(false)
-
-  // const style = {
-  //   position: 'absolute' as 'absolute',
-  //   top: '50%',
-  //   left: '50%',
-  //   transform: 'translate(-50%, -50%)',
-  //   width: 400,
-  //   bgcolor: 'background.paper',
-  //   border: '2px solid #000',
-  //   boxShadow: 24,
-  //   p: 4,
-  // }
 
   return (
     <>
@@ -44,7 +44,9 @@ export const Header: FC<Props> = ({ type = 'auth', page = 'regular' }) => {
           <div onClick={handleClose}>d</div>
         </Box>
       </Modal> */}
-      <div className={styles.searchWrapper}>
+      <div
+        className={cn(styles.searchWrapper, { [styles.scrolled]: scrolled })}
+      >
         {page === 'profile' ? <ProfileHeader /> : <SearchBar />}
       </div>
     </>
