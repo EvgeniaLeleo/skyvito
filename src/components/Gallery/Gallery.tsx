@@ -14,12 +14,7 @@ export const Gallery: FC<Props> = ({ state = 'buyer' }) => {
   const { data: products, isLoading, error } = useGetProductsQuery()
   // const prefetchCourse = usePrefetch('getCourse')
 
-  if (isLoading)
-    return (
-      // <Page>
-      <div className={styles.content}>Загрузка...</div>
-      // </Page>
-    )
+  if (isLoading) return <div className={styles.content}>Загрузка...</div>
 
   return (
     <div className={styles.gallery} data-cy="gallery-products">
@@ -30,7 +25,11 @@ export const Gallery: FC<Props> = ({ state = 'buyer' }) => {
           className={styles.link}
           // onMouseEnter={() => prefetchCourse(product.id!)}
         >
-          <Card product={product} key={product.images[0]?.url + index} />
+          <Card
+            product={product}
+            // state={state}
+            key={product.images[0]?.url + index}
+          />
         </Link>
       ))}
       {/*{courses &&

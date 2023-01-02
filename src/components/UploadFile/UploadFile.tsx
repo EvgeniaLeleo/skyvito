@@ -1,8 +1,6 @@
 import { FC, useState } from 'react'
 
-import { API_URL, TOKEN } from '../../constants'
-import { useAppDispatch } from '../../hook'
-import { Product } from '../../types'
+import { useUploadProductImageMutation } from '../../services/productsApi'
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper'
 import { PlusIconInSquare } from '../PlusIconInSquare/PlusIconInSquare'
 
@@ -13,35 +11,35 @@ type Props = {
 }
 
 export const UploadFile: FC<Props> = ({ productId }) => {
-  const [uploaded, setUploaded] = useState<Product>()
+  const [uploadedImage, setUploadedImage] = useState<string>()
+  const [uploadImage] = useUploadProductImageMutation()
 
   // const dispatch = useAppDispatch()
 
   const handleChange = async (event: any) => {
-    const file = event.target.files[0]
+    const files = event.target.files
+    const file = files[0]
 
     if (!file) {
       console.log('no file')
       return
     }
 
+    if (files && file) {
+      setUploadedImage(URL.createObjectURL(file))
+    }
+
     const formData = new FormData()
     formData.append('file', file)
 
-    const res = await fetch(`${API_URL}ads/${productId}/image`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${TOKEN}` },
-      body: formData,
-    })
-
-    const data = await res.json()
-
-    setUploaded(data)
+    await uploadImage({ idx: productId, body: formData })
   }
+
+  // console.log(uploadedImage)
 
   return (
     <>
-      {!uploaded && (
+      {!uploadedImage && (
         <label>
           <PlusIconInSquare />
           <input
@@ -49,18 +47,11 @@ export const UploadFile: FC<Props> = ({ productId }) => {
             type="file"
             onChange={handleChange}
             accept="image/*"
-          ></input>
+          />
         </label>
       )}
-      {!!uploaded && (
-        <ImageWrapper
-          imageUrl={
-            uploaded.images[0]?.url
-              ? API_URL + uploaded.images[uploaded.images.length - 1]?.url
-              : ''
-          }
-          cursor="default"
-        />
+      {!!uploadedImage && (
+        <ImageWrapper imageUrl={uploadedImage} cursor="default" />
       )}
     </>
   )

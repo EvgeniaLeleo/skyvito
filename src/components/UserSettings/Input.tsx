@@ -38,7 +38,7 @@ export const Input: FC<Props> = ({
         className={styles.input}
         // name="name"
         type={type}
-        // value={value}
+        value={value}
         placeholder={placeholder}
         onChange={onChange}
         {...props}

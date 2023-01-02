@@ -15,7 +15,7 @@
   flex-wrap: wrap;
   gap: 5.09%;
 
-  padding-top: 249px;
+  padding-top: 34px;
   margin-bottom: 60px;
   box-sizing: border-box;
 }
@@ -83,6 +83,11 @@
   margin-bottom: 4px;
 }
 
+.link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .feedback {
   /* font-family: 'Noto Sans'; */
   font-style: normal;
@@ -122,7 +127,7 @@
 
 .avatarWrapper {
   width: 40px;
-  min-height: 40px;
+  /* min-height: 40px; */
 }
 
 .sellerName {

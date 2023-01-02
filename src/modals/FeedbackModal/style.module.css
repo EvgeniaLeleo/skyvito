@@ -113,8 +113,9 @@
 }
 
 .contentWrapper {
-  /* width: 100%; */
+  width: 100%;
   padding-right: 80px;
+  box-sizing: border-box;
 
   overflow-y: auto;
   scrollbar-color: #ffffff #2e2e2e;

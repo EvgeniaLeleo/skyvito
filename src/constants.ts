@@ -1,7 +1,7 @@
 import { ErrorTypes } from './types'
 
 export const TOKEN =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcyNjE1MDg1fQ.MlzK30TRcJcF0PXelNCSZ4uH2QXi6bQp0ikXzcqXhzs'
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcyNjg1MzgyfQ.mTdw6pLEWrt4eCdwcL55msJITaFLxyw9aHOezWWJWrg'
 
 export const API_URL = 'http://localhost:8090/'
 

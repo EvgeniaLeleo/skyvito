@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import { ending } from '../../utils/ending'
 import { Button } from '../../components/Button/Button'
@@ -8,20 +8,25 @@ import { ImageWrapper } from '../../components/ImageWrapper/ImageWrapper'
 import { FeedbackModal } from '../../modals/FeedbackModal/FeedbackModal'
 import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 import {
+  useDeleteProductMutation,
   useGetProductCommentsQuery,
   useGetProductQuery,
 } from '../../services/productsApi'
 import { convertDate } from '../../utils/convertDate'
+import { useGetCurrentUserQuery } from '../../services/usersApi'
+import { ROUTES } from '../../routes'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 import { API_URL } from '../../constants'
 
 import styles from './style.module.css'
-import { useGetCurrentUserQuery } from '../../services/usersApi'
 
 type Props = { state?: 'buyer' | 'seller' }
 
 export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
+  // export const ProductPage: FC<Props> = ({ state = 'buyer' }) => {
   const productId = Number(useParams()?.id)
+
+  const [delProduct] = useDeleteProductMutation()
 
   const { data: user } = useGetCurrentUserQuery()
   const { data: product, isLoading: productIsLoading } =
@@ -37,6 +42,13 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
 
   const handleEditProduct = () => {
     setIsEditModalShown(true)
+  }
+
+  const handleDeleteProduct = async () => {
+    if (product && product.id && product.id !== undefined) {
+      const idx = product.id
+      await delProduct({ idx })
+    }
   }
 
   const [imgUrl, setImgUrl] = useState(
@@ -109,16 +121,37 @@ export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
                 <Button size="xl" onClick={handleEditProduct}>
                   Редактировать
                 </Button>
-                <Button size="xl">Снять с публикации</Button>
+                <Button size="xl" onClick={handleDeleteProduct}>
+                  Снять с публикации
+                </Button>
               </div>
             )}
 
+            {/* <Link
+                key={product.id}
+                to={`${ROUTES.product}/${Number(product.id)}`}
+                className={styles.link}
+                // onMouseEnter={() => prefetchCourse(product.id!)}
+              > */}
+
             <div className={styles.seller}>
-              <div className={styles.avatarWrapper}>
-                <Avatar user={user} />
-              </div>
+              <Link
+                to={state === 'seller' ? ROUTES.profile : ''}
+                // className={styles.link}
+                // onMouseEnter={() => prefetchCourse(product.id!)}
+              >
+                <div className={styles.avatarWrapper}>
+                  <Avatar user={user} cursor="pointer" />
+                </div>
+              </Link>
               <div className={styles.sellerData}>
-                <p className={styles.sellerName}>{product?.user.name}</p>
+                <Link
+                  to={state === 'seller' ? ROUTES.profile : ''}
+                  className={styles.link}
+                  // onMouseEnter={() => prefetchCourse(product.id!)}
+                >
+                  <p className={styles.sellerName}>{product?.user.name}</p>{' '}
+                </Link>
                 <p className={styles.sellerExp}>
                   Продает товары с{' '}
                   {user?.sells_from?.split('-').reverse().join('.')}

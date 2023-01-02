@@ -1,8 +1,10 @@
 import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { API_URL, TOKEN } from '../../constants'
 
-import { useChangeUserDetailsMutation } from '../../services/usersApi'
+import {
+  useChangeUserDetailsMutation,
+  useUploadUserAvatarMutation,
+} from '../../services/usersApi'
 import { User } from '../../types'
 import { Avatar } from '../Avatar/Avatar'
 import { Button } from '../Button/Button'
@@ -15,17 +17,16 @@ type Props = {
 }
 
 export const UserSettings: FC<Props> = ({ user }) => {
-  // console.log('user', user)
-  // const user = useAppSelector(selectCurrentUser)
   const [name, setName] = useState<string | undefined>(user?.name)
   const [surname, setSurname] = useState<string | undefined>(user?.surname)
+  const [uploadedAvatar, setUploadedAvatar] = useState<string>()
+  // console.log('user', user)
+  // const user = useAppSelector(selectCurrentUser)
   // console.log(name, surname)
-  const [uploaded, setUploaded] = useState()
+  // console.log('ok')
+  // console.log('name', name)
 
-  // const [imgUrl, setImgUrl] = useState(
-  //   user?.avatar ? API_URL + user?.avatar : ''
-  // )
-
+  const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
   const [changeUserDetails] = useChangeUserDetailsMutation()
   // console.log(user?.name)
 
@@ -37,17 +38,17 @@ export const UserSettings: FC<Props> = ({ user }) => {
     setSurname(e.target.value)
   }
 
-  // useEffect(() => {
-  //   setName(user?.name)
-  //   setSurname(user?.surname)
-  //   setImgUrl(user?.avatar ? API_URL + user?.avatar : '')
+  useEffect(() => {
+    setName(user?.name)
+    setSurname(user?.surname)
+    // setImgUrl(user?.avatar ? API_URL + user?.avatar : '')
 
-  //   return () => {
-  //     setName(user?.name)
-  //     setSurname(user?.surname)
-  //     setImgUrl(user?.avatar ? API_URL + user?.avatar : '')
-  //   }
-  // }, [user?.name, user?.surname, user?.avatar])
+    // return () => {
+    //   setName(user?.name)
+    //   setSurname(user?.surname)
+    //   // setImgUrl(user?.avatar ? API_URL + user?.avatar : '')
+    // }
+  }, [user?.name, user?.surname])
 
   // const {
   //   register,
@@ -78,7 +79,8 @@ export const UserSettings: FC<Props> = ({ user }) => {
   }
 
   const handleChange = async (event: any) => {
-    const file = event.target.files[0]
+    const files = event.target.files
+    const file = files[0]
 
     if (!file) {
       console.log('no file')
@@ -88,16 +90,11 @@ export const UserSettings: FC<Props> = ({ user }) => {
     const formData = new FormData()
     formData.append('file', file)
 
-    const res = await fetch(`${API_URL}user/avatar`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${TOKEN}` },
-      body: formData,
-    })
+    await uploadAvatar({ body: formData })
 
-    const data = await res.json()
-    // console.log(data)
-
-    setUploaded(data)
+    if (files && file && !avatarError) {
+      setUploadedAvatar(URL.createObjectURL(file))
+    }
   }
 
   // const handleEmailClick = () => {
@@ -111,20 +108,19 @@ export const UserSettings: FC<Props> = ({ user }) => {
   return (
     <div className={styles.userSettings}>
       <div className={styles.avatarBlock}>
-        {!uploaded && <Avatar user={user} mb="10px" />}
-        {!!uploaded && <Avatar user={uploaded} mb="10px" />}
-        {/* <span className={styles.changeAvatar} onClick={handleClick}>
-          Заменить
-        </span> */}
+        {!!avatarError && <Avatar error={true} mb="10px" />}
+        {!avatarError && !uploadedAvatar && <Avatar user={user} mb="10px" />}
+        {!avatarError && !!uploadedAvatar && (
+          <Avatar user={user} uploadedAvatar={uploadedAvatar} mb="10px" />
+        )}
         <label className={styles.changeAvatar}>
-          Загрузить
+          Заменить
           <input
             className={styles.changeAvatarInput}
             type="file"
-            // ref={filePicker}
             onChange={handleChange}
             accept="image/*"
-          ></input>
+          />
         </label>
       </div>
 
@@ -136,15 +132,13 @@ export const UserSettings: FC<Props> = ({ user }) => {
         <div className={styles.nameWrapper}>
           <Input
             label="Имя"
-            // placeholder={user?.name || 'Имя'}
-            placeholder={name}
+            placeholder={'Имя'}
             onChange={handleChangeName}
             value={name}
           />
           <Input
             label="Фамилия"
-            // placeholder="Фамилия"
-            placeholder={surname}
+            placeholder="Фамилия"
             onChange={handleChangeSurname}
             value={surname}
           />

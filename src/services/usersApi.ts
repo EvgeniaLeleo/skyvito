@@ -4,7 +4,8 @@ import { API_URL, TOKEN } from '../constants'
 import { ChangeUserDetailsArg, User } from '../types'
 
 export const usersApi = createApi({
-  reducerPath: 'users/api',
+  reducerPath: 'usersApi',
+  tagTypes: ['User'],
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
     // prepareHeaders: (headers, { getState }) => {
@@ -21,6 +22,7 @@ export const usersApi = createApi({
           headers: { Authorization: `Bearer ${TOKEN}` },
         }
       },
+      providesTags: () => [{ type: 'User', id: 'UserDetails' }],
     }),
     changeUserDetails: build.mutation<User, ChangeUserDetailsArg>({
       query: (arg: ChangeUserDetailsArg) => ({
@@ -33,7 +35,25 @@ export const usersApi = createApi({
         },
       }),
     }),
+    uploadUserAvatar: build.mutation<void, any>({
+      query: ({ body }) => ({
+        url: 'user/avatar',
+        headers: { Authorization: `Bearer ${TOKEN}` },
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: [{ type: 'User', id: 'UserDetails' }],
+      // invalidatesTags: (result, error, arg) => [
+      //   { type: 'UserCourse', id: arg.arg.courseId },
+      //   { type: 'UserCourse', id: 'LIST' },
+      //   'User',
+      // ],
+    }),
   }),
 })
 
-export const { useGetCurrentUserQuery, useChangeUserDetailsMutation } = usersApi
+export const {
+  useGetCurrentUserQuery,
+  useChangeUserDetailsMutation,
+  useUploadUserAvatarMutation,
+} = usersApi
