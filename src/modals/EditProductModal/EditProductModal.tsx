@@ -8,6 +8,8 @@ import { Product } from '../../types'
 import { UploadFile } from '../../components/UploadFile/UploadFile'
 import { NUMBER_OF_IMAGES } from '../../constants'
 import { ProductImages } from '../../components/ProductImages/ProductImages'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useChangeProductDetailsMutation } from '../../services/productsApi'
 
 import styles from './style.module.css'
 
@@ -20,17 +22,14 @@ type Props = {
 }
 
 type Form = {
-  [index: string]: string
-  name: string
-  description: string
-  price: string
+  // [index: string]: string
+  title?: string
+  description?: string
+  price?: number
 }
 
-const initialValue = {
-  name: '',
-  description: '',
-  price: '',
-}
+const validPrice = new RegExp(/^([0-9]*[.])?(\d{1,2})?$/i)
+const regexp = new RegExp(/[^0-9.]/i)
 
 export const EditProductModal: FC<Props> = ({
   mode = 'new',
@@ -44,7 +43,17 @@ export const EditProductModal: FC<Props> = ({
 
   // console.log(product)
 
+  const initialValue = {
+    title: product?.title,
+    description: product?.description,
+    price: product?.price,
+  }
+
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [price, setPrice] = useState<string>(product?.price.toString() || '')
+
+  const [changeProductDetails] = useChangeProductDetailsMutation()
 
   const title = mode === 'new' ? 'Новое объявление' : 'Редактировать объявление'
   const buttonName = mode === 'new' ? 'Опубликовать' : 'Сохранить'
@@ -54,6 +63,16 @@ export const EditProductModal: FC<Props> = ({
     // dispatch(hideModals())
   }
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{
+    title: string
+    description: string
+    price: string
+  }>({ mode: 'onBlur' })
+
   const handleFieldChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     field: string
@@ -61,19 +80,47 @@ export const EditProductModal: FC<Props> = ({
     setFieldValue((prev: Form) => ({ ...prev, [field]: e.target.value }))
   }
 
-  const checkFormValid = () => {
-    // for (const input in fieldValue) {
-    //   if (fieldValue[input].length === 0) {
-    //     return false
-    //   }
-    // }
+  const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputPriceValue = e.target.value
 
-    if (fieldValue.name.length === 0 || fieldValue.price.length === 0) {
-      return false
+    if (regexp.test(inputPriceValue)) {
+      e.target.value = inputPriceValue.replace(regexp, '')
     }
 
-    return true
+    setPrice(e.target.value)
   }
+
+  const onSubmit: SubmitHandler<any> = async (data: {
+    title: string
+    price: string
+    description: string
+  }) => {
+    // if (!user.idToken) {
+    //   goToLoginWithMessage(EXP_MESSAGE)
+    //   return
+    // }
+    try {
+      setLoading(true)
+      // dispatch(showSpinner())
+      await changeProductDetails({
+        // idToken: user?.idToken,
+        idx: product?.id,
+        body: {
+          title: data.title,
+          price: data.price,
+          description: data.description,
+        },
+      }).unwrap()
+      setLoading(false)
+      // dispatch(hideSpinner())
+      // setIsOpened(false)
+    } catch {
+      // dispatch(hideSpinner())
+      // goToLoginWithMessage(EXP_MESSAGE)
+    }
+  }
+
+  const isFormValid = fieldValue.title?.length && fieldValue.price
 
   return (
     <Modal isOpen={setIsOpened}>
@@ -82,31 +129,42 @@ export const EditProductModal: FC<Props> = ({
         <div className={styles.closeButton} onClick={handleClose}>
           <CrossIcon />
         </div>
-        <form className={styles.form} id="formNewArt" action="#">
-          <div className={styles.formContent}>
-            <label htmlFor="name" className={styles.label}>
+        <form
+          className={styles.form}
+          action="#"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className={cn(styles.formContent, styles.inputRequired)}>
+            <label className={styles.label}>
               Название
+              <input
+                {...register('title', {
+                  required: 'Введите название',
+                })}
+                className={styles.input}
+                type="text"
+                placeholder="Введите название"
+                value={fieldValue.title}
+                onChange={(e) => handleFieldChange(e, 'title')}
+                autoFocus
+              />
             </label>
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="Введите название"
-              value={fieldValue.name}
-              onChange={(e) => handleFieldChange(e, 'name')}
-              autoFocus
-            />
+            <div className={styles.error}>
+              {errors.title && <p>{errors.title.message}</p>}
+            </div>
           </div>
           <div className={cn(styles.formContent, styles.areaContent)}>
-            <label htmlFor="text" className={styles.label}>
+            <label className={styles.label}>
               Описание
+              <textarea
+                {...register('description')}
+                className={styles.textArea}
+                rows={1}
+                placeholder="Введите описание"
+                value={fieldValue.description}
+                onChange={(e) => handleFieldChange(e, 'description')}
+              />
             </label>
-            <textarea
-              className={styles.textArea}
-              rows={1}
-              placeholder="Введите описание"
-              value={fieldValue.description}
-              onChange={(e) => handleFieldChange(e, 'description')}
-            />
           </div>
           <div className={styles.formContent}>
             <p className={styles.textPhoto}>
@@ -119,7 +177,7 @@ export const EditProductModal: FC<Props> = ({
               {mode === 'new' &&
                 imgArray.map((image) => (
                   <React.Fragment key={image}>
-                    <UploadFile productId={product?.id} />
+                    <UploadFile productId={product?.id} state="newProduct" />
                   </React.Fragment>
                 ))}
               {mode === 'edit' && !!product && (
@@ -128,22 +186,33 @@ export const EditProductModal: FC<Props> = ({
             </div>
           </div>
           <div className={cn(styles.formContent, styles.priceBlock)}>
-            <label htmlFor="price" className={styles.label}>
+            <label className={styles.label}>
               Цена
+              <div className={styles.priceInput}>
+                <input
+                  {...register('price', {
+                    required: 'Введите корректную цену',
+                    pattern: {
+                      value: validPrice,
+                      message: 'Введите корректный e-mail',
+                    },
+                  })}
+                  className={cn(styles.input, styles.price)}
+                  value={price}
+                  onChange={handleChangePrice}
+                />
+                <div className={styles.currency}>₽</div>
+              </div>
             </label>
-            <div className={styles.priceInput}>
-              <input
-                className={cn(styles.input, styles.price)}
-                type="text"
-                value={fieldValue.price}
-                onChange={(e) => handleFieldChange(e, 'price')}
-              />
-              {/* TODO: проверка на натуральное число */}
-              <div className={styles.currency}>₽</div>
+            <div className={styles.error}>
+              {errors.price && <p>{errors.price.message}</p>}
             </div>
           </div>
 
-          <Button buttonStatus={checkFormValid() ? 'normal' : 'disabled'}>
+          <Button
+            btnType="submit"
+            buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
+          >
             {buttonName}
           </Button>
         </form>

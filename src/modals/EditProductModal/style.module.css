@@ -74,6 +74,10 @@
   box-sizing: border-box;
 }
 
+.inputRequired {
+  margin-bottom: 1.52%;
+}
+
 .input,
 .textArea {
   font-family: inherit;
@@ -133,7 +137,8 @@
 
 .priceBlock {
   /* margin-bottom: 30px; */
-  margin-bottom: 4.7%;
+  /* margin-bottom: 4.7%; */
+  margin-bottom: 3.18%;
 }
 
 .priceInput {
@@ -165,6 +170,25 @@
   margin-bottom: 0.8%;
 
   overflow: hidden;
+}
+
+.error {
+  height: 10px;
+  margin: 0;
+  /* padding-left: 19px; */
+
+  font-size: 10px;
+
+  color: #ff6b6b;
+}
+
+.error p {
+  margin: 0;
+}
+
+.error p::before {
+  display: inline;
+  content: '⚠ ';
 }
 
 /* .img {

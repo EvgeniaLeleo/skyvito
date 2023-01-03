@@ -58,6 +58,18 @@ export const productsApi = createApi({
       //   'User',
       // ],
     }),
+    changeProductDetails: build.mutation({
+      query: ({ idx, body }) => ({
+        url: `ads/${idx}`,
+        method: 'PATCH',
+        headers: { Authorization: `Bearer ${TOKEN}` },
+        body: {
+          ...body,
+          // returnSecureToken: true,
+        },
+      }),
+      invalidatesTags: [{ type: 'Products', id: 'LIST' }],
+    }),
     deleteProductImage: build.mutation<void, any>({
       query: ({ idx, imgUrl }) => ({
         url: `ads/${idx}/image?file_url=${imgUrl}`,
@@ -76,4 +88,5 @@ export const {
   useUploadProductImageMutation,
   useDeleteProductMutation,
   useDeleteProductImageMutation,
+  useChangeProductDetailsMutation,
 } = productsApi

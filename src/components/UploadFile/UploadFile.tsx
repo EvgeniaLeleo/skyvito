@@ -8,9 +8,10 @@ import styles from './style.module.css'
 
 type Props = {
   productId?: number
+  state: 'newProduct' | 'editProduct'
 }
 
-export const UploadFile: FC<Props> = ({ productId }) => {
+export const UploadFile: FC<Props> = ({ productId, state }) => {
   const [uploadedImage, setUploadedImage] = useState<string>()
   const [uploadImage] = useUploadProductImageMutation()
 
@@ -25,7 +26,7 @@ export const UploadFile: FC<Props> = ({ productId }) => {
       return
     }
 
-    if (files && file) {
+    if (files && file && state === 'newProduct') {
       setUploadedImage(URL.createObjectURL(file))
     }
 

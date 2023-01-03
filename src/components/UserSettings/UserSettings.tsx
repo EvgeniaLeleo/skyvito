@@ -1,14 +1,14 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import cn from 'classnames'
 
+import { User } from '../../types'
+import { Avatar } from '../Avatar/Avatar'
+import { Button } from '../Button/Button'
 import {
   useChangeUserDetailsMutation,
   useUploadUserAvatarMutation,
 } from '../../services/usersApi'
-import { User } from '../../types'
-import { Avatar } from '../Avatar/Avatar'
-import { Button } from '../Button/Button'
 
 import styles from './style.module.css'
 
@@ -16,48 +16,47 @@ type Props = {
   user: User
 }
 
+type Form = {
+  name: string
+  surname: string
+  city: string
+  phone: string
+}
+
+const regexp = new RegExp(/[^0-9+\-()]/i)
+
 export const UserSettings: FC<Props> = ({ user }) => {
-  const [name, setName] = useState<string>(user?.name || '')
-  const [surname, setSurname] = useState<string>(user?.surname || '')
-  const [city, setCity] = useState<string>(user?.city || '')
-  const [phone, setPhone] = useState<string>(user?.phone || '')
+  const initialValue = {
+    name: user.name,
+    surname: user.surname,
+    city: user.city,
+    phone: user.phone,
+  }
+
   const [uploadedAvatar, setUploadedAvatar] = useState<string>()
   const [loading, setLoading] = useState<boolean>(false)
-
-  // const user = useAppSelector(selectCurrentUser)
+  const [fieldValue, setFieldValue] = useState<Form>(initialValue)
+  const [phone, setPhone] = useState<string>(user.phone || '')
 
   const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
   const [changeUserDetails] = useChangeUserDetailsMutation()
 
-  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-  }
-
-  const handleChangeSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSurname(e.target.value)
-  }
-
-  const handleChangeCity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCity(e.target.value)
+  const handleFieldChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    field: string
+  ) => {
+    setFieldValue((prev: Form) => ({ ...prev, [field]: e.target.value }))
   }
 
   const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputPhoneValue = e.target.value
+
+    if (regexp.test(inputPhoneValue)) {
+      e.target.value = inputPhoneValue.replace(regexp, '')
+    }
+
     setPhone(e.target.value)
   }
-
-  useEffect(() => {
-    setName(user?.name)
-    setSurname(user?.surname)
-    setCity(user?.city)
-    setPhone(user?.phone)
-    // setImgUrl(user?.avatar ? API_URL + user?.avatar : '')
-
-    // return () => {
-    //   setName(user?.name)
-    //   setSurname(user?.surname)
-    //   // setImgUrl(user?.avatar ? API_URL + user?.avatar : '')
-    // }
-  }, [user?.city, user?.name, user?.phone, user?.surname])
 
   const {
     register,
@@ -152,9 +151,9 @@ export const UserSettings: FC<Props> = ({ user }) => {
                   required: 'Введите имя',
                 })}
                 className={styles.input}
-                value={name}
+                value={fieldValue.name}
                 placeholder="Имя"
-                onChange={handleChangeName}
+                onChange={(e) => handleFieldChange(e, 'name')}
               />
             </label>
             <div className={styles.error}>
@@ -168,9 +167,9 @@ export const UserSettings: FC<Props> = ({ user }) => {
               <input
                 {...register('surname')}
                 className={styles.input}
-                value={surname}
+                value={fieldValue.surname}
                 placeholder="Фамилия"
-                onChange={handleChangeSurname}
+                onChange={(e) => handleFieldChange(e, 'surname')}
               />
             </label>
           </div>
@@ -182,9 +181,9 @@ export const UserSettings: FC<Props> = ({ user }) => {
             <input
               {...register('city')}
               className={styles.input}
-              value={city}
+              value={fieldValue.city}
               placeholder="Город"
-              onChange={handleChangeCity}
+              onChange={(e) => handleFieldChange(e, 'city')}
             />
           </label>
         </div>
