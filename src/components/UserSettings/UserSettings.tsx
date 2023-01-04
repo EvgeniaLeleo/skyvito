@@ -30,7 +30,9 @@ export const UserSettings: FC<Props> = ({ user }) => {
     phone: user.phone,
   }
 
-  const [loading, setLoading] = useState<boolean>(false)
+  const [isBlocked, setIsBlocked] = useState<boolean>(true)
+  const [buttonText, setButtonText] = useState<string>('Сохранить')
+  const [error, setError] = useState<string>('')
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
   const [phone, setPhone] = useState<string>(user.phone || '')
 
@@ -40,10 +42,15 @@ export const UserSettings: FC<Props> = ({ user }) => {
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     field: string
   ) => {
+    setIsBlocked(false)
+    setButtonText('Сохранить')
     setFieldValue((prev: Form) => ({ ...prev, [field]: e.target.value }))
   }
 
   const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsBlocked(false)
+    setButtonText('Сохранить')
+
     const inputPhoneValue = e.target.value
 
     if (regexp.test(inputPhoneValue)) {
@@ -65,20 +72,23 @@ export const UserSettings: FC<Props> = ({ user }) => {
     //   return
     // }
     try {
-      setLoading(true)
+      setIsBlocked(true)
       // dispatch(showSpinner())
       await changeUserDetails({
         // idToken: user?.idToken,
-        // email: data.email,
         name: data.name,
         surname: data.surname,
         city: data.city,
         phone: data.phone,
       }).unwrap()
-      setLoading(false)
+      setError('')
+      setButtonText('Сохранено')
       // dispatch(hideSpinner())
       // setIsOpened(false)
     } catch {
+      setButtonText('Сохранить')
+      setIsBlocked(false)
+      setError('⚠ Ошибка! Попробуйте еще раз!')
       // dispatch(hideSpinner())
       // goToLoginWithMessage(EXP_MESSAGE)
     }
@@ -126,7 +136,6 @@ export const UserSettings: FC<Props> = ({ user }) => {
             </label>
           </div>
         </div>
-
         <div className={cn(styles.inputWrapper, styles.sizeM)}>
           <label className={styles.label}>
             Город
@@ -139,7 +148,6 @@ export const UserSettings: FC<Props> = ({ user }) => {
             />
           </label>
         </div>
-
         <div className={cn(styles.inputWrapper, styles.sizeL)}>
           <label className={styles.label}>
             Телефон
@@ -156,13 +164,15 @@ export const UserSettings: FC<Props> = ({ user }) => {
             {errors.phone && <p>{errors.phone.message}</p>}
           </div>
         </div>
-
-        <Button
-          btnType="submit"
-          buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
-        >
-          Сохранить
-        </Button>
+        <div>
+          <Button
+            btnType="submit"
+            buttonStatus={isFormValid && !isBlocked ? 'normal' : 'disabled'}
+          >
+            {buttonText}
+          </Button>
+          <span className={styles.uploadError}>{error}</span>
+        </div>
       </form>
     </div>
   )

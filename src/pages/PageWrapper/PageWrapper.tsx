@@ -13,8 +13,8 @@ type Props = {
 
 export const PageWrapper: FC<Props> = ({
   children,
-  scrollToTop = false,
   headerPage = 'noSearch',
+  scrollToTop = false,
 }) => {
   // ATTENTION Temporary value of localId (for auth Header)
   let localId = 1 // const { localId } = useAppSelector(selectCurrentUser)
