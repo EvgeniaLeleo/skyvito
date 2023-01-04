@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 import { LoginModal } from '../../modals/LoginModal/LoginModal'
@@ -9,36 +9,41 @@ import { Button } from '../Button/Button'
 import styles from './style.module.css'
 
 type Props = {
-  type: 'main' | 'auth'
+  authorized?: boolean
 }
 
-export const Navigation: FC<Props> = ({ type = 'auth' }) => {
+export const Navigation: FC<Props> = ({ authorized = true }) => {
   const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(false)
   const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
 
+  const navigate = useNavigate()
+
   const handleLoginClick = () => {
-    setIsLoginModalShown(true)
+    if (!authorized) {
+      setIsLoginModalShown(true)
+    } else {
+      navigate(ROUTES.profile)
+    }
   }
 
   const handleEditProduct = () => {
     setIsEditModalShown(true)
   }
 
-  const nav =
-    type === 'auth'
-      ? [
-          <Button type="secondary" onClick={handleEditProduct}>
-            Разместить объявление
-          </Button>,
-          <Button type="secondary" onClick={handleLoginClick}>
-            Личный кабинет
-          </Button>,
-        ]
-      : [
-          <Button type="secondary" onClick={handleLoginClick}>
-            Вход в личный кабинет
-          </Button>,
-        ]
+  const nav = authorized
+    ? [
+        <Button type="secondary" onClick={handleEditProduct}>
+          Разместить объявление
+        </Button>,
+        <Button type="secondary" onClick={handleLoginClick}>
+          Личный кабинет
+        </Button>,
+      ]
+    : [
+        <Button type="secondary" onClick={handleLoginClick}>
+          Вход в личный кабинет
+        </Button>,
+      ]
 
   return (
     <>

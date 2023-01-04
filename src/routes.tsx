@@ -27,7 +27,6 @@ export const ROUTES = {
   signup: '/signup',
   product: '/product',
   profile: '/profile',
-  // seller: '/sellerprofile/:sellerId',
   seller: '/seller',
   aboutProduct: '/product/:productId', // '/courses/:id/workouts/:day'
   // workout: '/courses/{}/workouts/{}', // '/courses/:id/workouts/:day'

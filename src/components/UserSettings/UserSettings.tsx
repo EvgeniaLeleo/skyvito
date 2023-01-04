@@ -5,19 +5,19 @@ import cn from 'classnames'
 import { User } from '../../types'
 import { Button } from '../Button/Button'
 import { useChangeUserDetailsMutation } from '../../services/usersApi'
+import { AvatarBlock } from '../AvatarBlock/AvatarBlock'
 
 import styles from './style.module.css'
-import { AvatarBlock } from '../AvatarBlock/AvatarBlock'
 
 type Props = {
   user: User
 }
 
 type Form = {
-  name: string
-  surname: string
-  city: string
-  phone: string
+  name?: string
+  surname?: string
+  city?: string
+  phone?: string
 }
 
 const regexp = new RegExp(/[^0-9+]/i)
@@ -94,7 +94,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
     }
   }
 
-  const isFormValid = fieldValue.name.length && phone.length
+  const isFormValid = fieldValue?.name?.length && phone.length
 
   return (
     <div className={styles.userSettings}>

@@ -1,9 +1,9 @@
 import { FC } from 'react'
+import { SerializedError } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 
 import { User } from '../../types'
 import { Avatar } from '../Avatar/Avatar'
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
-import { SerializedError } from '@reduxjs/toolkit'
 
 import styles from './style.module.css'
 

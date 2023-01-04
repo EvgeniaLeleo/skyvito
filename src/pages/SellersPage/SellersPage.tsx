@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+
 import { Avatar } from '../../components/Avatar/Avatar'
 import { Button } from '../../components/Button/Button'
 import { Gallery } from '../../components/Gallery/Gallery'
 import { useGetProductsQuery } from '../../services/productsApi'
-// import { useGetCurrentUserQuery } from '../../services/usersApi'
 import { formatDate } from '../../utils/formatDate'
 import { formatHiddenPhone } from '../../utils/formatHiddenPhone'
 import { formatPhone } from '../../utils/formatPhone'

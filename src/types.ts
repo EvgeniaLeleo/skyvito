@@ -1,33 +1,39 @@
 export type User = {
-  id: number
-  email: string
-  city: string
-  name: string
-  surname: string
-  phone: string
-  role?: string
+  id?: number
+  name?: string
+  email?: string
+  city?: string
+  surname?: string
+  phone?: string
   avatar?: string
-  idToken?: string
   sells_from?: string
+  role?: string
+}
+
+export type Credentials = {
+  email: string
+  password: string
+  confirmPassword?: string
+  name?: string
+  surname?: string
+  city?: string
 }
 
 export type ChangeUserDetailsArg = {
-  email?: string
-  name: string
-  surname: string
-  city: string
-  phone: string
-  role?: 'user' | 'admin'
+  name?: string
+  surname?: string
+  city?: string
+  phone?: string
 }
 
-export type RefreshTokenResponse = {
-  expires_in?: string
-  token_type?: string
-  refresh_token?: string
-  id_token?: string
-  user_id?: string
-  project_id?: string
-}
+// export type RefreshTokenResponse = {
+//   expires_in?: string
+//   token_type?: string
+//   refresh_token?: string
+//   id_token?: string
+//   user_id?: string
+//   project_id?: string
+// }
 
 export type Feedback = {
   id: number
@@ -60,9 +66,7 @@ export type ErrorTypes = {
 export type AuthErrorType = {
   status: number
   data: {
-    error: {
-      message: string
-    }
+    detail: string
   }
 }
 
@@ -70,4 +74,10 @@ export type FormData = {
   email: string
   password: string
   confirmPassword?: string
+}
+
+export type UserTokens = {
+  access_token: string
+  refresh_token: string
+  token_type: string
 }

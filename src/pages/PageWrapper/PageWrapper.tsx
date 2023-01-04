@@ -2,31 +2,29 @@ import { FC, ReactNode } from 'react'
 
 import { Header } from '../../components/Header/Header'
 import { ScrollToTop } from '../../components/ScrollToTop/ScrollToTop'
+import { useAppSelector } from '../../hook'
+import { accessTokenSelector } from '../../store/selectors/tokens'
 
 import styles from './style.module.css'
 
 type Props = {
   children?: ReactNode
   scrollToTop?: boolean
-  headerPage?: 'search' | 'noSearch'
+  searchHeader?: boolean
 }
 
 export const PageWrapper: FC<Props> = ({
   children,
-  headerPage = 'noSearch',
+  searchHeader = false,
   scrollToTop = false,
 }) => {
-  // ATTENTION Temporary value of localId (for auth Header)
-  let localId = 1 // const { localId } = useAppSelector(selectCurrentUser)
-  const isLoggedIn = localId ? true : false
+  const userId = useAppSelector(accessTokenSelector)
+  const authorized = userId ? true : false
 
   return (
     <>
       {scrollToTop && <ScrollToTop />}
-      <Header
-        type={isLoggedIn ? 'auth' : 'main'}
-        page={headerPage === 'search' ? 'search' : 'noSearch'}
-      />
+      <Header authorized={authorized} searchHeader={searchHeader} />
       <div className={styles.wrapper}>{children}</div>
       {/* <Footer />  */}
     </>

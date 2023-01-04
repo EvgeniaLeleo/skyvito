@@ -1,4 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
+import { authApi } from '../services/authApi'
+import tokenReducer from './tokenSlice'
+import currentUserReducer from './currentUserSlice'
 
 import { productsApi } from '../services/productsApi'
 import { usersApi } from '../services/usersApi'
@@ -6,11 +9,15 @@ import { usersApi } from '../services/usersApi'
 export const store = configureStore({
   reducer: {
     // modal: modalReducer,
+    token: tokenReducer,
+    currentUser: currentUserReducer,
+    [authApi.reducerPath]: authApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
+      .concat(authApi.middleware)
       .concat(usersApi.middleware)
       .concat(productsApi.middleware),
 })

@@ -8,11 +8,14 @@ import { SearchBar } from '../SearchBar/SearchBar'
 import styles from './style.module.css'
 
 type Props = {
-  type?: 'main' | 'auth'
-  page?: 'search' | 'noSearch'
+  authorized?: boolean
+  searchHeader?: boolean
 }
 
-export const Header: FC<Props> = ({ type = 'auth', page = 'noSearch' }) => {
+export const Header: FC<Props> = ({
+  authorized = true,
+  searchHeader = false,
+}) => {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -32,7 +35,7 @@ export const Header: FC<Props> = ({ type = 'auth', page = 'noSearch' }) => {
     <>
       {/* onClick={handleOpen} */}
       <div className={styles.navWrapper}>
-        <Navigation type={type} />
+        <Navigation authorized={authorized} />
       </div>
       {/* <Modal
         open={open}
@@ -47,7 +50,7 @@ export const Header: FC<Props> = ({ type = 'auth', page = 'noSearch' }) => {
       <div
         className={cn(styles.searchWrapper, { [styles.scrolled]: scrolled })}
       >
-        {page === 'noSearch' ? <ProfileHeader /> : <SearchBar />}
+        {searchHeader ? <SearchBar /> : <ProfileHeader />}
       </div>
     </>
   )

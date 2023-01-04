@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useCookies } from 'react-cookie'
 
 import { Button } from '../../components/Button/Button'
 import { validPasswordLength } from '../../constants'
@@ -8,14 +9,14 @@ import { AuthErrorType, FormData } from '../../types'
 import { useEscapeKey } from '../../hooks/useEscapeKey'
 import { SignUpModal } from '../SignUpModal/SignUpModal'
 import { Modal } from '../Modal/Modal'
-
-// import { useSignInMutation } from '../../api/auth.api'
-// import { useAppDispatch, useAppSelector } from '../../hooks/appHooks'
-// import { clearMessage, selectMessage } from '../../slices/messageSlice'
-// import { getErrorMessage } from '../../utils'
+import { useLoginMutation } from '../../services/authApi'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../routes'
+import { getErrorMessage } from '../../utils/getErrorMessage'
+import { useAppDispatch } from '../../hook'
+import { setToken } from '../../store/tokenSlice'
 
 import logo from './skyLogo.svg'
-
 import styles from './style.module.css'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.[a-z]{2,3}$/i)
@@ -27,15 +28,18 @@ type Props = {
 export const LoginModal: FC<Props> = ({ setIsOpened }) => {
   useEscapeKey(() => setIsOpened(false))
 
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const [login, { data }] = useLoginMutation()
+
   const [error, setError] = useState<string>('')
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
   const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(true)
   const [isSignUpModalShown, setIsSignUpModalShown] = useState<boolean>(false)
+  const [cookies, setCookies] = useCookies(['access', 'refresh'])
 
-  // const [login] = useSignInMutation()
   // const message = useAppSelector(selectMessage)
   // const [formMessage, setFormMessage] = useState('')
-  // const dispatch = useAppDispatch()
 
   // useEffect(() => {
   //   if (message) {
@@ -50,23 +54,39 @@ export const LoginModal: FC<Props> = ({ setIsOpened }) => {
   //   //  return () => setIsLoginModalShown(true)
   // }, [isLoginModalShown, isSignUpModalShown])
 
+  useEffect(() => {
+    if (data) {
+      setCookies('access', data.access_token)
+      setCookies('refresh', data.refresh_token)
+      dispatch(
+        setToken({
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
+        })
+      )
+
+      // navigate(ROUTES.profile)
+    }
+    // eslint-disable-next-line
+  }, [data])
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ mode: 'onTouched' })
+  } = useForm<FormData>({ mode: 'onBlur' })
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsBlocked(true)
     setError('')
 
-    // try {
-    //   await login({ email: data.email, password: data.password }).unwrap()
-    //   navigate(ROUTES.profile)
-    // } catch (error) {
-    //   setError(getErrorMessage(error as AuthErrorType))
-    //   setIsBlocked(false)
-    // }
+    try {
+      await login({ email: data.email, password: data.password }).unwrap()
+      navigate(ROUTES.profile)
+    } catch (error) {
+      setError(getErrorMessage(error as AuthErrorType))
+      setIsBlocked(false)
+    }
   }
 
   const focusHandler = () => setError('')
@@ -76,7 +96,7 @@ export const LoginModal: FC<Props> = ({ setIsOpened }) => {
     setIsSignUpModalShown(true)
   }
 
-  console.log(isLoginModalShown)
+  // console.log(isLoginModalShown)
 
   const inputPasswordStyle = classNames(styles.input, styles.inputPassword)
 

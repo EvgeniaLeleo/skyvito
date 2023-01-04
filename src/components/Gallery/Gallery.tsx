@@ -1,12 +1,11 @@
+// TODO Обработать ошибку получения данных
+
 import { Link } from 'react-router-dom'
 import { FC } from 'react'
 
 import { ROUTES } from '../../routes'
 import { Card } from '../Card/Card'
-import {
-  useGetProductsQuery,
-  // useGetSellersProductsQuery,
-} from '../../services/productsApi'
+import { useGetProductsQuery } from '../../services/productsApi'
 import { Product } from '../../types'
 
 import styles from './style.module.css'

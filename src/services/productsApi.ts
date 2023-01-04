@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { API_URL, TOKEN } from '../constants'
+import { RootState } from '../store/store'
 import { Feedback, Product } from '../types'
 
 export const productsApi = createApi({
@@ -8,6 +9,11 @@ export const productsApi = createApi({
   tagTypes: ['Products'],
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).token.access_token
+      if (token) headers.set('authorization', `Bearer ${token}`)
+      return headers
+    },
   }),
   endpoints: (build) => ({
     getProducts: build.query<Product[], void | number>({
@@ -65,7 +71,7 @@ export const productsApi = createApi({
     deleteProduct: build.mutation<void, any>({
       query: ({ idx }) => ({
         url: `ads/${idx}`,
-        headers: { Authorization: `Bearer ${TOKEN}` },
+        // headers: { Authorization: `Bearer ${TOKEN}` },
         method: 'DELETE',
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
@@ -73,9 +79,9 @@ export const productsApi = createApi({
     uploadProductImage: build.mutation<void, any>({
       query: ({ idx, body }) => ({
         url: `ads/${idx}/image`,
-        headers: { Authorization: `Bearer ${TOKEN}` },
+        // headers: { Authorization: `Bearer ${TOKEN}` },
         method: 'POST',
-        body: body,
+        body,
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
       // invalidatesTags: (result, error, arg) => [
@@ -88,18 +94,15 @@ export const productsApi = createApi({
       query: ({ idx, body }) => ({
         url: `ads/${idx}`,
         method: 'PATCH',
-        headers: { Authorization: `Bearer ${TOKEN}` },
-        body: {
-          ...body,
-          // returnSecureToken: true,
-        },
+        // headers: { Authorization: `Bearer ${TOKEN}` },
+        body,
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
     }),
     deleteProductImage: build.mutation<void, any>({
       query: ({ idx, imgUrl }) => ({
         url: `ads/${idx}/image?file_url=${imgUrl}`,
-        headers: { Authorization: `Bearer ${TOKEN}` },
+        // headers: { Authorization: `Bearer ${TOKEN}` },
         method: 'DELETE',
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],

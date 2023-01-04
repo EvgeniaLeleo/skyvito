@@ -19,34 +19,30 @@ import { useGetCurrentUserQuery } from '../../services/usersApi'
 import { ROUTES } from '../../routes'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 import { API_URL } from '../../constants'
-
-import styles from './style.module.css'
 import { formatPhone } from '../../utils/formatPhone'
 import { formatHiddenPhone } from '../../utils/formatHiddenPhone'
 import { formatDate } from '../../utils/formatDate'
 
-// type Props = { state?: 'buyer' | 'seller' }
+import styles from './style.module.css'
+import { useAppSelector } from '../../hook'
+import { currentUserSelector } from '../../store/selectors/currentUser'
 
-// export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
-// export const ProductPage: FC<Props> = ({ state = 'seller' }) => {
 export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
 
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
   const { data: comments } = useGetProductCommentsQuery(productId)
-  const { data: user } = useGetCurrentUserQuery()
   const [delProduct] = useDeleteProductMutation()
+
+  // const { data: user } = useGetCurrentUserQuery()
+  const user = useAppSelector(currentUserSelector)
 
   const [sellersPhone, setSellersPhone] = useState<string | undefined>(
     formatPhone(product?.user.phone)
   )
 
-  const currentUserId = user?.id
-  const userState = currentUserId === product?.user.id ? 'seller' : 'buyer'
-
-  // const { localId } = useAppSelector(selectCurrentUser)
-  // const isLoggedIn = localId ? true : false
+  const userState = user?.id === product?.user.id ? 'seller' : 'buyer'
 
   const handleFeedbackClick = () => {
     setIsFeedbackModalShown(true)

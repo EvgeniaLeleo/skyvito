@@ -4,10 +4,6 @@ import { Provider } from 'react-redux'
 
 import App from './App'
 import { store } from './store/store'
-// import { store } from './store'
-// import { ScrollToTop } from './components/ScrollToTop/ScrollToTop'
-// import { SpinnerModal } from './components/SpinnerModal/SpinnerModal'
-// import { SuspenseRouter } from './components/SuspenseRouter/SuspenseRouter'
 
 import './index.css'
 
