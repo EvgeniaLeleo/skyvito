@@ -2,10 +2,10 @@ export type User = {
   id: number
   email: string
   city: string
-  role: string
   name: string
   surname: string
   phone: string
+  role?: string
   avatar?: string
   idToken?: string
   sells_from?: string

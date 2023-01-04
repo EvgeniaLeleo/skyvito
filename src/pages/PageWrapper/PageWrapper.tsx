@@ -8,13 +8,13 @@ import styles from './style.module.css'
 type Props = {
   children?: ReactNode
   scrollToTop?: boolean
-  headerPage?: 'profile' | 'regular'
+  headerPage?: 'search' | 'noSearch'
 }
 
 export const PageWrapper: FC<Props> = ({
   children,
   scrollToTop = false,
-  headerPage,
+  headerPage = 'noSearch',
 }) => {
   // ATTENTION Temporary value of localId (for auth Header)
   let localId = 1 // const { localId } = useAppSelector(selectCurrentUser)
@@ -25,7 +25,7 @@ export const PageWrapper: FC<Props> = ({
       {scrollToTop && <ScrollToTop />}
       <Header
         type={isLoggedIn ? 'auth' : 'main'}
-        page={headerPage === 'profile' ? 'profile' : 'regular'}
+        page={headerPage === 'search' ? 'search' : 'noSearch'}
       />
       <div className={styles.wrapper}>{children}</div>
       {/* <Footer />  */}

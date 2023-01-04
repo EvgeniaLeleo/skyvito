@@ -1,3 +1,5 @@
+/** TODO Unused component */
+
 import React, { FC } from 'react'
 import cn from 'classnames'
 
@@ -36,7 +38,6 @@ export const Input: FC<Props> = ({
       </label>
       <input
         className={styles.input}
-        // name="name"
         type={type}
         value={value}
         placeholder={placeholder}

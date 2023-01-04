@@ -3,14 +3,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import cn from 'classnames'
 
 import { User } from '../../types'
-import { Avatar } from '../Avatar/Avatar'
 import { Button } from '../Button/Button'
-import {
-  useChangeUserDetailsMutation,
-  useUploadUserAvatarMutation,
-} from '../../services/usersApi'
+import { useChangeUserDetailsMutation } from '../../services/usersApi'
 
 import styles from './style.module.css'
+import { AvatarBlock } from '../AvatarBlock/AvatarBlock'
 
 type Props = {
   user: User
@@ -23,7 +20,7 @@ type Form = {
   phone: string
 }
 
-const regexp = new RegExp(/[^0-9+\-()]/i)
+const regexp = new RegExp(/[^0-9+]/i)
 
 export const UserSettings: FC<Props> = ({ user }) => {
   const initialValue = {
@@ -33,12 +30,10 @@ export const UserSettings: FC<Props> = ({ user }) => {
     phone: user.phone,
   }
 
-  const [uploadedAvatar, setUploadedAvatar] = useState<string>()
   const [loading, setLoading] = useState<boolean>(false)
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
   const [phone, setPhone] = useState<string>(user.phone || '')
 
-  const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
   const [changeUserDetails] = useChangeUserDetailsMutation()
 
   const handleFieldChange = (
@@ -62,19 +57,9 @@ export const UserSettings: FC<Props> = ({ user }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<{
-    name: string
-    surname: string
-    city: string
-    phone: string
-  }>({ mode: 'onBlur' })
+  } = useForm<Form>({ mode: 'onBlur' })
 
-  const onSubmit: SubmitHandler<any> = async (data: {
-    name: string
-    surname: string
-    city: string
-    phone: string
-  }) => {
+  const onSubmit: SubmitHandler<any> = async (data: Form) => {
     // if (!user.idToken) {
     //   goToLoginWithMessage(EXP_MESSAGE)
     //   return
@@ -99,44 +84,11 @@ export const UserSettings: FC<Props> = ({ user }) => {
     }
   }
 
-  const handleUploadAvatar = async (event: any) => {
-    const files = event.target.files
-    const file = files[0]
-
-    if (!file) {
-      console.log('no file')
-      return
-    }
-
-    const formData = new FormData()
-    formData.append('file', file)
-
-    await uploadAvatar({ body: formData })
-
-    if (files && file && !avatarError) {
-      setUploadedAvatar(URL.createObjectURL(file))
-    }
-  }
+  const isFormValid = fieldValue.name.length && phone.length
 
   return (
     <div className={styles.userSettings}>
-      <div className={styles.avatarBlock}>
-        {!!avatarError && <Avatar error={true} mb="10px" />}
-        {!avatarError && !uploadedAvatar && <Avatar user={user} mb="10px" />}
-        {!avatarError && !!uploadedAvatar && (
-          <Avatar user={user} uploadedAvatar={uploadedAvatar} mb="10px" />
-        )}
-        <label className={styles.changeAvatar}>
-          Заменить
-          <input
-            className={styles.changeAvatarInput}
-            type="file"
-            onChange={handleUploadAvatar}
-            accept="image/*"
-          />
-        </label>
-      </div>
-
+      <AvatarBlock user={user} />
       <form
         className={styles.settingsForm}
         action="#"
@@ -205,7 +157,10 @@ export const UserSettings: FC<Props> = ({ user }) => {
           </div>
         </div>
 
-        <Button btnType="submit" buttonStatus={loading ? 'disabled' : 'normal'}>
+        <Button
+          btnType="submit"
+          buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
+        >
           Сохранить
         </Button>
       </form>

@@ -8,7 +8,7 @@ export const MainPage = () => {
   // const isLoggedIn = localId ? true : false
 
   return (
-    <PageWrapper>
+    <PageWrapper headerPage="search">
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Объявления</h1>
         <Gallery />

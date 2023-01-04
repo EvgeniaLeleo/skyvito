@@ -28,7 +28,7 @@ type Form = {
   price?: number
 }
 
-const validPrice = new RegExp(/^([0-9]*[.])?(\d{1,2})?$/i)
+const validPrice = new RegExp(/^([0-9]*[.]?)?(\d{1,2})?$/i)
 const regexp = new RegExp(/[^0-9.]/i)
 
 export const EditProductModal: FC<Props> = ({
@@ -67,11 +67,7 @@ export const EditProductModal: FC<Props> = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<{
-    title: string
-    description: string
-    price: string
-  }>({ mode: 'onBlur' })
+  } = useForm<Form>({ mode: 'onBlur' })
 
   const handleFieldChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -90,11 +86,7 @@ export const EditProductModal: FC<Props> = ({
     setPrice(e.target.value)
   }
 
-  const onSubmit: SubmitHandler<any> = async (data: {
-    title: string
-    price: string
-    description: string
-  }) => {
+  const onSubmit: SubmitHandler<Form> = async (data) => {
     // if (!user.idToken) {
     //   goToLoginWithMessage(EXP_MESSAGE)
     //   return
@@ -120,7 +112,7 @@ export const EditProductModal: FC<Props> = ({
     }
   }
 
-  const isFormValid = fieldValue.title?.length && fieldValue.price
+  const isFormValid = fieldValue.title?.length && price.toString().length
 
   return (
     <Modal isOpen={setIsOpened}>
@@ -131,8 +123,8 @@ export const EditProductModal: FC<Props> = ({
         </div>
         <form
           className={styles.form}
-          action="#"
           onSubmit={handleSubmit(onSubmit)}
+          onClick={(e) => e.stopPropagation()}
         >
           <div className={cn(styles.formContent, styles.inputRequired)}>
             <label className={styles.label}>
@@ -194,7 +186,7 @@ export const EditProductModal: FC<Props> = ({
                     required: 'Введите корректную цену',
                     pattern: {
                       value: validPrice,
-                      message: 'Введите корректный e-mail',
+                      message: 'Введите корректную цену',
                     },
                   })}
                   className={cn(styles.input, styles.price)}

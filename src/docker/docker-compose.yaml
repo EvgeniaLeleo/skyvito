@@ -1,14 +1,14 @@
-version: "3.8"
+version: '3.8'
 
 services:
   api:
-    image: ipotemkin/skyavito_api:v1.5
+    image: ipotemkin/skyavito_api:v1.6
     volumes:
-      - skyavito_data:/code/data  # to get to the database
-      - skyavito_ad_images:/code/ad_images  # to get to ads images
-      - skyavito_avatar_images:/code/avatar_images  # to get to avatar images
+      - skyavito_data:/code/data # to get to the database
+      - skyavito_ad_images:/code/ad_images # to get to ads images
+      - skyavito_avatar_images:/code/avatar_images # to get to avatar images
     ports:
-      - "127.0.0.1:8090:80"
+      - '127.0.0.1:8090:80'
     depends_on:
       migrations:
         condition: service_completed_successfully
@@ -19,12 +19,11 @@ services:
   migrations:
     image: ipotemkin/skyavito_api:v1.5
     volumes:
-      - skyavito_data:/code/data  # to get to the database
-      - skyavito_ad_images:/code/ad_images  # to get to ads images
-      - skyavito_avatar_images:/code/avatar_images  # to get to avatar images
+      - skyavito_data:/code/data # to get to the database
+      - skyavito_ad_images:/code/ad_images # to get to ads images
+      - skyavito_avatar_images:/code/avatar_images # to get to avatar images
     command: >
       sh -c "alembic upgrade head"
-
 
 volumes:
   skyavito_data:

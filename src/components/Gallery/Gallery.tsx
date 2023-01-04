@@ -3,15 +3,23 @@ import { FC } from 'react'
 
 import { ROUTES } from '../../routes'
 import { Card } from '../Card/Card'
-import { useGetProductsQuery } from '../../services/productsApi'
+import {
+  useGetProductsQuery,
+  // useGetSellersProductsQuery,
+} from '../../services/productsApi'
 import { Product } from '../../types'
 
 import styles from './style.module.css'
 
-type Props = { state?: 'buyer' | 'seller' }
+type Props = { sellerId?: number }
 
-export const Gallery: FC<Props> = ({ state = 'buyer' }) => {
-  const { data: products, isLoading, error } = useGetProductsQuery()
+export const Gallery: FC<Props> = ({ sellerId }) => {
+  const { data: products, isLoading, error } = useGetProductsQuery(sellerId)
+  // const {
+  //   data: sellersProducts,
+  //   isLoading: sellersProductsLoading,
+  //   error: sellersProductsError,
+  // } = useGetSellersProductsQuery(sellerId)
   // const prefetchCourse = usePrefetch('getCourse')
 
   if (isLoading) return <div className={styles.content}>Загрузка...</div>
@@ -21,7 +29,7 @@ export const Gallery: FC<Props> = ({ state = 'buyer' }) => {
       {products?.map((product: Product, index) => (
         <Link
           key={product.id}
-          to={`${ROUTES.product}/${Number(product.id)}`}
+          to={`${ROUTES.product}/${product.id}`}
           className={styles.link}
           // onMouseEnter={() => prefetchCourse(product.id!)}
         >

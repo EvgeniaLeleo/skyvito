@@ -9,10 +9,10 @@ import styles from './style.module.css'
 
 type Props = {
   type?: 'main' | 'auth'
-  page?: 'regular' | 'profile'
+  page?: 'search' | 'noSearch'
 }
 
-export const Header: FC<Props> = ({ type = 'auth', page = 'regular' }) => {
+export const Header: FC<Props> = ({ type = 'auth', page = 'noSearch' }) => {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const Header: FC<Props> = ({ type = 'auth', page = 'regular' }) => {
       <div
         className={cn(styles.searchWrapper, { [styles.scrolled]: scrolled })}
       >
-        {page === 'profile' ? <ProfileHeader /> : <SearchBar />}
+        {page === 'noSearch' ? <ProfileHeader /> : <SearchBar />}
       </div>
     </>
   )

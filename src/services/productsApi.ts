@@ -10,8 +10,10 @@ export const productsApi = createApi({
     baseUrl: API_URL,
   }),
   endpoints: (build) => ({
-    getProducts: build.query<Product[], void>({
-      query: () => 'ads',
+    getProducts: build.query<Product[], void | number>({
+      query: (userId) => {
+        return userId ? `ads?user_id=${userId}` : 'ads'
+      },
       providesTags: (result) =>
         result
           ? [
@@ -23,6 +25,19 @@ export const productsApi = createApi({
             ]
           : [{ type: 'Products', id: 'LIST' }],
     }),
+    // getSellersProducts: build.query<Product[], number>({
+    //   query: (userId: number) => `ads?user_id=${userId}`,
+    //   providesTags: (result) =>
+    //     result
+    //       ? [
+    //           { type: 'Products', id: 'LIST' },
+    //           ...result.map(({ id }) => ({
+    //             type: 'Products' as const,
+    //             id,
+    //           })),
+    //         ]
+    //       : [{ type: 'Products', id: 'LIST' }],
+    // }),
     getProduct: build.query<Product, number>({
       query: (idx: number) => `ads/${idx}`,
       providesTags: () => [{ type: 'Products', id: 'LIST' }],
@@ -36,6 +51,16 @@ export const productsApi = createApi({
     }),
     getProductComments: build.query<Feedback[], number>({
       query: (idx: number) => `ads/${idx}/comments`,
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Products', id: 'LIST' },
+              ...result.map(({ id }) => ({
+                type: 'Products' as const,
+                id,
+              })),
+            ]
+          : [{ type: 'Products', id: 'LIST' }],
     }),
     deleteProduct: build.mutation<void, any>({
       query: ({ idx }) => ({
@@ -43,6 +68,7 @@ export const productsApi = createApi({
         headers: { Authorization: `Bearer ${TOKEN}` },
         method: 'DELETE',
       }),
+      invalidatesTags: [{ type: 'Products', id: 'LIST' }],
     }),
     uploadProductImage: build.mutation<void, any>({
       query: ({ idx, body }) => ({
@@ -84,6 +110,7 @@ export const productsApi = createApi({
 export const {
   useGetProductQuery,
   useGetProductsQuery,
+  // useGetSellersProductsQuery,
   useGetProductCommentsQuery,
   useUploadProductImageMutation,
   useDeleteProductMutation,
