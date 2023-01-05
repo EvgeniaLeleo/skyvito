@@ -17,7 +17,7 @@ export const UploadFile: FC<Props> = ({ productId, state }) => {
 
   // const dispatch = useAppDispatch()
 
-  const handleChange = async (event: any) => {
+  const handleChange = async (event: { target: { files: any } }) => {
     const files = event.target.files
     const file = files[0]
 
@@ -33,7 +33,9 @@ export const UploadFile: FC<Props> = ({ productId, state }) => {
     const formData = new FormData()
     formData.append('file', file)
 
-    await uploadImage({ idx: productId, body: formData }).unwrap()
+    if (productId) {
+      await uploadImage({ idx: productId, body: formData }).unwrap()
+    }
   }
 
   // console.log(uploadedImage)

@@ -17,27 +17,20 @@ export const usersApi = createApi({
   }),
   endpoints: (build) => ({
     getCurrentUser: build.query<User, void>({
-      query() {
-        return {
-          url: 'user',
-          // headers: { Authorization: `Bearer ${TOKEN}` },
-        }
-      },
+      query: () => 'user',
       providesTags: () => [{ type: 'User', id: 'UserDetails' }],
     }),
     changeUserDetails: build.mutation<User, ChangeUserDetailsArg>({
       query: (body: ChangeUserDetailsArg) => ({
         url: 'user',
         method: 'PATCH',
-        // headers: { Authorization: `Bearer ${TOKEN}` },
         body,
       }),
       invalidatesTags: [{ type: 'User', id: 'UserDetails' }],
     }),
-    uploadUserAvatar: build.mutation<void, any>({
-      query: ({ body }) => ({
+    uploadUserAvatar: build.mutation<void, FormData>({
+      query: (body) => ({
         url: 'user/avatar',
-        // headers: { Authorization: `Bearer ${TOKEN}` },
         method: 'POST',
         body,
       }),

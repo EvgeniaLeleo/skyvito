@@ -6,7 +6,6 @@ import { Credentials, User, UserTokens } from '../types'
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  // tagTypes: ['User'],
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
     prepareHeaders: (headers, { getState }) => {

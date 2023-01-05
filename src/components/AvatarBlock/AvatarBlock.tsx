@@ -16,7 +16,7 @@ export const AvatarBlock: FC<Props> = ({ user }) => {
 
   const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
 
-  const handleUploadAvatar = async (event: any) => {
+  const handleUploadAvatar = async (event: { target: { files: any } }) => {
     const files = event.target.files
     const file = files[0]
 
@@ -29,7 +29,7 @@ export const AvatarBlock: FC<Props> = ({ user }) => {
     formData.append('file', file)
 
     setLoading(true)
-    await uploadAvatar({ body: formData }).unwrap()
+    await uploadAvatar(formData).unwrap()
     setLoading(false)
 
     if (files && file && !avatarError) {

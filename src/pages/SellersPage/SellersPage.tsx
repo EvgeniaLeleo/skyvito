@@ -14,7 +14,7 @@ import styles from './style.module.css'
 
 export const SellersPage = () => {
   const sellerId = Number(useParams()?.id)
-  const { data: products, isLoading, error } = useGetProductsQuery(sellerId)
+  const { data: products, isLoading } = useGetProductsQuery(sellerId)
 
   const seller = products
     ? products[0].user
@@ -47,7 +47,8 @@ export const SellersPage = () => {
             <Avatar user={seller} />
           </div>
 
-          <div>
+          <div className={styles.sellersData}>
+            {isLoading && <p className={styles.sellerCity}>Загрузка...</p>}
             <p className={styles.sellerName}>
               {seller.name} {seller.surname}
             </p>

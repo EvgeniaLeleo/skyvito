@@ -54,8 +54,7 @@ export const ProductPage: FC = () => {
 
   const handleDeleteProduct = async () => {
     if (product && product.id && product.id !== undefined) {
-      const idx = product.id
-      await delProduct({ idx }).unwrap()
+      await delProduct(product.id).unwrap()
     }
   }
 

@@ -1,12 +1,18 @@
+модалки
+регистрация
+рефреш
+при обновлении страницы оставлять авторизованным
+отзывы
+размещение объявления
+
+адаптив
+сохранение аватарки только при кнопке?
+сохранение картинок объявления только при кнопке?
+обработка ошибок сети
+
 {
   "email": "user@example.com",
   "password": "string"
-}
-
-{
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcxODM2ODE1fQ.jqvXpw_14GgTWVDGRJk3GbjRG2232wHN0kf05bx8xXo",
-    "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcxOTIxNDE1fQ.1qtaNs9oHLMTbpmCg8ReRpdXszTpZEfNUPkjfEvP4SQ",
-    "token_type": "bearer"
 }
 
 {
@@ -40,7 +46,6 @@ $ docker-compose down
 неиспользуемые имиджи можно ужалить так:
 docker image prune
 он тебя попросить подтвердить, нажмешь Y
-
 	
 набери docker ps, что показывает?
 и docker system df
@@ -71,16 +76,17 @@ access token валиден 30 минут, refresh - сутки
 
 Всем привет! Я выкатил обновление.
 1) Изменил контракт для ручки POST ads/{pk}/comments - теперь получает payload через body json, а не через query параметры
-2) исправил опечатку в названии тома в docker-compose.yaml - теперь skyavito написано верно. Это ни на что не влияло, но так красивее
-3) еще немного оптимизирован размер образа 
 
 
-
-
-
-1. Тень под хедером при прокрутке
 2. Тип onClick в ImageWrapper
 3. Как реализовать приложение для мобильника? Там модалки заменяются на полноценные страницы
 "build": "react-scripts build && echo '/* /index.html  200' | cat >build/_redirects ",
+
+Тень под хедером при прокрутке
+Валидация введенных в поля символов (телефон, цена - только числа)
+Надпись "Загрузка"
+Блокировка кнопок при отправке данных
+Валидация форм
+При удалении текста в строке поиска сразу показывается все
 
 

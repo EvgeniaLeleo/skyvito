@@ -17,9 +17,7 @@ export const productsApi = createApi({
   }),
   endpoints: (build) => ({
     getProducts: build.query<Product[], void | number>({
-      query: (userId) => {
-        return userId ? `ads?user_id=${userId}` : 'ads'
-      },
+      query: (userId) => (userId ? `ads?user_id=${userId}` : 'ads'),
       providesTags: (result) =>
         result
           ? [
@@ -31,19 +29,6 @@ export const productsApi = createApi({
             ]
           : [{ type: 'Products', id: 'LIST' }],
     }),
-    // getSellersProducts: build.query<Product[], number>({
-    //   query: (userId: number) => `ads?user_id=${userId}`,
-    //   providesTags: (result) =>
-    //     result
-    //       ? [
-    //           { type: 'Products', id: 'LIST' },
-    //           ...result.map(({ id }) => ({
-    //             type: 'Products' as const,
-    //             id,
-    //           })),
-    //         ]
-    //       : [{ type: 'Products', id: 'LIST' }],
-    // }),
     getProduct: build.query<Product, number>({
       query: (idx: number) => `ads/${idx}`,
       providesTags: () => [{ type: 'Products', id: 'LIST' }],
@@ -68,18 +53,16 @@ export const productsApi = createApi({
             ]
           : [{ type: 'Products', id: 'LIST' }],
     }),
-    deleteProduct: build.mutation<void, any>({
-      query: ({ idx }) => ({
+    deleteProduct: build.mutation<void, number>({
+      query: (idx) => ({
         url: `ads/${idx}`,
-        // headers: { Authorization: `Bearer ${TOKEN}` },
         method: 'DELETE',
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
     }),
-    uploadProductImage: build.mutation<void, any>({
+    uploadProductImage: build.mutation<void, { idx: number; body: FormData }>({
       query: ({ idx, body }) => ({
         url: `ads/${idx}/image`,
-        // headers: { Authorization: `Bearer ${TOKEN}` },
         method: 'POST',
         body,
       }),
@@ -94,15 +77,13 @@ export const productsApi = createApi({
       query: ({ idx, body }) => ({
         url: `ads/${idx}`,
         method: 'PATCH',
-        // headers: { Authorization: `Bearer ${TOKEN}` },
         body,
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
     }),
-    deleteProductImage: build.mutation<void, any>({
+    deleteProductImage: build.mutation<void, { idx: number; imgUrl: string }>({
       query: ({ idx, imgUrl }) => ({
         url: `ads/${idx}/image?file_url=${imgUrl}`,
-        // headers: { Authorization: `Bearer ${TOKEN}` },
         method: 'DELETE',
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
@@ -113,10 +94,24 @@ export const productsApi = createApi({
 export const {
   useGetProductQuery,
   useGetProductsQuery,
-  // useGetSellersProductsQuery,
   useGetProductCommentsQuery,
   useUploadProductImageMutation,
   useDeleteProductMutation,
   useDeleteProductImageMutation,
   useChangeProductDetailsMutation,
+  // useGetSellersProductsQuery,
 } = productsApi
+
+// getSellersProducts: build.query<Product[], number>({
+//   query: (userId: number) => `ads?user_id=${userId}`,
+//   providesTags: (result) =>
+//     result
+//       ? [
+//           { type: 'Products', id: 'LIST' },
+//           ...result.map(({ id }) => ({
+//             type: 'Products' as const,
+//             id,
+//           })),
+//         ]
+//       : [{ type: 'Products', id: 'LIST' }],
+// }),

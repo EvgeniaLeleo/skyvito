@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from '../../hook'
 import { filteredProductsSelector } from '../../store/selectors/filteredProducts'
 import { setProducts } from '../../store/productsSlice'
 import { querySelector } from '../../store/selectors/querySelector'
-import { setQuery } from '../../store/filteredProductsSlice'
 
 type Props = { sellerId?: number }
 
@@ -37,6 +36,8 @@ export const Gallery: FC<Props> = ({ sellerId }) => {
   // } = useGetSellersProductsQuery(sellerId)
   // const prefetchCourse = usePrefetch('getCourse')
 
+  // {error.status} {error.data.message}
+
   if (isLoading) return <div className={styles.content}>Загрузка...</div>
 
   if (filteredProducts) {
@@ -45,6 +46,11 @@ export const Gallery: FC<Props> = ({ sellerId }) => {
         {error && (
           <p className={styles.errorMessage}>
             Извините, произошла ошибка! {JSON.stringify(error)}
+          </p>
+        )}
+        {!error && !filteredProducts.length && (
+          <p className={styles.errorMessage}>
+            По вашему запросу ничего не найдено
           </p>
         )}
         {filteredProducts.map((product: Product, index) => (

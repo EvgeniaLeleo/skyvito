@@ -16,6 +16,12 @@
   width: 100%;
 }
 
+.errorMessage {
+  width: 100%;
+  margin: 0;
+  padding-top: 0px;
+}
+
 @media (max-width: 1280px) {
   .gallery {
     grid-template-columns: repeat(3, 1fr);

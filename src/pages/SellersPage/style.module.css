@@ -50,6 +50,10 @@
   grid-row: 1/3;
 }
 
+.sellersData {
+  min-height: 104px;
+}
+
 .sellerName {
   font-style: normal;
   font-weight: 600;
