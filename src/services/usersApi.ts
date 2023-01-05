@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { API_URL, TOKEN } from '../constants'
+import { API_URL } from '../constants'
 import { RootState } from '../store/store'
 import { ChangeUserDetailsArg, User } from '../types'
 

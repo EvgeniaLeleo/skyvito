@@ -1,8 +1,5 @@
 import { ErrorTypes } from './types'
 
-export const TOKEN =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoic3RyaW5nIiwiZXhwIjoxNjcyODY1NjY4fQ.EoQrRW0fHoRCXWw54E3N70bAPrUuXyCHeSX6er96RoM'
-
 export const API_URL = 'http://localhost:8090/'
 
 export const API_AUTH_URL = 'https://identitytoolkit.googleapis.com/v1'
