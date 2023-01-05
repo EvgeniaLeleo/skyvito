@@ -5,6 +5,8 @@ import { useUploadUserAvatarMutation } from '../../services/usersApi'
 import { AvatarImageBlock } from '../AvatarImageBlock/AvatarImageBlock'
 
 import styles from './style.module.css'
+import { Button } from '../Button/Button'
+import { useLogout } from '../../hooks/useLogout'
 
 type Props = {
   user: User
@@ -15,6 +17,7 @@ export const AvatarBlock: FC<Props> = ({ user }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
+  const logout = useLogout()
 
   const handleUploadAvatar = async (event: { target: { files: any } }) => {
     const files = event.target.files
@@ -37,23 +40,31 @@ export const AvatarBlock: FC<Props> = ({ user }) => {
     }
   }
 
+  const handleLogout = async () => {
+    logout()
+  }
+
   return (
-    <div className={styles.avatarBlock}>
-      <AvatarImageBlock
-        user={user}
-        loading={loading}
-        avatarError={avatarError}
-        uploadedAvatar={uploadedAvatar}
-      />
-      <label className={styles.changeAvatar}>
-        Заменить
-        <input
-          className={styles.changeAvatarInput}
-          type="file"
-          onChange={handleUploadAvatar}
-          accept="image/*"
+    <div className={styles.wrapper}>
+      <div className={styles.avatarBlock}>
+        <AvatarImageBlock
+          user={user}
+          loading={loading}
+          avatarError={avatarError}
+          uploadedAvatar={uploadedAvatar}
         />
-      </label>
+        <label className={styles.changeAvatar}>
+          Заменить
+          <input
+            className={styles.changeAvatarInput}
+            type="file"
+            onChange={handleUploadAvatar}
+            accept="image/*"
+          />
+        </label>
+      </div>
+
+      <Button onClick={handleLogout}>Выйти</Button>
     </div>
   )
 }

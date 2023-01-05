@@ -16,7 +16,7 @@ import { getErrorMessage } from '../../utils/getErrorMessage'
 import { useAppDispatch } from '../../hook'
 import { setToken } from '../../store/tokenSlice'
 
-import logo from './skyLogo.svg'
+import logo from './assets/skyLogo.svg'
 import styles from './style.module.css'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.[a-z]{2,3}$/i)

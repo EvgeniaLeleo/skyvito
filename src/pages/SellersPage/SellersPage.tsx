@@ -60,9 +60,15 @@ export const SellersPage = () => {
             </p>
           </div>
 
-          <Button size="l" mb="34px" onClick={handleShowPhone}>
-            Показать&nbsp;телефон {sellersPhone}
-          </Button>
+          {sellersPhone ? (
+            <Button size="l" mb="34px" onClick={handleShowPhone}>
+              Показать&nbsp;телефон {sellersPhone}
+            </Button>
+          ) : (
+            <Button size="l" mb="34px" buttonStatus="disabled">
+              Телефон не указан
+            </Button>
+          )}
         </div>
 
         <h2 className={styles.subtitle}>Товары продавца</h2>

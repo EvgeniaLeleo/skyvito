@@ -35,6 +35,8 @@ export const SearchBar: FC = () => {
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault()
+    window.scrollTo(0, 0)
+
     dispatch(setQuery(newQuery))
   }
 

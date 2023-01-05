@@ -28,17 +28,20 @@ export const ImageWrapper: FC<Props> = ({
       onClick={onClick}
       style={{ marginBottom: mb, cursor: cursor }}
     >
-      {loading && (
+      {!imageUrl && <p>Фото отсутствует</p>}
+      {imageUrl && loading && (
         <Skeleton variant="rectangular" className={styles.skeleton} />
       )}
-      <img
-        className={styles.img}
-        width="100%"
-        height="100%"
-        src={imageUrl}
-        alt={name}
-        onLoad={handleLoad}
-      />
+      {imageUrl && (
+        <img
+          className={styles.img}
+          width="100%"
+          height="100%"
+          src={imageUrl}
+          alt={name}
+          onLoad={handleLoad}
+        />
+      )}
     </div>
   )
 }

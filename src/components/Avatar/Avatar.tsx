@@ -28,7 +28,7 @@ export const Avatar: FC<Props> = ({
         <br /> загрузки
       </div>
     )
-  } else if (!user) {
+  } else if (!user || !user.avatar) {
     return (
       <div className={styles.wrapper} style={{ marginBottom: mb }}>
         Аватар
@@ -40,15 +40,15 @@ export const Avatar: FC<Props> = ({
       <div className={styles.wrapper} style={{ marginBottom: mb }}>
         {!uploadedAvatar && (
           <ImageWrapper
-            imageUrl={user?.avatar ? API_URL + user?.avatar : ''}
-            name={user?.name}
+            imageUrl={user.avatar ? API_URL + user.avatar : ''}
+            name={user.name}
             cursor={cursor}
           />
         )}
         {!!uploadedAvatar && (
           <ImageWrapper
             imageUrl={uploadedAvatar}
-            name={user?.name}
+            name={user.name}
             cursor={cursor}
           />
         )}

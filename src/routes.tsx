@@ -1,5 +1,6 @@
 import { FC, lazy, useEffect, useState } from 'react'
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom'
+import { useLoadCredentialsFromCookies } from './hooks/useLoadCredentialsFromCookies'
 import { MainPage } from './pages/MainPage/MainPage'
 import { ProductPage } from './pages/ProductPage/ProductPage'
 import { ProfilePage } from './pages/ProfilePage/ProfilePage'
@@ -41,7 +42,7 @@ const ProtectedRoute: FC<Props> = ({
   redirectPath = ROUTES.main,
   isAllowed,
 }) => {
-  if (isAllowed === undefined) redirectPath = ROUTES.login
+  if (isAllowed === undefined) redirectPath = ROUTES.main
 
   if (!isAllowed) return <Navigate to={redirectPath} replace={true} />
 
@@ -49,13 +50,13 @@ const ProtectedRoute: FC<Props> = ({
 }
 
 export const AppRoutes = () => {
+  const isLoggedIn = useLoadCredentialsFromCookies()
   // const user = useAppSelector(selectCurrentUser)
   // const message = useAppSelector(selectMessage)
   // const dispatch = useAppDispatch()
 
   // // если поставить false, то даже если в куках есть данные, перенаправляет на home page
   // const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(true)
-  let isLoggedIn = true
 
   // const isTokenValid = user.idToken ? checkJWTExpTime(user.idToken) : false
 
@@ -79,14 +80,12 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route path={ROUTES.main} element={<MainPage />} />
+      <Route path={ROUTES.seller + '/:id'} element={<SellersPage />} />
+      <Route path={ROUTES.product + '/:id'} element={<ProductPage />} />
       {/* <Route path={ROUTES.login} element={<LoginForm />} /> */}
       {/* <Route path={ROUTES.signup} element={<SignUpForm />} /> */}
-      {/* <Route path={`${ROUTES.aboutCourse}/:id`} element={<AboutCourse />} /> */}
       <Route element={<ProtectedRoute isAllowed={isLoggedIn} />}>
         <Route path={ROUTES.profile} element={<ProfilePage />} />
-        <Route path={ROUTES.seller + '/:id'} element={<SellersPage />} />
-        {/* <Route path={ROUTES.aboutProduct} element={<ProductPage />} /> */}
-        <Route path={ROUTES.product + '/:id'} element={<ProductPage />} />
         {/* <Route
           path={formatString(ROUTES.workout, [':id', ':day'])}
           element={<Workout />}

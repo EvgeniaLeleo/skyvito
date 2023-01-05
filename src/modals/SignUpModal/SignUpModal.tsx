@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import cn from 'classnames'
@@ -9,10 +9,14 @@ import { FormData } from '../../types'
 import { useEscapeKey } from '../../hooks/useEscapeKey'
 import { Modal } from '../Modal/Modal'
 
-import logo from './skyLogo.svg'
+import logo from './assets/skyLogo.svg'
 
 import styles from './style.module.css'
-// import { useSignUpMutation } from '../../services/authApi'
+import { useLoginMutation, useRegisterMutation } from '../../services/authApi'
+import { ROUTES } from '../../routes'
+import { useAppDispatch } from '../../hook'
+import { useCookies } from 'react-cookie'
+import { setToken } from '../../store/tokenSlice'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.\w{2,3}$/i)
 const validPasswordLength = 6
@@ -22,13 +26,31 @@ type Props = {
 }
 
 export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   useEscapeKey(() => setIsOpened(false))
 
   const [error, setError] = useState('')
   const [isBlocked, setIsBlocked] = useState(false)
-  // const [signUp] = useSignUpMutation()
-  // const [addUser] = useAddUserMutation()
+  const [signUp] = useRegisterMutation()
+  const [login, { data }] = useLoginMutation()
+  const [cookies, setCookies] = useCookies(['access', 'refresh'])
+
+  useEffect(() => {
+    if (data) {
+      setCookies('access', data.access_token)
+      setCookies('refresh', data.refresh_token)
+      dispatch(
+        setToken({
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
+        })
+      )
+
+      // navigate(ROUTES.profile)
+    }
+    // eslint-disable-next-line
+  }, [data])
 
   const {
     register,
@@ -40,19 +62,22 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setError('')
     setIsBlocked(true)
-    // try {
-    //   const { id } = await signUp({
-    //     email: data.email,
-    //     password: data.password,
-    //   }).unwrap()
-    //   // добавляем пользователя в таблицу users
-    //   if (id) await addUser({ uid: id }).unwrap()
-    //   navigate(ROUTES.profile)
-    // } catch (error: any) {
-    //   // TODO выяснить, какой тип сюда вписать
-    //   // setError(getErrorMessage(error, 'Что-то пошло не так...'))
-    //   setIsBlocked(false)
-    // }
+    try {
+      const user = await signUp({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        surname: data.surname,
+        city: data.city,
+      }).unwrap()
+      if (user)
+        await login({ email: data.email, password: data.password }).unwrap()
+      navigate(ROUTES.profile)
+    } catch (error: any) {
+      // TODO выяснить, какой тип сюда вписать
+      // setError(getErrorMessage(error, 'Что-то пошло не так...'))
+      setIsBlocked(false)
+    }
   }
 
   const focusHandler = () => setError('')
@@ -124,23 +149,20 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
         <input
           className={cn(styles.input, styles.notRequired)}
           placeholder="Имя (необязательно)"
-          type="text"
-          // onChange={onChangeName}
+          {...register('name')}
         />
 
         <input
           className={cn(styles.input, styles.notRequired)}
           placeholder="Фамилия (необязательно)"
-          type="text"
-          // onChange={onChangeName}
+          {...register('surname')}
         />
 
         <div className={styles.inputWrapper}>
           <input
             className={cn(styles.input, styles.notRequired, styles.lastInput)}
             placeholder="Город (необязательно)"
-            type="text"
-            // onChange={onChangeName}
+            {...register('city')}
           />
 
           <p className={classNames(styles.error, styles.back)}>

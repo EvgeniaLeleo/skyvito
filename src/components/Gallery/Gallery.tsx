@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../hook'
 import { filteredProductsSelector } from '../../store/selectors/filteredProducts'
 import { setProducts } from '../../store/productsSlice'
 import { querySelector } from '../../store/selectors/querySelector'
+import { currentUserSelector } from '../../store/selectors/currentUser'
 
 type Props = { sellerId?: number }
 
@@ -19,6 +20,9 @@ export const Gallery: FC<Props> = ({ sellerId }) => {
 
   const filteredProducts = useAppSelector(filteredProductsSelector)
   const query = useAppSelector(querySelector)
+
+  const currentUser = useAppSelector(currentUserSelector)
+  const isSeller = currentUser?.id === sellerId
 
   const { data: products, isLoading, error } = useGetProductsQuery(sellerId)
 
@@ -38,65 +42,48 @@ export const Gallery: FC<Props> = ({ sellerId }) => {
 
   // {error.status} {error.data.message}
 
-  if (isLoading) return <div className={styles.content}>Загрузка...</div>
-
-  if (filteredProducts) {
-    return (
-      <div className={styles.gallery} data-cy="gallery-products">
-        {error && (
-          <p className={styles.errorMessage}>
-            Извините, произошла ошибка! {JSON.stringify(error)}
-          </p>
-        )}
-        {!error && !filteredProducts.length && (
-          <p className={styles.errorMessage}>
-            По вашему запросу ничего не найдено
-          </p>
-        )}
-        {filteredProducts.map((product: Product, index) => (
-          <Link
-            key={product.id}
-            to={`${ROUTES.product}/${product.id}`}
-            className={styles.link}
-            // onMouseEnter={() => prefetchCourse(product.id!)}
-          >
-            <Card product={product} key={product.images[0]?.url + index} />
-          </Link>
-        ))}
-      </div>
-    )
-  } else {
-    return (
-      <div className={styles.gallery} data-cy="gallery-products">
-        {error && (
-          <p className={styles.errorMessage}>
-            Извините, произошла ошибка! {JSON.stringify(error)}
-          </p>
-        )}
-        {products?.map((product: Product, index) => (
-          <Link
-            key={product.id}
-            to={`${ROUTES.product}/${product.id}`}
-            className={styles.link}
-            // onMouseEnter={() => prefetchCourse(product.id!)}
-          >
-            <Card product={product} key={product.images[0]?.url + index} />
-          </Link>
-        ))}
-        {/*{courses &&
-        courses.map((product) => (
-          <Link
-            key={product.id}
-            to={`${ROUTES.aboutCourse}/${Number(product.id) + 1}`}
-            className={styles.link}
-            onMouseEnter={() => prefetchCourse(product.id!)}
-          >
-            <Card product={product} />
-          </Link>
-        ))}
-       
-      */}
-      </div>
-    )
+  if (isLoading) {
+    return <div className={styles.content}>Загрузка...</div>
   }
+
+  return (
+    <div className={styles.gallery} data-cy="gallery-products">
+      {error && (
+        <p className={styles.errorMessage}>
+          Извините, произошла ошибка! {JSON.stringify(error)}
+        </p>
+      )}
+
+      {!error && !filteredProducts?.length && (
+        <p className={styles.errorMessage}>
+          {isSeller
+            ? 'Товары еще не добавлены'
+            : 'По вашему запросу ничего не найдено'}
+        </p>
+      )}
+
+      {filteredProducts.map((product: Product, index: number) => (
+        <Link
+          key={product.id}
+          to={`${ROUTES.product}/${product.id}`}
+          className={styles.link}
+          // onMouseEnter={() => prefetchCourse(product.id!)}
+        >
+          <Card product={product} key={product.images[0]?.url + index} />
+        </Link>
+      ))}
+    </div>
+  )
 }
+
+//       {courses &&
+//       courses.map((product) => (
+//         <Link
+//           key={product.id}
+//           to={`${ROUTES.aboutCourse}/${Number(product.id) + 1}`}
+//           className={styles.link}
+//           onMouseEnter={() => prefetchCourse(product.id!)}
+//         >
+//           <Card product={product} />
+//         </Link>
+//       ))}

@@ -63,7 +63,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<Form>({ mode: 'onBlur' })
 
   const onSubmit: SubmitHandler<any> = async (data: Form) => {
@@ -94,7 +94,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
     }
   }
 
-  const isFormValid = fieldValue?.name?.length && phone.length
+  // const isFormValid = fieldValue?.name?.length && phone.length
 
   return (
     <div className={styles.userSettings}>
@@ -109,18 +109,16 @@ export const UserSettings: FC<Props> = ({ user }) => {
             <label className={styles.label}>
               Имя
               <input
-                {...register('name', {
-                  required: 'Введите имя',
-                })}
+                {...register('name')}
                 className={styles.input}
                 value={fieldValue.name}
                 placeholder="Имя"
                 onChange={(e) => handleFieldChange(e, 'name')}
               />
             </label>
-            <div className={styles.error}>
+            {/* <div className={styles.error}>
               {errors.name && <p>{errors.name.message}</p>}
-            </div>
+            </div> */}
           </div>
 
           <div className={styles.inputWrapper}>
@@ -152,7 +150,8 @@ export const UserSettings: FC<Props> = ({ user }) => {
           <label className={styles.label}>
             Телефон
             <input
-              {...register('phone', { required: 'Введите номер телефона' })}
+              // {...register('phone', { required: 'Введите номер телефона' })}
+              {...register('phone')}
               className={styles.input}
               type="tel"
               value={phone}
@@ -160,14 +159,15 @@ export const UserSettings: FC<Props> = ({ user }) => {
               onChange={handleChangePhone}
             />
           </label>
-          <div className={styles.error}>
+          {/* <div className={styles.error}>
             {errors.phone && <p>{errors.phone.message}</p>}
-          </div>
+          </div> */}
         </div>
         <div>
           <Button
             btnType="submit"
-            buttonStatus={isFormValid && !isBlocked ? 'normal' : 'disabled'}
+            // buttonStatus={isFormValid && !isBlocked ? 'normal' : 'disabled'}
+            buttonStatus={!isBlocked ? 'normal' : 'disabled'}
           >
             {buttonText}
           </Button>

@@ -22,10 +22,10 @@ import { API_URL } from '../../constants'
 import { formatPhone } from '../../utils/formatPhone'
 import { formatHiddenPhone } from '../../utils/formatHiddenPhone'
 import { formatDate } from '../../utils/formatDate'
-
-import styles from './style.module.css'
 import { useAppSelector } from '../../hook'
 import { currentUserSelector } from '../../store/selectors/currentUser'
+
+import styles from './style.module.css'
 
 export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
@@ -42,7 +42,7 @@ export const ProductPage: FC = () => {
     formatPhone(product?.user.phone)
   )
 
-  const userState = user?.id === product?.user.id ? 'seller' : 'buyer'
+  const isSeller = user?.id === product?.user.id
 
   const handleFeedbackClick = () => {
     setIsFeedbackModalShown(true)
@@ -123,10 +123,16 @@ export const ProductPage: FC = () => {
               </p>
               <p className={styles.price}>{product.price} ₽</p>
 
-              {userState === 'buyer' ? (
-                <Button size="l" mb="34px" onClick={handleShowPhone}>
-                  Показать&nbsp;телефон {sellersPhone}
-                </Button>
+              {!isSeller ? (
+                sellersPhone ? (
+                  <Button size="l" mb="34px" onClick={handleShowPhone}>
+                    Показать&nbsp;телефон {sellersPhone}
+                  </Button>
+                ) : (
+                  <Button size="l" mb="34px" buttonStatus="disabled">
+                    Телефон не указан
+                  </Button>
+                )
               ) : (
                 <div className={styles.buttonWrapper}>
                   <Button size="xl" onClick={handleEditProduct}>
@@ -147,7 +153,11 @@ export const ProductPage: FC = () => {
 
               <div className={styles.seller}>
                 <Link
-                  to={userState === 'seller' ? ROUTES.profile : ''}
+                  to={
+                    isSeller
+                      ? ROUTES.profile
+                      : `${ROUTES.seller}/${product.user.id}`
+                  }
                   // onMouseEnter={() => prefetchCourse(product.id!)}
                 >
                   <div className={styles.avatarWrapper}>
@@ -157,14 +167,16 @@ export const ProductPage: FC = () => {
                 <div className={styles.sellerData}>
                   <Link
                     to={
-                      userState === 'seller'
+                      isSeller
                         ? ROUTES.profile
                         : `${ROUTES.seller}/${product.user.id}`
                     }
                     className={styles.link}
                     // onMouseEnter={() => prefetchCourse(product.id!)}
                   >
-                    <p className={styles.sellerName}>{product.user.name}</p>
+                    <p className={styles.sellerName}>
+                      {product.user.name ? product.user.name : 'Продавец'}
+                    </p>
                   </Link>
                   <p className={styles.sellerExp}>
                     {product.user?.sells_from && (
