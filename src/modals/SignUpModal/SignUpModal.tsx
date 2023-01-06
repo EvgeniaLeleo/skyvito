@@ -14,7 +14,7 @@ import logo from './assets/skyLogo.svg'
 import styles from './style.module.css'
 import { useLoginMutation, useRegisterMutation } from '../../services/authApi'
 import { ROUTES } from '../../routes'
-import { useAppDispatch } from '../../hook'
+import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { useCookies } from 'react-cookie'
 import { setToken } from '../../store/tokenSlice'
 

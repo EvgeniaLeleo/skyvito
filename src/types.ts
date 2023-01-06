@@ -7,7 +7,6 @@ export type User = {
   phone?: string
   avatar?: string
   sells_from?: string
-  role?: string
 }
 
 export type Credentials = {

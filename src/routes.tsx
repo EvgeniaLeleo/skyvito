@@ -1,5 +1,6 @@
-import { FC, lazy, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom'
+
 import { useLoadCredentialsFromCookies } from './hooks/useLoadCredentialsFromCookies'
 import { MainPage } from './pages/MainPage/MainPage'
 import { ProductPage } from './pages/ProductPage/ProductPage'

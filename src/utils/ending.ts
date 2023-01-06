@@ -1,8 +1,8 @@
-export const ending = (amount?: string) => {
+export const ending = (amount: number) => {
   let ending
 
-  const rest = Number(amount) % 10
-  const rest100 = Number(amount) % 100
+  const rest = amount % 10
+  const rest100 = amount % 100
 
   if (rest === 0 || (rest >= 5 && rest <= 19)) {
     ending = 'ов'

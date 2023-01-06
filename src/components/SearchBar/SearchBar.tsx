@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { useAppDispatch, useAppSelector } from '../../hook'
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch'
 import { ROUTES } from '../../routes'
 import { Button } from '../Button/Button'
 import { Logo } from '../Logo/Logo'

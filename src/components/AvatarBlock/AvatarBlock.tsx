@@ -3,10 +3,12 @@ import { FC, useState } from 'react'
 import { User } from '../../types'
 import { useUploadUserAvatarMutation } from '../../services/usersApi'
 import { AvatarImageBlock } from '../AvatarImageBlock/AvatarImageBlock'
-
-import styles from './style.module.css'
 import { Button } from '../Button/Button'
 import { useLogout } from '../../hooks/useLogout'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../routes'
+
+import styles from './style.module.css'
 
 type Props = {
   user: User
@@ -18,6 +20,7 @@ export const AvatarBlock: FC<Props> = ({ user }) => {
 
   const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
   const logout = useLogout()
+  const navigate = useNavigate()
 
   const handleUploadAvatar = async (event: { target: { files: any } }) => {
     const files = event.target.files
@@ -40,8 +43,9 @@ export const AvatarBlock: FC<Props> = ({ user }) => {
     }
   }
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     logout()
+    navigate(ROUTES.main)
   }
 
   return (

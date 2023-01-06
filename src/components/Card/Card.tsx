@@ -15,7 +15,7 @@ export const Card: FC<Props> = ({ product }) => {
       <div className={styles.wrapperMB}>
         <ImageWrapper
           imageUrl={
-            product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
+            product.images[0]?.url ? API_URL + product.images[0]?.url : ''
           }
           name={product?.title}
           cursor="pointer"

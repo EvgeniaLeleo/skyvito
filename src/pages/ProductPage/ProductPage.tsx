@@ -1,6 +1,6 @@
 // TODO redirect after deleting Product
 
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { ending } from '../../utils/ending'
@@ -15,31 +15,37 @@ import {
   useGetProductQuery,
 } from '../../services/productsApi'
 import { convertDate } from '../../utils/convertDate'
-import { useGetCurrentUserQuery } from '../../services/usersApi'
 import { ROUTES } from '../../routes'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 import { API_URL } from '../../constants'
 import { formatPhone } from '../../utils/formatPhone'
 import { formatHiddenPhone } from '../../utils/formatHiddenPhone'
 import { formatDate } from '../../utils/formatDate'
-import { useAppSelector } from '../../hook'
+import { useAppSelector } from '../../hooks/useAppDispatch'
 import { currentUserSelector } from '../../store/selectors/currentUser'
 
 import styles from './style.module.css'
+import { useGetCurrentUserQuery } from '../../services/usersApi'
 
 export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
 
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
-  const { data: comments } = useGetProductCommentsQuery(productId)
   const [delProduct] = useDeleteProductMutation()
+  const { data: comments } = useGetProductCommentsQuery(productId)
 
-  // const { data: user } = useGetCurrentUserQuery()
-  const user = useAppSelector(currentUserSelector)
+  const numberOfComments = comments?.length ? comments.length : 0
+
+  // const user = useAppSelector(currentUserSelector)
+  const timestamp = useRef(Date.now()).current
+  const { data: user } = useGetCurrentUserQuery(timestamp)
 
   const [sellersPhone, setSellersPhone] = useState<string | undefined>(
     formatPhone(product?.user.phone)
+  )
+  const [imgUrl, setImgUrl] = useState(
+    product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
   )
 
   const isSeller = user?.id === product?.user.id
@@ -61,10 +67,6 @@ export const ProductPage: FC = () => {
   const handleShowPhone = () => {
     setSellersPhone(formatPhone(product?.user.phone))
   }
-
-  const [imgUrl, setImgUrl] = useState(
-    product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
-  )
 
   useEffect(() => {
     setImgUrl(product?.images[0]?.url ? API_URL + product?.images[0]?.url : '')
@@ -113,13 +115,13 @@ export const ProductPage: FC = () => {
                 {convertDate(product.created_on || '')}
               </p>
               <p className={styles.feedback} onClick={handleFeedbackClick}>
-                {comments?.length
-                  ? comments.map((comment, index) => (
-                      <span key={index.toString() + comment?.text}>
-                        {comment?.text} отзыв{ending(comment?.text)}
-                      </span>
-                    ))
-                  : 'Нет отзывов'}
+                {numberOfComments ? (
+                  <span>
+                    {numberOfComments} отзыв{ending(numberOfComments)}
+                  </span>
+                ) : (
+                  'Нет отзывов'
+                )}
               </p>
               <p className={styles.price}>{product.price} ₽</p>
 
@@ -196,7 +198,11 @@ export const ProductPage: FC = () => {
           </p>
 
           {isFeedbackModalShown && (
-            <FeedbackModal setIsOpened={setIsFeedbackModalShown} />
+            <FeedbackModal
+              setIsOpened={setIsFeedbackModalShown}
+              // comments={comments}
+              productId={product.id}
+            />
           )}
 
           {isEditModalShown && (

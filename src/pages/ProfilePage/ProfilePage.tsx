@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Gallery } from '../../components/Gallery/Gallery'
 import { UserSettings } from '../../components/UserSettings/UserSettings'
-import { useAppDispatch } from '../../hook'
+import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { useGetCurrentUserQuery } from '../../services/usersApi'
 import { setCurrentUser } from '../../store/currentUserSlice'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
@@ -11,7 +12,8 @@ import styles from './style.module.css'
 export const ProfilePage = () => {
   const dispatch = useAppDispatch()
 
-  const { data: user } = useGetCurrentUserQuery()
+  const timestamp = useRef(Date.now()).current
+  const { data: user } = useGetCurrentUserQuery(timestamp)
 
   useEffect(() => {
     if (user) {
@@ -30,7 +32,7 @@ export const ProfilePage = () => {
           <h2 className={styles.subtitle}>Настройки профиля</h2>
           {!!user && <UserSettings user={user} />}
           <h2 className={styles.subtitle}>Мои товары</h2>
-          <Gallery sellerId={user.id} />
+          <Gallery sellerId={user.id} isProfilePage={true} />
 
           {/* <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
               <Button type="tertiary" size="s">

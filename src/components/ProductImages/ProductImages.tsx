@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FC, useState } from 'react'
 
 import { API_URL, NUMBER_OF_IMAGES } from '../../constants'
-import { useDeleteProductImageMutation } from '../../services/productsApi'
 import { Product } from '../../types'
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper'
-import { UploadFile } from '../UploadFile/UploadFile'
+import { PlusIconInSquare } from '../PlusIconInSquare/PlusIconInSquare'
 
 import deleteButton from './assets/delete-button.svg'
 import styles from './style.module.css'
@@ -14,49 +13,91 @@ const imgArray = Array.from(Array(NUMBER_OF_IMAGES).keys())
 
 type Props = {
   product: Product
+  formData: any
+  uploadedImagesArray: any
+  urlArrayForDeleting: string[]
+  // uploadedImagesArray: Blob[] | MediaSource[]
 }
 
-export const ProductImages: FC<Props> = ({ product }) => {
-  const [deleting, setDeleting] = useState(false)
+export const ProductImages: FC<Props> = ({
+  product,
+  formData,
+  uploadedImagesArray,
+  urlArrayForDeleting,
+}) => {
+  // console.log('imgArray', imgArray)
+  // console.log('product?.images', product?.images)
 
-  const [deleteImage] = useDeleteProductImageMutation()
+  // const plusButtonArrayLength = product?.images.length
+  // const plusButtonArray = plusButtonArrayLength
+  //   ? Array.from(Array(imgArray.length - plusButtonArrayLength).keys())
+  //   : imgArray
 
-  const additionArrayLength = product?.images.length
-  const additionArray = additionArrayLength
-    ? Array.from(Array(imgArray.length - additionArrayLength).keys())
+  const handleDeleteNewImages = (index: number) => {
+    setUploadedImages((prev: any) => [
+      ...prev.slice(0, index),
+      undefined,
+      ...prev.slice(index + 1),
+    ])
+
+    formData[index] = undefined
+  }
+
+  const handleDeleteOldImages = (index: number) => {
+    setUploadedImages((prev: any) => [
+      ...prev.slice(0, index),
+      undefined,
+      ...prev.slice(index + 1),
+    ])
+
+    urlArrayForDeleting.push(oldImages[index].url)
+
+    setOldImages((prev: any) => [
+      ...prev.slice(0, index),
+      ...prev.slice(index + 1),
+    ])
+
+    formData[index] = undefined
+  }
+
+  const [uploadedImages, setUploadedImages] = useState(uploadedImagesArray)
+  const [oldImages, setOldImages] = useState(product.images)
+
+  const plusButtonArrayLength = oldImages.length
+  const plusButtonArray = plusButtonArrayLength
+    ? Array.from(Array(imgArray.length - plusButtonArrayLength).keys())
     : imgArray
 
-  const handleDeleteImage: ({
-    idx,
-    imgUrl,
-  }: {
-    idx: number
-    imgUrl: string
-  }) => Promise<void> = async ({ idx, imgUrl }) => {
-    if (deleting) {
-      return
-    }
+  // console.log('oldImages', oldImages)
 
-    setDeleting(true)
-    try {
-      await deleteImage({ idx, imgUrl }).unwrap()
-    } catch (error) {
-      console.log(error)
-    }
-    setDeleting(false)
+  // Обновление массива фото-превью
+  useEffect(() => {
+    setUploadedImages(uploadedImagesArray)
+  }, [uploadedImagesArray])
+
+  const handleChange = async (event: any, index: number) => {
+    const files = event.target.files
+    const file = files[0]
+
+    setUploadedImages((prev: Blob[] | MediaSource[]) => [
+      ...prev.slice(0, index),
+      file,
+      ...prev.slice(index + 1),
+    ])
+
+    formData[index] = new FormData()
+    formData[index].append('file', file)
   }
 
   return (
     <>
-      {product.images.map((image, index) => (
+      {oldImages.map((image, index) => (
         <div className={styles.imgContainer} key={image.url}>
           <img
-            className={!deleting ? styles.deleteImageButton : styles.blocked}
+            className={styles.deleteImageButton}
             src={deleteButton}
             alt="Delete"
-            onClick={() => {
-              handleDeleteImage({ idx: product.id, imgUrl: image.url })
-            }}
+            onClick={() => handleDeleteOldImages(index)}
           />
 
           <ImageWrapper
@@ -69,9 +110,33 @@ export const ProductImages: FC<Props> = ({ product }) => {
       ))}
 
       {product?.images.length < NUMBER_OF_IMAGES &&
-        additionArray.map((el) => (
+        plusButtonArray.map((el, index) => (
           <React.Fragment key={el}>
-            <UploadFile productId={product?.id} state="editProduct" />
+            {!uploadedImages[index] && (
+              <label>
+                <PlusIconInSquare />
+                <input
+                  className={styles.input}
+                  type="file"
+                  onChange={(e) => handleChange(e, index)}
+                  accept="image/*"
+                />
+              </label>
+            )}
+            {!!uploadedImages[index] && (
+              <div className={styles.imgContainer}>
+                <img
+                  className={styles.deleteImageButton}
+                  src={deleteButton}
+                  alt="Delete"
+                  onClick={() => handleDeleteNewImages(index)}
+                />
+                <ImageWrapper
+                  imageUrl={URL.createObjectURL(uploadedImages[index])}
+                  cursor="default"
+                />
+              </div>
+            )}
           </React.Fragment>
         ))}
     </>

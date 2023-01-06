@@ -13,7 +13,7 @@ import { useLoginMutation } from '../../services/authApi'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 import { getErrorMessage } from '../../utils/getErrorMessage'
-import { useAppDispatch } from '../../hook'
+import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { setToken } from '../../store/tokenSlice'
 
 import logo from './assets/skyLogo.svg'
@@ -30,7 +30,7 @@ export const LoginModal: FC<Props> = ({ setIsOpened }) => {
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const [login, { data }] = useLoginMutation()
+  const [login, { data: userTokens }] = useLoginMutation()
 
   const [error, setError] = useState<string>('')
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
@@ -55,20 +55,20 @@ export const LoginModal: FC<Props> = ({ setIsOpened }) => {
   // }, [isLoginModalShown, isSignUpModalShown])
 
   useEffect(() => {
-    if (data) {
-      setCookies('access', data.access_token)
-      setCookies('refresh', data.refresh_token)
+    if (userTokens) {
+      setCookies('access', userTokens.access_token)
+      setCookies('refresh', userTokens.refresh_token)
       dispatch(
         setToken({
-          access_token: data.access_token,
-          refresh_token: data.refresh_token,
+          access_token: userTokens.access_token,
+          refresh_token: userTokens.refresh_token,
         })
       )
 
       // navigate(ROUTES.profile)
     }
     // eslint-disable-next-line
-  }, [data])
+  }, [userTokens])
 
   const {
     register,

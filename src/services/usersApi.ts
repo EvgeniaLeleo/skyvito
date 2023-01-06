@@ -16,8 +16,8 @@ export const usersApi = createApi({
     },
   }),
   endpoints: (build) => ({
-    getCurrentUser: build.query<User, void>({
-      query: () => 'user',
+    getCurrentUser: build.query<User, number>({
+      query: (sessionId: number) => 'user',
       providesTags: () => [{ type: 'User', id: 'UserDetails' }],
     }),
     changeUserDetails: build.mutation<User, ChangeUserDetailsArg>({

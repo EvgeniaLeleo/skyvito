@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react'
 
 import { Header } from '../../components/Header/Header'
 import { ScrollToTop } from '../../components/ScrollToTop/ScrollToTop'
-import { useAppSelector } from '../../hook'
+import { useAppSelector } from '../../hooks/useAppDispatch'
 import { accessTokenSelector } from '../../store/selectors/tokens'
 
 import styles from './style.module.css'

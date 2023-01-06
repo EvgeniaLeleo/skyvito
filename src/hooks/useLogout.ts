@@ -1,5 +1,5 @@
 import { useCookies } from 'react-cookie'
-import { useAppDispatch } from '../hook'
+import { useAppDispatch } from './useAppDispatch'
 import { setToken } from '../store/tokenSlice'
 
 export const useLogout = () => {
@@ -8,7 +8,7 @@ export const useLogout = () => {
   const dispatch = useAppDispatch()
 
   const logout = () => {
-    console.log('processing logout')
+    // console.log('processing logout')
     removeCookies('access')
     removeCookies('refresh')
     dispatch(setToken({ access_token: undefined, refresh_token: undefined }))

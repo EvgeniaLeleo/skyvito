@@ -5,24 +5,24 @@ import { ROUTES } from '../../routes'
 import { Card } from '../Card/Card'
 import { useGetProductsQuery } from '../../services/productsApi'
 import { Product } from '../../types'
-
-import styles from './style.module.css'
-import { useAppDispatch, useAppSelector } from '../../hook'
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch'
 import { filteredProductsSelector } from '../../store/selectors/filteredProducts'
 import { setProducts } from '../../store/productsSlice'
 import { querySelector } from '../../store/selectors/querySelector'
 import { currentUserSelector } from '../../store/selectors/currentUser'
 
-type Props = { sellerId?: number }
+import styles from './style.module.css'
 
-export const Gallery: FC<Props> = ({ sellerId }) => {
+type Props = { sellerId?: number; isProfilePage?: boolean }
+
+export const Gallery: FC<Props> = ({ sellerId, isProfilePage }) => {
   const dispatch = useAppDispatch()
 
   const filteredProducts = useAppSelector(filteredProductsSelector)
   const query = useAppSelector(querySelector)
 
-  const currentUser = useAppSelector(currentUserSelector)
-  const isSeller = currentUser?.id === sellerId
+  // const currentUser = useAppSelector(currentUserSelector)
+  // const isSeller = currentUser?.id === sellerId
 
   const { data: products, isLoading, error } = useGetProductsQuery(sellerId)
 
@@ -56,7 +56,7 @@ export const Gallery: FC<Props> = ({ sellerId }) => {
 
       {!error && !filteredProducts?.length && (
         <p className={styles.errorMessage}>
-          {isSeller
+          {isProfilePage
             ? 'Товары еще не добавлены'
             : 'По вашему запросу ничего не найдено'}
         </p>

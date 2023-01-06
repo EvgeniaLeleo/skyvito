@@ -1,5 +1,6 @@
 import { useCookies } from 'react-cookie'
-import { useAppDispatch } from '../hook'
+
+import { useAppDispatch } from './useAppDispatch'
 import { setToken } from '../store/tokenSlice'
 
 export const useLoadCredentialsFromCookies = () => {
@@ -13,6 +14,6 @@ export const useLoadCredentialsFromCookies = () => {
     return true
   }
 
-  console.warn('no credentials found in cookies')
+  // console.warn('no credentials found in cookies')
   return false
 }
