@@ -17,6 +17,7 @@ import { ROUTES } from '../../routes'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { useCookies } from 'react-cookie'
 import { setToken } from '../../store/tokenSlice'
+import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.\w{2,3}$/i)
 const validPasswordLength = 6
@@ -62,6 +63,7 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setError('')
     setIsBlocked(true)
+
     try {
       const user = await signUp({
         email: data.email,
@@ -72,6 +74,8 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
       }).unwrap()
       if (user)
         await login({ email: data.email, password: data.password }).unwrap()
+
+      setIsOpened(false)
       navigate(ROUTES.profile)
     } catch (error: any) {
       // TODO выяснить, какой тип сюда вписать
@@ -85,6 +89,9 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
   return (
     <Modal isOpen={setIsOpened}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.closeButton} onClick={() => setIsOpened(false)}>
+          <CrossIcon />
+        </div>
         <img className={styles.logo} src={logo} alt="logo" />
         <div className={styles.inputWrapper}>
           <input

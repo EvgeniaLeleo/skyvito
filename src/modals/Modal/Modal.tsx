@@ -13,7 +13,8 @@ export const Modal: FC<ModalProps> = ({ isOpen, children }) => {
   useEscapeKey(isOpen)
 
   return (
-    <div data-cy="modal" className={styles.modal} onClick={() => isOpen()}>
+    // <div data-cy="modal" className={styles.modal} onClick={() => isOpen()}>
+    <div data-cy="modal" className={styles.modal}>
       <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </div>
   )

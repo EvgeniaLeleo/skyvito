@@ -47,10 +47,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
 
   useEffect(() => {
     setIsBlocked(buttonState)
-    console.log('f')
   }, [buttonState])
-
-  console.log(isBlocked)
 
   const [changeUserDetails] = useChangeUserDetailsMutation()
 
@@ -100,9 +97,11 @@ export const UserSettings: FC<Props> = ({ user }) => {
         phone: data.phone,
       }).unwrap()
 
-      setLoading(true)
-      await uploadAvatar(formData[0]).unwrap()
-      setLoading(false)
+      if (formData[0]) {
+        setLoading(true)
+        await uploadAvatar(formData[0]).unwrap()
+        setLoading(false)
+      }
 
       setError('')
       setButtonText('Сохранено')

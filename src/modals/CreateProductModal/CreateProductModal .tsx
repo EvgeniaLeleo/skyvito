@@ -75,8 +75,9 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
   }
 
   const handleClose = () => {
-    console.log('close btn')
+    // console.log('close btn')
     // dispatch(hideModals())
+    setIsOpened(false)
   }
 
   const [uploadImage] = useUploadProductImageMutation()

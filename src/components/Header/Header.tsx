@@ -27,26 +27,12 @@ export const Header: FC<Props> = ({
       }
     }
   }, [])
-  // const [open, setOpen] = useState(false)
-  // const handleOpen = () => setOpen(true)
-  // const handleClose = () => setOpen(false)
 
   return (
     <>
-      {/* onClick={handleOpen} */}
       <div className={styles.navWrapper}>
         <Navigation authorized={authorized} />
       </div>
-      {/* <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <div onClick={handleClose}>d</div>
-        </Box>
-      </Modal> */}
       <div
         className={cn(styles.searchWrapper, { [styles.scrolled]: scrolled })}
       >

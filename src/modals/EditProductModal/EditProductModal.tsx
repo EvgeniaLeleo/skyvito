@@ -76,8 +76,9 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
   }
 
   const handleClose = () => {
-    console.log('close btn')
+    // console.log('close btn')
     // dispatch(hideModals())
+    setIsOpened(false)
   }
 
   const onSubmit: SubmitHandler<Form> = async (data) => {

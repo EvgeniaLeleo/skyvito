@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { Button } from '../../components/Button/Button'
@@ -15,9 +15,11 @@ import { ROUTES } from '../../routes'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 import { API_URL } from '../../constants'
 import { formatDate } from '../../utils/formatDate'
-import { useGetCurrentUserQuery } from '../../services/usersApi'
 import { NumberOfComments } from '../NumberOfComments/NumberOfComments'
 import { PhoneButton } from '../PhoneButton/PhoneButton'
+import { useAppSelector } from '../../hooks/useAppDispatch'
+import { accessTokenSelector } from '../../store/selectors/tokens'
+import { getUserEmailFromJWT } from '../../utils/parseTokens'
 
 import styles from './style.module.css'
 
@@ -25,9 +27,8 @@ export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
   const navigate = useNavigate()
 
-  const timestamp = useRef(Date.now()).current
+  const userId = useAppSelector(accessTokenSelector)
 
-  const { data: user } = useGetCurrentUserQuery(timestamp)
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
   const [delProduct] = useDeleteProductMutation()
@@ -40,7 +41,8 @@ export const ProductPage: FC = () => {
     product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
   )
 
-  const isSeller = user?.id === product?.user.id
+  const userEmail = userId ? getUserEmailFromJWT(userId) : ''
+  const isSeller = userEmail === product?.user.email
 
   const handleFeedbackClick = () => {
     setIsFeedbackModalShown(true)
@@ -62,11 +64,17 @@ export const ProductPage: FC = () => {
     setImgUrl(target)
   }
 
-  // const { data: comments } = useGetProductCommentsQuery(productId)
-
   useEffect(() => {
     setImgUrl(product?.images[0]?.url ? API_URL + product?.images[0]?.url : '')
   }, [product?.images])
+
+  useEffect(() => {
+    if (isFeedbackModalShown || isEditModalShown) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isFeedbackModalShown, isEditModalShown])
 
   if (productIsLoading)
     return (

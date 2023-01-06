@@ -10,20 +10,26 @@ import { PageWrapper } from '../PageWrapper/PageWrapper'
 import styles from './style.module.css'
 
 export const ProfilePage = () => {
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   const timestamp = useRef(Date.now()).current
-  const { data: user } = useGetCurrentUserQuery(timestamp)
+  const { data: user, error } = useGetCurrentUserQuery(timestamp)
 
-  useEffect(() => {
-    if (user) {
-      dispatch(setCurrentUser(user))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
+  // useEffect(() => {
+  //   if (user) {
+  //     dispatch(setCurrentUser(user))
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [user])
 
   return (
     <PageWrapper scrollToTop={true}>
+      {!!error && (
+        <>
+          <p>Извините, произошла ошибка! </p>
+          <p>{JSON.stringify(error)}</p>
+        </>
+      )}
       {user && (
         <div className={styles.wrapper}>
           <h1 className={styles.title}>

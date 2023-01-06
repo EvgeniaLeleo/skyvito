@@ -47,7 +47,7 @@ export const Gallery: FC<Props> = ({ sellerId, isProfilePage }) => {
 
   return (
     <div className={styles.gallery} data-cy="gallery-products">
-      {error && (
+      {!!error && (
         <p className={styles.errorMessage}>
           Извините, произошла ошибка! {JSON.stringify(error)}
         </p>

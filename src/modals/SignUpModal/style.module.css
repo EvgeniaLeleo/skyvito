@@ -1,4 +1,5 @@
 .form {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -11,6 +12,15 @@
 
   background: #ffffff;
   border-radius: 12px;
+}
+
+.closeButton {
+  position: absolute;
+  right: 11px;
+  top: 32px;
+
+  /* z-index: 3; */
+  cursor: pointer;
 }
 
 .logo {

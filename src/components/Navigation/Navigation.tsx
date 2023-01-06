@@ -1,8 +1,9 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { CreateProductModal } from '../../modals/CreateProductModal copy/CreateProductModal '
+import { CreateProductModal } from '../../modals/CreateProductModal/CreateProductModal '
 import { LoginModal } from '../../modals/LoginModal/LoginModal'
+import { SignUpModal } from '../../modals/SignUpModal/SignUpModal'
 import { ROUTES } from '../../routes'
 import { Button } from '../Button/Button'
 
@@ -14,6 +15,7 @@ type Props = {
 
 export const Navigation: FC<Props> = ({ authorized = true }) => {
   const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(false)
+  const [isSingUpModalShown, setIsSignUpModalShown] = useState<boolean>(false)
   const [isCreateModalShown, setIsCreateModalShown] = useState<boolean>(false)
 
   const navigate = useNavigate()
@@ -44,6 +46,14 @@ export const Navigation: FC<Props> = ({ authorized = true }) => {
           Вход в личный кабинет
         </Button>,
       ]
+
+  useEffect(() => {
+    if (isLoginModalShown || isSingUpModalShown || isCreateModalShown) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isLoginModalShown, isSingUpModalShown, isCreateModalShown])
 
   return (
     <>
@@ -81,7 +91,17 @@ export const Navigation: FC<Props> = ({ authorized = true }) => {
         </ul>
       </nav>
 
-      {isLoginModalShown && <LoginModal setIsOpened={setIsLoginModalShown} />}
+      {isLoginModalShown && (
+        <LoginModal
+          setIsOpened={setIsLoginModalShown}
+          setSignUpIsOpened={setIsSignUpModalShown}
+        />
+      )}
+
+      {isSingUpModalShown && (
+        <SignUpModal setIsOpened={setIsSignUpModalShown} />
+      )}
+
       {isCreateModalShown && (
         <CreateProductModal setIsOpened={setIsCreateModalShown} />
       )}
