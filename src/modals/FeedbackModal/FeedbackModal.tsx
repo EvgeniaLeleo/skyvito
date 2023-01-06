@@ -11,8 +11,6 @@ import { useGetProductCommentsQuery } from '../../services/productsApi'
 import { Feedback } from '../../types'
 
 import styles from './style.module.css'
-import { useAppSelector } from '../../hooks/useAppDispatch'
-import { currentUserSelector } from '../../store/selectors/currentUser'
 import { useLoadCredentialsFromCookies } from '../../hooks/useLoadCredentialsFromCookies'
 
 type Props = {

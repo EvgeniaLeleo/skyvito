@@ -1,11 +1,16 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import cn from 'classnames'
 
 import { User } from '../../types'
 import { Button } from '../Button/Button'
-import { useChangeUserDetailsMutation } from '../../services/usersApi'
+import {
+  useChangeUserDetailsMutation,
+  useUploadUserAvatarMutation,
+} from '../../services/usersApi'
 import { AvatarBlock } from '../AvatarBlock/AvatarBlock'
+import { useAppSelector } from '../../hooks/useAppDispatch'
+import { buttonStateSelector } from '../../store/selectors/buttonState'
 
 import styles from './style.module.css'
 
@@ -22,6 +27,8 @@ type Form = {
 
 const regexp = new RegExp(/[^0-9+]/i)
 
+let formData: any = []
+
 export const UserSettings: FC<Props> = ({ user }) => {
   const initialValue = {
     name: user.name,
@@ -30,11 +37,20 @@ export const UserSettings: FC<Props> = ({ user }) => {
     phone: user.phone,
   }
 
-  const [isBlocked, setIsBlocked] = useState<boolean>(true)
+  const buttonState = useAppSelector(buttonStateSelector)
+
+  const [isBlocked, setIsBlocked] = useState<boolean>(buttonState)
   const [buttonText, setButtonText] = useState<string>('Сохранить')
   const [error, setError] = useState<string>('')
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
   const [phone, setPhone] = useState<string>(user.phone || '')
+
+  useEffect(() => {
+    setIsBlocked(buttonState)
+    console.log('f')
+  }, [buttonState])
+
+  console.log(isBlocked)
 
   const [changeUserDetails] = useChangeUserDetailsMutation()
 
@@ -60,11 +76,15 @@ export const UserSettings: FC<Props> = ({ user }) => {
     setPhone(e.target.value)
   }
 
+  const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
+
   const {
     register,
     handleSubmit,
     // formState: { errors },
   } = useForm<Form>({ mode: 'onBlur' })
+
+  const [loading, setLoading] = useState<boolean>(false)
 
   const onSubmit: SubmitHandler<any> = async (data: Form) => {
     // if (!user.idToken) {
@@ -73,32 +93,37 @@ export const UserSettings: FC<Props> = ({ user }) => {
     // }
     try {
       setIsBlocked(true)
-      // dispatch(showSpinner())
       await changeUserDetails({
-        // idToken: user?.idToken,
         name: data.name,
         surname: data.surname,
         city: data.city,
         phone: data.phone,
       }).unwrap()
+
+      setLoading(true)
+      await uploadAvatar(formData[0]).unwrap()
+      setLoading(false)
+
       setError('')
       setButtonText('Сохранено')
-      // dispatch(hideSpinner())
-      // setIsOpened(false)
     } catch {
       setButtonText('Сохранить')
       setIsBlocked(false)
       setError('⚠ Ошибка! Попробуйте еще раз!')
-      // dispatch(hideSpinner())
       // goToLoginWithMessage(EXP_MESSAGE)
     }
-  }
 
-  // const isFormValid = fieldValue?.name?.length && phone.length
+    formData = []
+  }
 
   return (
     <div className={styles.userSettings}>
-      <AvatarBlock user={user} />
+      <AvatarBlock
+        user={user}
+        formData={formData}
+        avatarError={avatarError}
+        loading={loading}
+      />
       <form
         className={styles.settingsForm}
         action="#"
@@ -116,9 +141,6 @@ export const UserSettings: FC<Props> = ({ user }) => {
                 onChange={(e) => handleFieldChange(e, 'name')}
               />
             </label>
-            {/* <div className={styles.error}>
-              {errors.name && <p>{errors.name.message}</p>}
-            </div> */}
           </div>
 
           <div className={styles.inputWrapper}>
@@ -150,7 +172,6 @@ export const UserSettings: FC<Props> = ({ user }) => {
           <label className={styles.label}>
             Телефон
             <input
-              // {...register('phone', { required: 'Введите номер телефона' })}
               {...register('phone')}
               className={styles.input}
               type="tel"
@@ -159,14 +180,10 @@ export const UserSettings: FC<Props> = ({ user }) => {
               onChange={handleChangePhone}
             />
           </label>
-          {/* <div className={styles.error}>
-            {errors.phone && <p>{errors.phone.message}</p>}
-          </div> */}
         </div>
         <div>
           <Button
             btnType="submit"
-            // buttonStatus={isFormValid && !isBlocked ? 'normal' : 'disabled'}
             buttonStatus={!isBlocked ? 'normal' : 'disabled'}
           >
             {buttonText}

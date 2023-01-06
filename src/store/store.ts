@@ -4,6 +4,7 @@ import tokenReducer from './tokenSlice'
 import currentUserReducer from './currentUserSlice'
 import queryReducer from './filteredProductsSlice'
 import productsReducer from './productsSlice'
+import buttonStateReducer from './buttonStateSlice'
 
 import { productsApi } from '../services/productsApi'
 import { usersApi } from '../services/usersApi'
@@ -16,6 +17,7 @@ export const store = configureStore({
     currentUser: currentUserReducer,
     query: queryReducer,
     products: productsReducer,
+    buttonState: buttonStateReducer,
     [authApi.reducerPath]: authApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,

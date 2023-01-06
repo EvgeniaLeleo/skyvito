@@ -1,9 +1,6 @@
-// TODO redirect after deleting Product
-
 import { FC, useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import { ending } from '../../utils/ending'
 import { Button } from '../../components/Button/Button'
 import { Avatar } from '../../components/Avatar/Avatar'
 import { ImageWrapper } from '../../components/ImageWrapper/ImageWrapper'
@@ -11,39 +8,34 @@ import { FeedbackModal } from '../../modals/FeedbackModal/FeedbackModal'
 import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 import {
   useDeleteProductMutation,
-  useGetProductCommentsQuery,
   useGetProductQuery,
 } from '../../services/productsApi'
 import { convertDate } from '../../utils/convertDate'
 import { ROUTES } from '../../routes'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 import { API_URL } from '../../constants'
-import { formatPhone } from '../../utils/formatPhone'
-import { formatHiddenPhone } from '../../utils/formatHiddenPhone'
 import { formatDate } from '../../utils/formatDate'
-import { useAppSelector } from '../../hooks/useAppDispatch'
-import { currentUserSelector } from '../../store/selectors/currentUser'
+import { useGetCurrentUserQuery } from '../../services/usersApi'
+import { NumberOfComments } from '../NumberOfComments/NumberOfComments'
+import { PhoneButton } from '../PhoneButton/PhoneButton'
 
 import styles from './style.module.css'
-import { useGetCurrentUserQuery } from '../../services/usersApi'
 
 export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
+  const navigate = useNavigate()
 
+  const timestamp = useRef(Date.now()).current
+
+  const { data: user } = useGetCurrentUserQuery(timestamp)
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
   const [delProduct] = useDeleteProductMutation()
-  const { data: comments } = useGetProductCommentsQuery(productId)
 
-  const numberOfComments = comments?.length ? comments.length : 0
+  const [isFeedbackModalShown, setIsFeedbackModalShown] =
+    useState<boolean>(false)
+  const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
 
-  // const user = useAppSelector(currentUserSelector)
-  const timestamp = useRef(Date.now()).current
-  const { data: user } = useGetCurrentUserQuery(timestamp)
-
-  const [sellersPhone, setSellersPhone] = useState<string | undefined>(
-    formatPhone(product?.user.phone)
-  )
   const [imgUrl, setImgUrl] = useState(
     product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
   )
@@ -59,28 +51,22 @@ export const ProductPage: FC = () => {
   }
 
   const handleDeleteProduct = async () => {
-    if (product && product.id && product.id !== undefined) {
+    if (product && product.id) {
       await delProduct(product.id).unwrap()
+      navigate(ROUTES.profile)
     }
   }
-
-  const handleShowPhone = () => {
-    setSellersPhone(formatPhone(product?.user.phone))
-  }
-
-  useEffect(() => {
-    setImgUrl(product?.images[0]?.url ? API_URL + product?.images[0]?.url : '')
-    setSellersPhone(formatHiddenPhone(product?.user.phone))
-  }, [product])
-
-  const [isFeedbackModalShown, setIsFeedbackModalShown] =
-    useState<boolean>(false)
-  const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
 
   const handleShowImage = (event: { target: { src: string } }) => {
     let target = event.target.src //? event.target.src : ''
     setImgUrl(target)
   }
+
+  // const { data: comments } = useGetProductCommentsQuery(productId)
+
+  useEffect(() => {
+    setImgUrl(product?.images[0]?.url ? API_URL + product?.images[0]?.url : '')
+  }, [product?.images])
 
   if (productIsLoading)
     return (
@@ -115,26 +101,12 @@ export const ProductPage: FC = () => {
                 {convertDate(product.created_on || '')}
               </p>
               <p className={styles.feedback} onClick={handleFeedbackClick}>
-                {numberOfComments ? (
-                  <span>
-                    {numberOfComments} отзыв{ending(numberOfComments)}
-                  </span>
-                ) : (
-                  'Нет отзывов'
-                )}
+                <NumberOfComments productId={product.id} />
               </p>
               <p className={styles.price}>{product.price} ₽</p>
 
               {!isSeller ? (
-                sellersPhone ? (
-                  <Button size="l" mb="34px" onClick={handleShowPhone}>
-                    Показать&nbsp;телефон {sellersPhone}
-                  </Button>
-                ) : (
-                  <Button size="l" mb="34px" buttonStatus="disabled">
-                    Телефон не указан
-                  </Button>
-                )
+                <PhoneButton product={product} />
               ) : (
                 <div className={styles.buttonWrapper}>
                   <Button size="xl" onClick={handleEditProduct}>
@@ -145,13 +117,6 @@ export const ProductPage: FC = () => {
                   </Button>
                 </div>
               )}
-
-              {/* <Link
-                key={product.id}
-                to={`${ROUTES.product}/${Number(product.id)}`}
-                className={styles.link}
-                // onMouseEnter={() => prefetchCourse(product.id!)}
-              > */}
 
               <div className={styles.seller}>
                 <Link
@@ -208,12 +173,13 @@ export const ProductPage: FC = () => {
           {isEditModalShown && (
             <EditProductModal
               setIsOpened={setIsEditModalShown}
-              mode="edit"
               product={product}
             />
           )}
         </div>
       )}
+
+      {!product && <p>Такого объявления нет</p>}
     </PageWrapper>
   )
 }

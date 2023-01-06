@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useAppDispatch'
 import { filteredProductsSelector } from '../../store/selectors/filteredProducts'
 import { setProducts } from '../../store/productsSlice'
 import { querySelector } from '../../store/selectors/querySelector'
-import { currentUserSelector } from '../../store/selectors/currentUser'
 
 import styles from './style.module.css'
 

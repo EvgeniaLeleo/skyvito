@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import cn from 'classnames'
 
 import { Button } from '../../components/Button/Button'
@@ -6,19 +7,19 @@ import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 import { Modal } from '../Modal/Modal'
 import { Product } from '../../types'
 import { NUMBER_OF_IMAGES } from '../../constants'
-import { ProductImages } from '../../components/ProductImages/ProductImages'
+import { UploadNewImages } from '../../components/ProductImages copy/UploadNewImages'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import {
-  useChangeProductDetailsMutation,
-  useDeleteProductImageMutation,
+  useCreateProductMutation,
   useUploadProductImageMutation,
 } from '../../services/productsApi'
 
 import styles from './style.module.css'
+import { ROUTES } from '../../routes'
 
 type Props = {
   setIsOpened: Function
-  product: Product
+  product?: Product
 }
 
 type Form = {
@@ -32,25 +33,23 @@ const regexp = new RegExp(/[^0-9.]/i)
 
 let uploadedImagesArray = Array.from(Array(NUMBER_OF_IMAGES))
 let formData = Array.from(Array(NUMBER_OF_IMAGES))
-let urlArrayForDeleting: string[] = []
 
-export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
+export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
   // const modalShownName = useAppSelector(selectModal)
 
   const initialValue = {
-    title: product.title,
-    description: product.description,
-    price: product.price,
+    title: product?.title,
+    description: product?.description,
+    price: product?.price,
   }
+
+  const navigate = useNavigate()
 
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
   const [loading, setLoading] = useState<boolean>(false)
-  const [price, setPrice] = useState<string>(product.price.toString() || '')
-  const [deleting, setDeleting] = useState(false)
+  const [price, setPrice] = useState<string>(product?.price.toString() || '')
 
-  const [changeProductDetails] = useChangeProductDetailsMutation()
-  const [uploadImage] = useUploadProductImageMutation()
-  const [deleteImage] = useDeleteProductImageMutation()
+  const [createProduct] = useCreateProductMutation()
 
   const {
     register,
@@ -80,57 +79,47 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
     // dispatch(hideModals())
   }
 
+  const [uploadImage] = useUploadProductImageMutation()
+
   const onSubmit: SubmitHandler<Form> = async (data) => {
     // if (!user.idToken) {
     //   goToLoginWithMessage(EXP_MESSAGE)
     //   return
     // }
 
+    let createdProductId: number | undefined
+
     try {
       setLoading(true)
-      await changeProductDetails({
-        idx: product.id,
-        body: {
-          title: data.title,
-          price: data.price,
-          description: data.description,
-        },
+
+      const response = await createProduct({
+        title: data.title,
+        price: Number(data.price),
+        description: data.description,
       }).unwrap()
 
+      createdProductId = response.id
+
       for (let i = 0; i < NUMBER_OF_IMAGES; i++) {
-        if (formData[i] && product.id) {
-          await uploadImage({ idx: product.id, body: formData[i] }).unwrap()
-        }
-      }
-
-      for (let i = 0; i < urlArrayForDeleting.length; i++) {
-        if (deleting) {
-          return
-        }
-
-        setDeleting(true)
-
-        try {
-          await deleteImage({
-            idx: product.id,
-            imgUrl: urlArrayForDeleting[i],
+        if (formData[i] && createdProductId) {
+          await uploadImage({
+            idx: createdProductId,
+            body: formData[i],
           }).unwrap()
-        } catch (error) {
-          console.log(error)
         }
-        setDeleting(false)
       }
 
       setLoading(false)
       setIsOpened(false)
+      navigate(ROUTES.product + '/' + createdProductId)
     } catch {
       setLoading(false)
+      console.log('error creating product')
       // goToLoginWithMessage(EXP_MESSAGE)
     }
 
     formData = formData.map((element) => undefined)
     uploadedImagesArray = uploadedImagesArray.map((element) => undefined)
-    urlArrayForDeleting = []
   }
 
   const isFormValid = fieldValue.title?.length && price.toString().length
@@ -138,11 +127,10 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
   return (
     <Modal isOpen={setIsOpened}>
       <div className={styles.content}>
-        <h2 className={styles.title}>Редактировать объявление</h2>
+        <h2 className={styles.title}>Новое объявление</h2>
         <div className={styles.closeButton} onClick={handleClose}>
           <CrossIcon />
         </div>
-
         <form
           className={styles.form}
           onSubmit={handleSubmit(onSubmit)}
@@ -188,11 +176,9 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
               </span>
             </p>
             <div className={styles.imagesWrapper}>
-              <ProductImages
-                product={product}
+              <UploadNewImages
                 formData={formData}
                 uploadedImagesArray={uploadedImagesArray}
-                urlArrayForDeleting={urlArrayForDeleting}
               />
             </div>
           </div>
@@ -224,7 +210,7 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
             btnType="submit"
             buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
           >
-            Сохранить
+            Опубликовать
           </Button>
         </form>
       </div>

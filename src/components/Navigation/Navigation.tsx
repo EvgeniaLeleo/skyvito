@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
+import { CreateProductModal } from '../../modals/CreateProductModal copy/CreateProductModal '
 import { LoginModal } from '../../modals/LoginModal/LoginModal'
 import { ROUTES } from '../../routes'
 import { Button } from '../Button/Button'
@@ -14,7 +14,7 @@ type Props = {
 
 export const Navigation: FC<Props> = ({ authorized = true }) => {
   const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(false)
-  const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
+  const [isCreateModalShown, setIsCreateModalShown] = useState<boolean>(false)
 
   const navigate = useNavigate()
 
@@ -26,13 +26,13 @@ export const Navigation: FC<Props> = ({ authorized = true }) => {
     }
   }
 
-  const handleEditProduct = () => {
-    setIsEditModalShown(true)
+  const handleCreateProduct = () => {
+    setIsCreateModalShown(true)
   }
 
   const nav = authorized
     ? [
-        <Button type="secondary" onClick={handleEditProduct}>
+        <Button type="secondary" onClick={handleCreateProduct}>
           Разместить объявление
         </Button>,
         <Button type="secondary" onClick={handleLoginClick}>
@@ -82,8 +82,8 @@ export const Navigation: FC<Props> = ({ authorized = true }) => {
       </nav>
 
       {isLoginModalShown && <LoginModal setIsOpened={setIsLoginModalShown} />}
-      {isEditModalShown && (
-        <EditProductModal setIsOpened={setIsEditModalShown} mode="new" />
+      {isCreateModalShown && (
+        <CreateProductModal setIsOpened={setIsCreateModalShown} />
       )}
     </>
   )

@@ -73,6 +73,17 @@ export const productsApi = createApi({
       //   'User',
       // ],
     }),
+    createProduct: build.mutation<
+      Product,
+      { title?: string; description?: string; price?: number }
+    >({
+      query: (body) => ({
+        url: 'adstext',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [{ type: 'Products', id: 'LIST' }],
+    }),
     changeProductDetails: build.mutation({
       query: ({ idx, body }) => ({
         url: `ads/${idx}`,
@@ -95,6 +106,7 @@ export const {
   useGetProductQuery,
   useGetProductsQuery,
   useGetProductCommentsQuery,
+  useCreateProductMutation,
   useUploadProductImageMutation,
   useDeleteProductMutation,
   useDeleteProductImageMutation,

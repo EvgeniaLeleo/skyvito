@@ -14,9 +14,8 @@ const imgArray = Array.from(Array(NUMBER_OF_IMAGES).keys())
 type Props = {
   product: Product
   formData: any
-  uploadedImagesArray: any
+  uploadedImagesArray: any // Blob[] | MediaSource[]
   urlArrayForDeleting: string[]
-  // uploadedImagesArray: Blob[] | MediaSource[]
 }
 
 export const ProductImages: FC<Props> = ({
@@ -25,13 +24,13 @@ export const ProductImages: FC<Props> = ({
   uploadedImagesArray,
   urlArrayForDeleting,
 }) => {
-  // console.log('imgArray', imgArray)
-  // console.log('product?.images', product?.images)
+  const [uploadedImages, setUploadedImages] = useState(uploadedImagesArray)
+  const [oldImages, setOldImages] = useState(product.images)
 
-  // const plusButtonArrayLength = product?.images.length
-  // const plusButtonArray = plusButtonArrayLength
-  //   ? Array.from(Array(imgArray.length - plusButtonArrayLength).keys())
-  //   : imgArray
+  const numberOfOldImages = oldImages.length
+  const plusButtonArray = numberOfOldImages
+    ? Array.from(Array(imgArray.length - numberOfOldImages).keys())
+    : imgArray
 
   const handleDeleteNewImages = (index: number) => {
     setUploadedImages((prev: any) => [
@@ -60,21 +59,6 @@ export const ProductImages: FC<Props> = ({
     formData[index] = undefined
   }
 
-  const [uploadedImages, setUploadedImages] = useState(uploadedImagesArray)
-  const [oldImages, setOldImages] = useState(product.images)
-
-  const plusButtonArrayLength = oldImages.length
-  const plusButtonArray = plusButtonArrayLength
-    ? Array.from(Array(imgArray.length - plusButtonArrayLength).keys())
-    : imgArray
-
-  // console.log('oldImages', oldImages)
-
-  // Обновление массива фото-превью
-  useEffect(() => {
-    setUploadedImages(uploadedImagesArray)
-  }, [uploadedImagesArray])
-
   const handleChange = async (event: any, index: number) => {
     const files = event.target.files
     const file = files[0]
@@ -88,6 +72,11 @@ export const ProductImages: FC<Props> = ({
     formData[index] = new FormData()
     formData[index].append('file', file)
   }
+
+  // Обновление массива фото-превью
+  useEffect(() => {
+    setUploadedImages(uploadedImagesArray)
+  }, [uploadedImagesArray])
 
   return (
     <>
@@ -109,7 +98,7 @@ export const ProductImages: FC<Props> = ({
         </div>
       ))}
 
-      {product?.images.length < NUMBER_OF_IMAGES &&
+      {numberOfOldImages < NUMBER_OF_IMAGES &&
         plusButtonArray.map((el, index) => (
           <React.Fragment key={el}>
             {!uploadedImages[index] && (
