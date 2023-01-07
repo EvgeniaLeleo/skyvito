@@ -1,10 +1,16 @@
 import { ERRORS } from '../constants'
-import { AuthErrorType } from '../types'
+import { AuthError } from '../types'
 
-export const getErrorMessage = (
-  error: AuthErrorType,
-  defaultError = 'Неверный логин или пароль'
-) => {
-  const testValue: string = ERRORS[error.data.detail]
-  return testValue || defaultError
+export const getErrorMessage = (error: AuthError) => {
+  if (!('data' in error)) return 'Что-то пошло не так...'
+
+  const errData = error.data
+  const errorFromApi = errData.detail || errData.details || ''
+
+  if (errorFromApi in ERRORS) return ERRORS[errorFromApi]
+
+  if (errorFromApi.includes('UNIQUE constraint failed'))
+    return 'Этот e-mail занят'
+
+  return errorFromApi
 }

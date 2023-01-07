@@ -2,7 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { API_URL } from '../constants'
 import { RootState } from '../store/store'
-import { Credentials, User, UserTokens } from '../types'
+import {
+  Credentials,
+  User,
+  UserTokensResponse,
+  UserTokensRequest,
+} from '../types'
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -15,15 +20,11 @@ export const authApi = createApi({
     },
   }),
   endpoints: (build) => ({
-    login: build.mutation<UserTokens, Credentials>({
+    login: build.mutation<UserTokensResponse, Credentials>({
       query: (body: Credentials) => ({
         url: 'auth/login',
         method: 'POST',
         body,
-        // {
-        // ...arg,
-        // returnSecureToken: true,
-        // },
       }),
     }),
     register: build.mutation<User, Credentials>({
@@ -33,43 +34,18 @@ export const authApi = createApi({
         body,
       }),
     }),
-
-    // getCurrentUser: build.query<User, void>({
-    //   query() {
-    //     return {
-    //       url: 'user',
-    //       headers: { Authorization: `Bearer ${TOKEN}` },
-    //     }
-    //   },
-    //   providesTags: () => [{ type: 'User', id: 'UserDetails' }],
-    // }),
-    // changeUserDetails: build.mutation<User, ChangeUserDetailsArg>({
-    //   query: (arg: ChangeUserDetailsArg) => ({
-    //     url: 'user',
-    //     method: 'PATCH',
-    //     headers: { Authorization: `Bearer ${TOKEN}` },
-    //     body: {
-    //       ...arg,
-    //       // returnSecureToken: true,
-    //     },
-    //   }),
-    //   invalidatesTags: [{ type: 'User', id: 'UserDetails' }],
-    // }),
-    // uploadUserAvatar: build.mutation<void, any>({
-    //   query: ({ body }) => ({
-    //     url: 'user/avatar',
-    //     headers: { Authorization: `Bearer ${TOKEN}` },
-    //     method: 'POST',
-    //     body: body,
-    //   }),
-    //   invalidatesTags: [{ type: 'User', id: 'UserDetails' }],
-    //   // invalidatesTags: (result, error, arg) => [
-    //   //   { type: 'UserCourse', id: arg.arg.courseId },
-    //   //   { type: 'UserCourse', id: 'LIST' },
-    //   //   'User',
-    //   // ],
-    // }),
+    refreshToken: build.mutation<UserTokensResponse, UserTokensRequest>({
+      query: (body: UserTokensRequest) => ({
+        url: 'auth/login',
+        method: 'PUT',
+        body,
+      }),
+    }),
   }),
 })
 
-export const { useLoginMutation, useRegisterMutation } = authApi
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useRefreshTokenMutation,
+} = authApi

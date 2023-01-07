@@ -1,35 +1,64 @@
-import { useRef, useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
-// import { useGetCurrentUserQuery } from '../services/usersApi'
+/**
+ * Returns the current user, refreshing his token if necessary
+ * Returns undefined if no logged in user or the refresh token is invalid
+ */
 
-// export const useCurrentUser = () => {
-//   const timestampRef = useRef(Date.now()).current
-//   const { data, isLoading, isError, error } =
-//     useGetCurrentUserQuery(timestampRef)
-//   // const doRefreshToken = useRefreshToken();
-//   // const refreshToken = useAppSelector(selectRefreshToken);
-//   const [resultError, setResultError] = useState(false)
-//   const navigate = useNavigate()
+import { useEffect, useRef, useState } from 'react'
 
-//   // const handleRefreshToken = async (rt: string) => {
-//   //   const result = await doRefreshToken(rt)
-//   //   if ('error' in result) navigate(ROUTES.login)
-//   // }
+import { useGetCurrentUserQuery } from '../services/usersApi'
+import { tokensSelector } from '../store/selectors/tokens'
+import { UserTokensRequest } from '../types'
+import { useAppSelector } from './useAppDispatch'
+import { useRefreshToken } from './useRefreshToken'
 
-//   const shouldRefreshTokens = () =>
-//     error ? 'status' in error && error.status === 401 : false
+export const useCurrentUser = (setIsOpened: Function) => {
+  const timestamp = useRef(Date.now()).current
+  const { data, isLoading, isError, error } = useGetCurrentUserQuery(timestamp)
 
-//   // useEffect(() => {
-//   //   if (isError) {
-//   //     if (shouldRefreshTokens() && refreshToken) {
-//   //       setResultError(false)
-//   //       handleRefreshToken(refreshToken)
-//   //     } else {
-//   //       navigate(ROUTES.login)
-//   //     }
-//   //   }
-//   //   // eslint-disable-next-line react-hooks/exhaustive-deps
-//   // }, [isError, refreshToken])
+  // const dispatch = useAppDispatch()
 
-//   return { user: data, isLoading, isError, error: resultError }
-// }
+  // if (data) {
+  //   dispatch(updateCurrentUser(data))
+  // }
+
+  const doRefreshToken = useRefreshToken()
+
+  const oldTokens = useAppSelector(tokensSelector)
+
+  const [resultError, setResultError] = useState(false)
+
+  const handleRefreshToken = async (tokens: UserTokensRequest) => {
+    const newTokens = await doRefreshToken(tokens)
+
+    if ('error' in newTokens) {
+      setIsOpened(true)
+    }
+
+    // navigate(ROUTES.login)
+  }
+
+  const shouldRefreshTokens = () =>
+    error ? 'status' in error && error.status === 401 : false
+
+  // console.log(shouldRefreshTokens())
+
+  useEffect(() => {
+    if (isError) {
+      if (
+        shouldRefreshTokens() &&
+        oldTokens.access_token &&
+        oldTokens.refresh_token
+      ) {
+        setResultError(false)
+        handleRefreshToken(oldTokens)
+      }
+      // else {
+      //   // navigate(ROUTES.login)
+      //   setIsOpened(true)
+      // }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError, oldTokens.access_token, oldTokens.refresh_token])
+
+  return { user: data, isLoading, isError, error: resultError }
+}

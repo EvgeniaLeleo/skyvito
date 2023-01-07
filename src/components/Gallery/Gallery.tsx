@@ -20,9 +20,6 @@ export const Gallery: FC<Props> = ({ sellerId, isProfilePage }) => {
   const filteredProducts = useAppSelector(filteredProductsSelector)
   const query = useAppSelector(querySelector)
 
-  // const currentUser = useAppSelector(currentUserSelector)
-  // const isSeller = currentUser?.id === sellerId
-
   const { data: products, isLoading, error } = useGetProductsQuery(sellerId)
 
   useEffect(() => {
@@ -32,28 +29,24 @@ export const Gallery: FC<Props> = ({ sellerId, isProfilePage }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products])
 
-  // const {
-  //   data: sellersProducts,
-  //   isLoading: sellersProductsLoading,
-  //   error: sellersProductsError,
-  // } = useGetSellersProductsQuery(sellerId)
   // const prefetchCourse = usePrefetch('getCourse')
-
-  // {error.status} {error.data.message}
 
   if (isLoading) {
     return <div className={styles.content}>Загрузка...</div>
   }
 
-  return (
-    <div className={styles.gallery} data-cy="gallery-products">
-      {!!error && (
-        <p className={styles.errorMessage}>
-          Извините, произошла ошибка! {JSON.stringify(error)}
-        </p>
-      )}
+  if (error) {
+    return (
+      <p className={styles.errorMessage}>
+        Извините, произошла ошибка! {JSON.stringify(error)}
+      </p>
+      // {error.status} {error.data.message}
+    )
+  }
 
-      {!error && !filteredProducts?.length && (
+  return (
+    <>
+      {!filteredProducts?.length && (
         <p className={styles.errorMessage}>
           {isProfilePage
             ? 'Товары еще не добавлены'
@@ -61,28 +54,18 @@ export const Gallery: FC<Props> = ({ sellerId, isProfilePage }) => {
         </p>
       )}
 
-      {filteredProducts.map((product: Product, index: number) => (
-        <Link
-          key={product.id}
-          to={`${ROUTES.product}/${product.id}`}
-          className={styles.link}
-          // onMouseEnter={() => prefetchCourse(product.id!)}
-        >
-          <Card product={product} key={product.images[0]?.url + index} />
-        </Link>
-      ))}
-    </div>
+      <div className={styles.gallery} data-cy="gallery-products">
+        {filteredProducts.map((product: Product, index: number) => (
+          <Link
+            key={product.id}
+            to={`${ROUTES.product}/${product.id}`}
+            className={styles.link}
+            // onMouseEnter={() => prefetchCourse(product.id!)}
+          >
+            <Card product={product} key={product.images[0]?.url + index} />
+          </Link>
+        ))}
+      </div>
+    </>
   )
 }
-
-//       {courses &&
-//       courses.map((product) => (
-//         <Link
-//           key={product.id}
-//           to={`${ROUTES.aboutCourse}/${Number(product.id) + 1}`}
-//           className={styles.link}
-//           onMouseEnter={() => prefetchCourse(product.id!)}
-//         >
-//           <Card product={product} />
-//         </Link>
-//       ))}

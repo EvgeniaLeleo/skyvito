@@ -35,8 +35,6 @@ let formData = Array.from(Array(NUMBER_OF_IMAGES))
 let urlArrayForDeleting: string[] = []
 
 export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
-  // const modalShownName = useAppSelector(selectModal)
-
   const initialValue = {
     title: product.title,
     description: product.description,
@@ -76,8 +74,6 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
   }
 
   const handleClose = () => {
-    // console.log('close btn')
-    // dispatch(hideModals())
     setIsOpened(false)
   }
 
@@ -232,6 +228,3 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
     </Modal>
   )
 }
-
-// {isModalOpen && (
-//   <Modal isOpen={setIsOpened}>

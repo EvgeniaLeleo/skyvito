@@ -7,13 +7,12 @@ export const useLoadCredentialsFromCookies = () => {
   const [cookies] = useCookies(['access', 'refresh'])
   const dispatch = useAppDispatch()
 
-  if (cookies && cookies.access !== '' && cookies.access !== undefined) {
+  if (cookies && cookies.access) {
     dispatch(
       setToken({ access_token: cookies.access, refresh_token: cookies.refresh })
     )
     return true
   }
 
-  // console.warn('no credentials found in cookies')
   return false
 }

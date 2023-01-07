@@ -1,24 +1,23 @@
 import classNames from 'classnames'
 import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 import { Button } from '../../components/Button/Button'
 import { validPasswordLength } from '../../constants'
-import { AuthErrorType, FormData } from '../../types'
-import { useEscapeKey } from '../../hooks/useEscapeKey'
-import { SignUpModal } from '../SignUpModal/SignUpModal'
+import { AuthError, FormData } from '../../types'
 import { Modal } from '../Modal/Modal'
 import { useLoginMutation } from '../../services/authApi'
-import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 import { getErrorMessage } from '../../utils/getErrorMessage'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { setToken } from '../../store/tokenSlice'
+import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
+import { useLogout } from '../../hooks/useLogout'
 
 import logo from './assets/skyLogo.svg'
 import styles from './style.module.css'
-import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.[a-z]{2,3}$/i)
 
@@ -28,38 +27,20 @@ type Props = {
 }
 
 export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
-  useEscapeKey(() => setIsOpened(false))
-
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [login, { data: userTokens }] = useLoginMutation()
+  const logout = useLogout()
 
   const [error, setError] = useState<string>('')
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
-  // const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(true)
-  // const [isSignUpModalShown, setIsSignUpModalShown] = useState<boolean>(false)
-  const [cookies, setCookies] = useCookies(['access', 'refresh'])
-
-  // const message = useAppSelector(selectMessage)
-  // const [formMessage, setFormMessage] = useState('')
-
-  // useEffect(() => {
-  //   if (message) {
-  //     setFormMessage(message)
-  //     dispatch(clearMessage())
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
-
-  //?
-  // useEffect(() => {
-  //   //  return () => setIsLoginModalShown(true)
-  // }, [isLoginModalShown, isSignUpModalShown])
+  const [, setCookies] = useCookies(['access', 'refresh'])
 
   useEffect(() => {
     if (userTokens) {
       setCookies('access', userTokens.access_token)
       setCookies('refresh', userTokens.refresh_token)
+
       dispatch(
         setToken({
           access_token: userTokens.access_token,
@@ -67,7 +48,7 @@ export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
         })
       )
 
-      // navigate(ROUTES.profile)
+      navigate(ROUTES.profile)
     }
     // eslint-disable-next-line
   }, [userTokens])
@@ -86,9 +67,10 @@ export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
       await login({ email: data.email, password: data.password }).unwrap()
 
       setIsOpened(false)
-      navigate(ROUTES.profile)
+      // navigate(ROUTES.profile)
     } catch (error) {
-      setError(getErrorMessage(error as AuthErrorType))
+      console.log(error)
+      setError(getErrorMessage(error as AuthError))
       setIsBlocked(false)
     }
   }
@@ -105,77 +87,76 @@ export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
   const inputPasswordStyle = classNames(styles.input, styles.inputPassword)
 
   return (
-    <>
-      {/* {setIsOpened && ( */}
-      <Modal isOpen={setIsOpened}>
-        {/* {formMessage && <h2 className={styles.formMessage}>{formMessage}</h2>} */}
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <div
-            className={styles.closeButton}
-            onClick={() => setIsOpened(false)}
-          >
-            <CrossIcon />
-          </div>
-          <img className={styles.logo} src={logo} alt="logo" />
-          <div className={styles.inputs}>
-            <input
-              onFocus={focusHandler}
-              className={styles.input}
-              placeholder="E-mail"
-              {...register('email', {
-                required: 'Введите e-mail',
-                pattern: {
-                  value: validEmail,
-                  message: 'Введите корректный e-mail',
-                },
-              })}
-            />
-            <p className={styles.error}>
-              {errors.email && <span>{errors.email.message}</span>}
-            </p>
-
-            <input
-              onFocus={focusHandler}
-              className={inputPasswordStyle}
-              placeholder="Пароль"
-              type="password"
-              {...register('password', {
-                required: 'Введите пароль',
-                minLength: {
-                  value: validPasswordLength,
-                  message: `Пароль должен быть не менее ${validPasswordLength} символов`,
-                },
-              })}
-            />
-            <p className={styles.error}>
-              {errors.password && <span>{errors.password.message}</span>}
-            </p>
-          </div>
-          <p className={classNames(styles.error, styles.back)}>
-            {error && <span>{error}</span>}
+    <Modal isOpen={setIsOpened} handleEsc={logout}>
+      {/* {formMessage && <h2 className={styles.formMessage}>{formMessage}</h2>} */}
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <div
+          className={styles.closeButton}
+          onClick={() => {
+            logout()
+            setIsOpened(false)
+          }}
+        >
+          <CrossIcon />
+        </div>
+        <img className={styles.logo} src={logo} alt="logo" />
+        <div className={styles.inputs}>
+          <input
+            onFocus={focusHandler}
+            className={styles.input}
+            placeholder="E-mail"
+            {...register('email', {
+              required: 'Введите e-mail',
+              pattern: {
+                value: validEmail,
+                message: 'Введите корректный e-mail',
+              },
+            })}
+          />
+          <p className={styles.error}>
+            {errors.email && <span>{errors.email.message}</span>}
           </p>
-          <div className={styles.buttons}>
-            <Button
-              buttonStatus={isBlocked ? 'disabled' : 'normal'}
-              size="xxl"
-              mb="20px"
-              btnType="submit"
-            >
-              Войти
-            </Button>
-            <Button
-              type="outlined"
-              btnType="button"
-              onClick={handleSignUpClick}
-              buttonStatus={isBlocked ? 'disabled' : 'normal'}
-              size="xxl"
-            >
-              Зарегистрироваться
-            </Button>
-          </div>
-        </form>
-      </Modal>
-      {/* )} */}
-    </>
+
+          <input
+            onFocus={focusHandler}
+            className={inputPasswordStyle}
+            placeholder="Пароль"
+            type="password"
+            {...register('password', {
+              required: 'Введите пароль',
+              minLength: {
+                value: validPasswordLength,
+                message: `Пароль должен быть не менее ${validPasswordLength} символов`,
+              },
+            })}
+          />
+          <p className={styles.error}>
+            {errors.password && <span>{errors.password.message}</span>}
+          </p>
+        </div>
+        <p className={classNames(styles.error, styles.back)}>
+          {error && <span>{error}</span>}
+        </p>
+        <div className={styles.buttons}>
+          <Button
+            buttonStatus={isBlocked ? 'disabled' : 'normal'}
+            size="xxl"
+            mb="20px"
+            btnType="submit"
+          >
+            Войти
+          </Button>
+          <Button
+            type="outlined"
+            btnType="button"
+            onClick={handleSignUpClick}
+            buttonStatus={isBlocked ? 'disabled' : 'normal'}
+            size="xxl"
+          >
+            Зарегистрироваться
+          </Button>
+        </div>
+      </form>
+    </Modal>
   )
 }

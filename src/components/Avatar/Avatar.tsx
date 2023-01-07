@@ -28,31 +28,37 @@ export const Avatar: FC<Props> = ({
         <br /> загрузки
       </div>
     )
-  } else if (!user || !user.avatar) {
+  }
+
+  if (user && uploadedAvatar)
+    return (
+      <div className={styles.wrapper} style={{ marginBottom: mb }}>
+        <ImageWrapper
+          imageUrl={uploadedAvatar}
+          name={user.name}
+          cursor={cursor}
+        />
+      </div>
+    )
+
+  if (!user || !user.avatar) {
     return (
       <div className={styles.wrapper} style={{ marginBottom: mb }}>
         Аватар
         <br /> не загружен
       </div>
     )
-  } else {
-    return (
-      <div className={styles.wrapper} style={{ marginBottom: mb }}>
-        {!uploadedAvatar && (
-          <ImageWrapper
-            imageUrl={user.avatar ? API_URL + user.avatar : ''}
-            name={user.name}
-            cursor={cursor}
-          />
-        )}
-        {!!uploadedAvatar && (
-          <ImageWrapper
-            imageUrl={uploadedAvatar}
-            name={user.name}
-            cursor={cursor}
-          />
-        )}
-      </div>
-    )
   }
+
+  return (
+    <div className={styles.wrapper} style={{ marginBottom: mb }}>
+      {!uploadedAvatar && (
+        <ImageWrapper
+          imageUrl={user.avatar ? API_URL + user.avatar : ''}
+          name={user.name}
+          cursor={cursor}
+        />
+      )}
+    </div>
+  )
 }

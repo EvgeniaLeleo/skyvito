@@ -14,10 +14,8 @@ root.render(
   <BrowserRouter>
     <Provider store={store}>
       {/* <SuspenseRouter> */}
-      {/* <ScrollToTop /> */}
       <App />
       {/* </SuspenseRouter> */}
     </Provider>
   </BrowserRouter>
-  // </React.StrictMode>
 )

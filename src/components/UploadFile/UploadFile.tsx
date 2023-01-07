@@ -6,56 +6,55 @@ import { PlusIconInSquare } from '../PlusIconInSquare/PlusIconInSquare'
 
 import styles from './style.module.css'
 
-type Props = {
-  productId?: number
-  state: 'newProduct' | 'editProduct'
-}
+// TODO
 
-export const UploadFile: FC<Props> = ({ productId, state }) => {
-  const [uploadedImage, setUploadedImage] = useState<string>()
-  const [uploadImage] = useUploadProductImageMutation()
+// type Props = {
+//   productId?: number
+//   state: 'newProduct' | 'editProduct'
+// }
 
-  // const dispatch = useAppDispatch()
+// export const UploadFile: FC<Props> = ({ productId, state }) => {
+//   const [uploadedImage, setUploadedImage] = useState<string>()
+//   const [uploadImage] = useUploadProductImageMutation()
 
-  const handleChange = async (event: { target: { files: any } }) => {
-    const files = event.target.files
-    const file = files[0]
+//   const handleChange = async (event: { target: { files: any } }) => {
+//     const files = event.target.files
+//     const file = files[0]
 
-    if (!file) {
-      console.log('no file')
-      return
-    }
+//     if (!file) {
+//       console.log('no file')
+//       return
+//     }
 
-    if (files && file && state === 'newProduct') {
-      setUploadedImage(URL.createObjectURL(file))
-    }
+//     if (files && file && state === 'newProduct') {
+//       setUploadedImage(URL.createObjectURL(file))
+//     }
 
-    const formData = new FormData()
-    formData.append('file', file)
+//     const formData = new FormData()
+//     formData.append('file', file)
 
-    if (productId) {
-      await uploadImage({ idx: productId, body: formData }).unwrap()
-    }
-  }
+//     if (productId) {
+//       await uploadImage({ idx: productId, body: formData }).unwrap()
+//     }
+//   }
 
-  // console.log(uploadedImage)
+//   return (
+//     <>
+//       {!uploadedImage && (
+//         <label>
+//           <PlusIconInSquare />
+//           <input
+//             className={styles.input}
+//             type="file"
+//             onChange={handleChange}
+//             accept="image/*"
+//           />
+//         </label>
+//       )}
 
-  return (
-    <>
-      {!uploadedImage && (
-        <label>
-          <PlusIconInSquare />
-          <input
-            className={styles.input}
-            type="file"
-            onChange={handleChange}
-            accept="image/*"
-          />
-        </label>
-      )}
-      {!!uploadedImage && (
-        <ImageWrapper imageUrl={uploadedImage} cursor="default" />
-      )}
-    </>
-  )
-}
+//       {!!uploadedImage && (
+//         <ImageWrapper imageUrl={uploadedImage} cursor="default" />
+//       )}
+//     </>
+//   )
+// }

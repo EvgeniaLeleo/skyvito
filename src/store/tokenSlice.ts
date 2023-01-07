@@ -1,11 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { UserTokensRequest } from '../types'
 
-export type TokenState = {
-  access_token?: string
-  refresh_token?: string
-}
-
-const initialState: TokenState = {
+const initialState: UserTokensRequest = {
   access_token: undefined,
   refresh_token: undefined,
 }
@@ -14,7 +10,7 @@ export const tokenSlice = createSlice({
   name: 'token',
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<TokenState>) => {
+    setToken: (state, action: PayloadAction<UserTokensRequest>) => {
       state.access_token = action.payload.access_token
       state.refresh_token = action.payload.refresh_token
     },

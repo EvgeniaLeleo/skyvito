@@ -27,7 +27,6 @@ export const Logo: FC<Props> = ({ mr }) => {
       />
       <mask
         id="mask0_1_82"
-        // style="mask-type:alpha"
         maskUnits="userSpaceOnUse"
         x="20"
         y="0"

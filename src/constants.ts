@@ -9,8 +9,6 @@ export const NUMBER_OF_IMAGES = 5
 export const ERRORS: ErrorTypes = {
   'Incorrect email': 'Неверный email',
   'Incorrect password': 'Неверный пароль',
-  // TODO find the key of email:
-  EMAIL_EXISTS: 'Email занят',
 }
 
 // export const EXP_MESSAGE = 'Ваша сессия истекла. Пожалуйста, войдите в систему!'

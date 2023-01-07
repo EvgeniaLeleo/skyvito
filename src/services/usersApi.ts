@@ -35,11 +35,6 @@ export const usersApi = createApi({
         body,
       }),
       invalidatesTags: [{ type: 'User', id: 'UserDetails' }],
-      // invalidatesTags: (result, error, arg) => [
-      //   { type: 'UserCourse', id: arg.arg.courseId },
-      //   { type: 'UserCourse', id: 'LIST' },
-      //   'User',
-      // ],
     }),
   }),
 })

@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useCurrentUser } from '../../hooks/useCurrentUser'
 
 import { CreateProductModal } from '../../modals/CreateProductModal/CreateProductModal '
 import { LoginModal } from '../../modals/LoginModal/LoginModal'
@@ -19,6 +20,8 @@ export const Navigation: FC<Props> = ({ authorized = true }) => {
   const [isCreateModalShown, setIsCreateModalShown] = useState<boolean>(false)
 
   const navigate = useNavigate()
+
+  useCurrentUser(setIsLoginModalShown)
 
   const handleLoginClick = () => {
     if (!authorized) {
@@ -90,6 +93,12 @@ export const Navigation: FC<Props> = ({ authorized = true }) => {
           </Link>
         </ul>
       </nav>
+
+      {/* <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
+              <Button type="tertiary" size="s">
+                Войти
+              </Button>
+            </Link>*/}
 
       {isLoginModalShown && (
         <LoginModal

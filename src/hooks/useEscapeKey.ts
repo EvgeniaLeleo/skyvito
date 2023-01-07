@@ -1,18 +1,32 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from 'react'
 
 const KEY_NAME_ESC = 'Escape'
 const KEY_EVENT_TYPE = 'keyup'
- 
-export const useEscapeKey = (handleClose: Function) => {
-  const handleEscKey = useCallback((event: KeyboardEvent) => {
-    if (event.key === KEY_NAME_ESC) handleClose()
-  }, [handleClose])
- 
+
+export const useEscapeKey: ({
+  isOpen,
+  handleEsc,
+}: {
+  isOpen: Function
+  handleEsc?: Function
+}) => void = ({ isOpen, handleEsc }) => {
+  const handleEscKey = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === KEY_NAME_ESC) {
+        isOpen()
+        if (handleEsc) {
+          handleEsc()
+        }
+      }
+    },
+    [isOpen]
+  )
+
   useEffect(() => {
     document.addEventListener(KEY_EVENT_TYPE, handleEscKey, false)
-  
+
     return () => {
       document.removeEventListener(KEY_EVENT_TYPE, handleEscKey, false)
     }
-  }, [handleEscKey])   
+  }, [handleEscKey])
 }

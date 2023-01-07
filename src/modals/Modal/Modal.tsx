@@ -6,11 +6,12 @@ import styles from './style.module.css'
 
 type ModalProps = {
   isOpen: Function
+  handleEsc?: Function
   children?: ReactNode
 }
 
-export const Modal: FC<ModalProps> = ({ isOpen, children }) => {
-  useEscapeKey(isOpen)
+export const Modal: FC<ModalProps> = ({ isOpen, children, handleEsc }) => {
+  useEscapeKey({ isOpen, handleEsc })
 
   return (
     // <div data-cy="modal" className={styles.modal} onClick={() => isOpen()}>

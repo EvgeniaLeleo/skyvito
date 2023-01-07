@@ -6,8 +6,7 @@ export const accessTokenSelector = (state: RootState) =>
 export const refreshTokenSelector = (state: RootState) =>
   state.token.refresh_token
 
-// export const tokensSelector = (state: RootState) => {
-//   console.log('selectTokens')
-//   console.log(state.token)
-//   return state.token
-// }
+export const tokensSelector = (state: RootState) => {
+  // console.log('selectTokens', state.token)
+  return state.token
+}

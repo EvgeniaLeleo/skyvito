@@ -6,14 +6,6 @@ import { MainPage } from './pages/MainPage/MainPage'
 import { ProductPage } from './pages/ProductPage/ProductPage'
 import { ProfilePage } from './pages/ProfilePage/ProfilePage'
 import { SellersPage } from './pages/SellersPage/SellersPage'
-// import Cookies from 'js-cookie'
-
-// import { useAppDispatch, useAppSelector } from './hooks/appHooks'
-// import { NotFound } from './pages/NotFound/NotFound'
-// import { selectCurrentUser } from './slices/currentUserSlice'
-// import { checkJWTExpTime, formatString } from './utils'
-// import { selectMessage, setMessage } from './slices/messageSlice'
-// import { accessTokenName, EXP_MESSAGE } from './constants'
 
 // const Main = lazy(() => import('./pages/Main/Main'))
 // const AboutCourse = lazy(() => import('./pages/AboutCourse/AboutCourse'))
@@ -30,8 +22,6 @@ export const ROUTES = {
   product: '/product',
   profile: '/profile',
   seller: '/seller',
-  aboutProduct: '/product/:productId', // '/courses/:id/workouts/:day'
-  // workout: '/courses/{}/workouts/{}', // '/courses/:id/workouts/:day'
 }
 
 type Props = {
@@ -52,31 +42,6 @@ const ProtectedRoute: FC<Props> = ({
 
 export const AppRoutes = () => {
   const isLoggedIn = useLoadCredentialsFromCookies()
-  // const user = useAppSelector(selectCurrentUser)
-  // const message = useAppSelector(selectMessage)
-  // const dispatch = useAppDispatch()
-
-  // // если поставить false, то даже если в куках есть данные, перенаправляет на home page
-  // const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(true)
-
-  // const isTokenValid = user.idToken ? checkJWTExpTime(user.idToken) : false
-
-  // useEffect(() => {
-  //   // просим пользователя перезайти
-  //   if (message) setIsLoggedIn(undefined)
-  //   // просим пользователя перезайти
-  //   else if (user.needRelogin) {
-  //     dispatch(setMessage(EXP_MESSAGE))
-  //     Cookies.remove(accessTokenName)
-  //     setIsLoggedIn(undefined)
-  //   }
-
-  //   // если токен валиден, редиректим на заданную страницу
-  //   else if (isTokenValid || (user.idToken && !user.needRelogin))
-  //     setIsLoggedIn(true)
-  //   // если токена нет, редиректим на home page
-  //   else setIsLoggedIn(false)
-  // }, [user.idToken, user.needRelogin, isTokenValid, dispatch, message])
 
   return (
     <Routes>
@@ -87,10 +52,6 @@ export const AppRoutes = () => {
       {/* <Route path={ROUTES.signup} element={<SignUpForm />} /> */}
       <Route element={<ProtectedRoute isAllowed={isLoggedIn} />}>
         <Route path={ROUTES.profile} element={<ProfilePage />} />
-        {/* <Route
-          path={formatString(ROUTES.workout, [':id', ':day'])}
-          element={<Workout />}
-        /> */}
         {/* <Route path="*" element={<NotFound />} /> */}
       </Route>
     </Routes>

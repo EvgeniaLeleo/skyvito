@@ -13,9 +13,9 @@ import {
   useCreateProductMutation,
   useUploadProductImageMutation,
 } from '../../services/productsApi'
+import { ROUTES } from '../../routes'
 
 import styles from './style.module.css'
-import { ROUTES } from '../../routes'
 
 type Props = {
   setIsOpened: Function
@@ -35,8 +35,6 @@ let uploadedImagesArray = Array.from(Array(NUMBER_OF_IMAGES))
 let formData = Array.from(Array(NUMBER_OF_IMAGES))
 
 export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
-  // const modalShownName = useAppSelector(selectModal)
-
   const initialValue = {
     title: product?.title,
     description: product?.description,
@@ -50,6 +48,9 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
   const [price, setPrice] = useState<string>(product?.price.toString() || '')
 
   const [createProduct] = useCreateProductMutation()
+  const [uploadImage] = useUploadProductImageMutation()
+
+  const isFormValid = fieldValue.title?.length && price.toString().length
 
   const {
     register,
@@ -75,12 +76,8 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
   }
 
   const handleClose = () => {
-    // console.log('close btn')
-    // dispatch(hideModals())
     setIsOpened(false)
   }
-
-  const [uploadImage] = useUploadProductImageMutation()
 
   const onSubmit: SubmitHandler<Form> = async (data) => {
     // if (!user.idToken) {
@@ -122,8 +119,6 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
     formData = formData.map((element) => undefined)
     uploadedImagesArray = uploadedImagesArray.map((element) => undefined)
   }
-
-  const isFormValid = fieldValue.title?.length && price.toString().length
 
   return (
     <Modal isOpen={setIsOpened}>
@@ -218,6 +213,3 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
     </Modal>
   )
 }
-
-// {isModalOpen && (
-//   <Modal isOpen={setIsOpened}>

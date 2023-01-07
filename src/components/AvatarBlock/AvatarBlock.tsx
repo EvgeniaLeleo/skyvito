@@ -8,12 +8,11 @@ import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 
 import styles from './style.module.css'
-import { useAppDispatch } from '../../hooks/useAppDispatch'
-import { buttonState } from '../../store/buttonStateSlice'
 
 type Props = {
   user: User
   loading: boolean
+  setIsBlocked: Function
   formData: any
   avatarError?: any
 }
@@ -23,29 +22,27 @@ export const AvatarBlock: FC<Props> = ({
   formData,
   avatarError,
   loading,
+  setIsBlocked,
 }) => {
   const [uploadedAvatar, setUploadedAvatar] = useState<string>()
 
   const logout = useLogout()
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
 
   const handleUploadAvatar = async (event: { target: { files: any } }) => {
     const files = event.target.files
     const file = files[0]
 
     if (!file) {
-      console.log('no file')
       return
     }
-
-    dispatch(buttonState(false))
 
     formData[0] = new FormData()
     formData[0].append('file', file)
 
     if (files && file) {
       setUploadedAvatar(URL.createObjectURL(file))
+      setIsBlocked(false)
     }
   }
 

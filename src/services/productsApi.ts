@@ -111,19 +111,4 @@ export const {
   useDeleteProductMutation,
   useDeleteProductImageMutation,
   useChangeProductDetailsMutation,
-  // useGetSellersProductsQuery,
 } = productsApi
-
-// getSellersProducts: build.query<Product[], number>({
-//   query: (userId: number) => `ads?user_id=${userId}`,
-//   providesTags: (result) =>
-//     result
-//       ? [
-//           { type: 'Products', id: 'LIST' },
-//           ...result.map(({ id }) => ({
-//             type: 'Products' as const,
-//             id,
-//           })),
-//         ]
-//       : [{ type: 'Products', id: 'LIST' }],
-// }),

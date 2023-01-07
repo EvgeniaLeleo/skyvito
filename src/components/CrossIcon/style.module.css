@@ -3,6 +3,7 @@
   stroke: currentcolor;
 
   transition: all 0.25s ease;
+  cursor: pointer;
 }
 
 .icon:hover {

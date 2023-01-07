@@ -16,7 +16,8 @@ export const SellersPage = () => {
   const sellerId = Number(useParams()?.id)
   const { data: products, isLoading } = useGetProductsQuery(sellerId)
 
-  const seller = products
+  // TODO
+  const seller = products?.length
     ? products[0].user
     : { id: 0, email: '', city: '', name: '', surname: '', phone: '' }
 
@@ -31,11 +32,6 @@ export const SellersPage = () => {
   useEffect(() => {
     setSellersPhone(formatHiddenPhone(seller?.phone))
   }, [seller])
-
-  // const { localId } = useAppSelector(selectCurrentUser)
-  // const isLoggedIn = localId ? true : false
-
-  // const { data: user } = useGetCurrentUserQuery()
 
   return (
     <PageWrapper scrollToTop={true}>

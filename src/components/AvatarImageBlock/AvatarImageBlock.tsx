@@ -24,27 +24,13 @@ export const AvatarImageBlock: FC<Props> = ({
     return <div className={styles.wrapper}>Загрузка...</div>
   }
 
-  if (!!avatarError) {
+  if (avatarError) {
     return <Avatar error={true} mb="10px" />
   }
 
   if (!uploadedAvatar) {
     return <Avatar user={user} mb="10px" />
-  } else {
-    return <Avatar user={user} uploadedAvatar={uploadedAvatar} mb="10px" />
   }
+
+  return <Avatar user={user} uploadedAvatar={uploadedAvatar} mb="10px" />
 }
-
-// return (
-//   <div className={styles.avatarBlock}>
-//     {loading && <div className={styles.wrapper}>Загрузка...</div>}
-
-//     {!loading && !!avatarError && <Avatar error={true} mb="10px" />}
-//     {!loading && !avatarError && !uploadedAvatar && (
-//       <Avatar user={user} mb="10px" />
-//     )}
-//     {!loading && !avatarError && !!uploadedAvatar && (
-//       <Avatar user={user} uploadedAvatar={uploadedAvatar} mb="10px" />
-//     )}
-//   </div>
-// )

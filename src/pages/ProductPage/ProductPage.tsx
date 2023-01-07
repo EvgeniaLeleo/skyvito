@@ -27,7 +27,7 @@ export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
   const navigate = useNavigate()
 
-  const userId = useAppSelector(accessTokenSelector)
+  const access_token = useAppSelector(accessTokenSelector)
 
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
@@ -36,12 +36,13 @@ export const ProductPage: FC = () => {
   const [isFeedbackModalShown, setIsFeedbackModalShown] =
     useState<boolean>(false)
   const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
+  const [isBlocked, setIsBlocked] = useState<boolean>(false)
 
   const [imgUrl, setImgUrl] = useState(
     product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
   )
 
-  const userEmail = userId ? getUserEmailFromJWT(userId) : ''
+  const userEmail = access_token ? getUserEmailFromJWT(access_token) : ''
   const isSeller = userEmail === product?.user.email
 
   const handleFeedbackClick = () => {
@@ -54,7 +55,9 @@ export const ProductPage: FC = () => {
 
   const handleDeleteProduct = async () => {
     if (product && product.id) {
+      setIsBlocked(true)
       await delProduct(product.id).unwrap()
+      setIsBlocked(false)
       navigate(ROUTES.profile)
     }
   }
@@ -85,6 +88,8 @@ export const ProductPage: FC = () => {
 
   return (
     <PageWrapper scrollToTop={true}>
+      {!product && <p>Такого объявления нет</p>}
+
       {!!product && (
         <div className={styles.wrapper}>
           <div className={styles.productContent}>
@@ -120,7 +125,11 @@ export const ProductPage: FC = () => {
                   <Button size="xl" onClick={handleEditProduct}>
                     Редактировать
                   </Button>
-                  <Button size="xl" onClick={handleDeleteProduct}>
+                  <Button
+                    size="xl"
+                    onClick={handleDeleteProduct}
+                    buttonStatus={isBlocked ? 'disabled' : 'normal'}
+                  >
                     Снять с публикации
                   </Button>
                 </div>
@@ -173,7 +182,6 @@ export const ProductPage: FC = () => {
           {isFeedbackModalShown && (
             <FeedbackModal
               setIsOpened={setIsFeedbackModalShown}
-              // comments={comments}
               productId={product.id}
             />
           )}
@@ -186,8 +194,6 @@ export const ProductPage: FC = () => {
           )}
         </div>
       )}
-
-      {!product && <p>Такого объявления нет</p>}
     </PageWrapper>
   )
 }

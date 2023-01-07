@@ -1,5 +1,3 @@
-// TODO redirect after deleting Product
-
 import { FC } from 'react'
 
 import { ending } from '../../utils/ending'

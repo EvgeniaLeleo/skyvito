@@ -9,8 +9,6 @@ import {
   useUploadUserAvatarMutation,
 } from '../../services/usersApi'
 import { AvatarBlock } from '../AvatarBlock/AvatarBlock'
-import { useAppSelector } from '../../hooks/useAppDispatch'
-import { buttonStateSelector } from '../../store/selectors/buttonState'
 
 import styles from './style.module.css'
 
@@ -26,7 +24,6 @@ type Form = {
 }
 
 const regexp = new RegExp(/[^0-9+]/i)
-
 let formData: any = []
 
 export const UserSettings: FC<Props> = ({ user }) => {
@@ -37,19 +34,19 @@ export const UserSettings: FC<Props> = ({ user }) => {
     phone: user.phone,
   }
 
-  const buttonState = useAppSelector(buttonStateSelector)
-
-  const [isBlocked, setIsBlocked] = useState<boolean>(buttonState)
+  const [isBlocked, setIsBlocked] = useState<boolean>(true)
   const [buttonText, setButtonText] = useState<string>('Сохранить')
   const [error, setError] = useState<string>('')
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
   const [phone, setPhone] = useState<string>(user.phone || '')
-
-  useEffect(() => {
-    setIsBlocked(buttonState)
-  }, [buttonState])
+  const [loading, setLoading] = useState<boolean>(false)
 
   const [changeUserDetails] = useChangeUserDetailsMutation()
+  const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
+
+  useEffect(() => {
+    setIsBlocked(isBlocked)
+  }, [isBlocked])
 
   const handleFieldChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -73,23 +70,16 @@ export const UserSettings: FC<Props> = ({ user }) => {
     setPhone(e.target.value)
   }
 
-  const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
-
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm<Form>({ mode: 'onBlur' })
-
-  const [loading, setLoading] = useState<boolean>(false)
+  const { register, handleSubmit } = useForm<Form>({ mode: 'onBlur' })
 
   const onSubmit: SubmitHandler<any> = async (data: Form) => {
     // if (!user.idToken) {
     //   goToLoginWithMessage(EXP_MESSAGE)
     //   return
     // }
+    setIsBlocked(true)
+
     try {
-      setIsBlocked(true)
       await changeUserDetails({
         name: data.name,
         surname: data.surname,
@@ -108,6 +98,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
     } catch {
       setButtonText('Сохранить')
       setIsBlocked(false)
+
       setError('⚠ Ошибка! Попробуйте еще раз!')
       // goToLoginWithMessage(EXP_MESSAGE)
     }
@@ -122,12 +113,9 @@ export const UserSettings: FC<Props> = ({ user }) => {
         formData={formData}
         avatarError={avatarError}
         loading={loading}
+        setIsBlocked={setIsBlocked}
       />
-      <form
-        className={styles.settingsForm}
-        action="#"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className={styles.settingsForm} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.nameWrapper}>
           <div className={styles.inputWrapper}>
             <label className={styles.label}>
@@ -183,7 +171,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
         <div>
           <Button
             btnType="submit"
-            buttonStatus={!isBlocked ? 'normal' : 'disabled'}
+            buttonStatus={isBlocked ? 'disabled' : 'normal'}
           >
             {buttonText}
           </Button>

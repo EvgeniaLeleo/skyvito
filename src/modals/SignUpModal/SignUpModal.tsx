@@ -5,19 +5,19 @@ import { useNavigate } from 'react-router-dom'
 import cn from 'classnames'
 
 import { Button } from '../../components/Button/Button'
-import { FormData } from '../../types'
-import { useEscapeKey } from '../../hooks/useEscapeKey'
+import { AuthError, FormData } from '../../types'
 import { Modal } from '../Modal/Modal'
-
-import logo from './assets/skyLogo.svg'
-
-import styles from './style.module.css'
 import { useLoginMutation, useRegisterMutation } from '../../services/authApi'
 import { ROUTES } from '../../routes'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { useCookies } from 'react-cookie'
 import { setToken } from '../../store/tokenSlice'
 import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
+import { getErrorMessage } from '../../utils/getErrorMessage'
+import { useLogout } from '../../hooks/useLogout'
+
+import logo from './assets/skyLogo.svg'
+import styles from './style.module.css'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.\w{2,3}$/i)
 const validPasswordLength = 6
@@ -29,29 +29,31 @@ type Props = {
 export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  useEscapeKey(() => setIsOpened(false))
 
   const [error, setError] = useState('')
   const [isBlocked, setIsBlocked] = useState(false)
   const [signUp] = useRegisterMutation()
-  const [login, { data }] = useLoginMutation()
-  const [cookies, setCookies] = useCookies(['access', 'refresh'])
+  const [login, { data: userTokens }] = useLoginMutation()
+  const logout = useLogout()
+
+  const [, setCookies] = useCookies(['access', 'refresh'])
 
   useEffect(() => {
-    if (data) {
-      setCookies('access', data.access_token)
-      setCookies('refresh', data.refresh_token)
+    if (userTokens) {
+      setCookies('access', userTokens.access_token)
+      setCookies('refresh', userTokens.refresh_token)
+
       dispatch(
         setToken({
-          access_token: data.access_token,
-          refresh_token: data.refresh_token,
+          access_token: userTokens.access_token,
+          refresh_token: userTokens.refresh_token,
         })
       )
 
       // navigate(ROUTES.profile)
     }
     // eslint-disable-next-line
-  }, [data])
+  }, [userTokens])
 
   const {
     register,
@@ -74,12 +76,10 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
       }).unwrap()
       if (user)
         await login({ email: data.email, password: data.password }).unwrap()
-
-      setIsOpened(false)
       navigate(ROUTES.profile)
+      setIsOpened(false)
     } catch (error: any) {
-      // TODO выяснить, какой тип сюда вписать
-      // setError(getErrorMessage(error, 'Что-то пошло не так...'))
+      setError(getErrorMessage(error as AuthError))
       setIsBlocked(false)
     }
   }
@@ -87,9 +87,15 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
   const focusHandler = () => setError('')
 
   return (
-    <Modal isOpen={setIsOpened}>
+    <Modal isOpen={setIsOpened} handleEsc={logout}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.closeButton} onClick={() => setIsOpened(false)}>
+        <div
+          className={styles.closeButton}
+          onClick={() => {
+            logout()
+            setIsOpened(false)
+          }}
+        >
           <CrossIcon />
         </div>
         <img className={styles.logo} src={logo} alt="logo" />

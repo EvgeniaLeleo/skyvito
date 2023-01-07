@@ -25,15 +25,6 @@ export type ChangeUserDetailsArg = {
   phone?: string
 }
 
-// export type RefreshTokenResponse = {
-//   expires_in?: string
-//   token_type?: string
-//   refresh_token?: string
-//   id_token?: string
-//   user_id?: string
-//   project_id?: string
-// }
-
 export type Feedback = {
   id: number
   text: string
@@ -62,10 +53,11 @@ export type ErrorTypes = {
   [index: string]: string
 }
 
-export type AuthErrorType = {
+export type AuthError = {
   status: number
   data: {
     detail: string
+    details: string
   }
 }
 
@@ -78,8 +70,13 @@ export type FormData = {
   city?: string
 }
 
-export type UserTokens = {
+export type UserTokensResponse = {
   access_token: string
   refresh_token: string
   token_type: string
+}
+
+export type UserTokensRequest = {
+  access_token?: string
+  refresh_token?: string
 }

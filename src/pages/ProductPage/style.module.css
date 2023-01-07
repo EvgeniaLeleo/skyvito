@@ -127,6 +127,7 @@
 
 .avatarWrapper {
   width: 40px;
+  font-size: 0;
   /* min-height: 40px; */
 }
 

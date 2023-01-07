@@ -9,11 +9,9 @@ export const MainPage = () => {
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Объявления</h1>
         <Gallery />
-
-        {/* <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
-            </Link>
-          */}
       </div>
     </PageWrapper>
   )
 }
+
+// <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}></Link>
