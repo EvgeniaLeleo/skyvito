@@ -1,80 +1,92 @@
-/* TODO check */
-
-.form {
-  position: relative;
-
+.wrapper {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
 
   box-sizing: border-box;
-  width: 366px;
-  height: 440px;
-  padding: 44px;
+  width: 100%;
 
-  background: #ffffff;
-  border-radius: 12px;
-}
+  padding-right: calc(50% - 580px);
+  padding-left: calc(50% - 580px);
+  padding-top: 95px;
 
-.closeButton {
-  position: absolute;
-  right: 11px;
-  top: 32px;
-
-  /* z-index: 3; */
-  cursor: pointer;
+  margin-bottom: 84px;
 }
 
 .logo {
-  margin: 0 auto;
-  margin-bottom: 38px;
+  align-self: center;
+  width: 120px;
+
+  margin-bottom: 30px;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
+
+  width: 100%;
+
+  box-sizing: border-box;
+}
+
+.inputs {
+  margin-bottom: 10px;
+}
+
+.inputRequired {
+  margin-bottom: 9px;
 }
 
 .input {
   font-family: inherit;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 1.33;
-  letter-spacing: -0.05px;
-  font-feature-settings: 'pnum' on, 'lnum' on;
+  font-size: 14px;
+  line-height: 1.5;
 
   width: 100%;
-  padding: 8px 0;
+  min-height: 40px;
 
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #d9d9d9;
-}
+  padding: 9px 17px;
+  box-sizing: border-box;
 
-.input::placeholder {
-  color: #d9d9d9;
-}
+  border: 1px solid #d9d9d9;
+  border-radius: 30px;
 
-.error {
-  font-size: 14px;
-  color: #ff6b6b;
-
-  height: 28px;
-  margin: 0;
-  padding-left: 2px;
-}
-
-.error span::before {
-  display: inline;
-  content: '⚠ ';
-}
-
-/*  
-.formMessage {
-  color: #ffffff;
-  font-weight: 400;
-  line-height: 1.4;
-  text-align: center;
-
-  margin-bottom: 30px;
+  resize: none;
 }
 
 .input:focus {
-  border-bottom: 1px solid #580ea2;
+  outline: none;
+  border-color: #009ee4;
 }
- */
+
+.input::placeholder {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.error {
+  height: 14px;
+  margin: 0;
+  padding-left: 19px;
+
+  font-size: 10px;
+
+  color: #ff6b6b;
+}
+
+.error p {
+  margin: 0;
+}
+
+.error p::before {
+  display: inline;
+  content: '⚠ ';
+}
