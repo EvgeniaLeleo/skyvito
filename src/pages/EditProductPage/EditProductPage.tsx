@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import cn from 'classnames'
 
 import { Button } from '../../components/Button/Button'
-import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 import { Product } from '../../types'
 import { NUMBER_OF_IMAGES } from '../../constants'
 import { ProductImages } from '../../components/ProductImages/ProductImages'
@@ -13,15 +13,11 @@ import {
   useGetProductQuery,
   useUploadProductImageMutation,
 } from '../../services/productsApi'
-
-import styles from './style.module.css'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
-import { useNavigate, useParams } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 
-type Props = {
-  product: Product
-}
+import back from './assets/back.svg'
+import styles from './style.module.css'
 
 type Form = {
   title?: string
@@ -80,6 +76,10 @@ export const EditProductPage: FC = () => {
     setPrice(e.target.value)
   }
 
+  const handleBack = () => {
+    navigate(-1)
+  }
+
   const onSubmit: SubmitHandler<Form> = async (data) => {
     try {
       setLoading(true)
@@ -132,17 +132,25 @@ export const EditProductPage: FC = () => {
   const isFormValid = fieldValue.title?.length && price.toString().length
 
   return (
-    <PageWrapper>
+    <PageWrapper scrollToTop={true}>
       {product && (
-        <div className={styles.content}>
-          <h2 className={styles.title}>Редактировать объявление</h2>
+        <div className={styles.wrapper}>
+          <h2 className={styles.title}>
+            <img
+              className={styles.backbtn}
+              src={back}
+              alt="back"
+              onClick={handleBack}
+            />
+            Редактировать
+          </h2>
 
           <form
             className={styles.form}
             onSubmit={handleSubmit(onSubmit)}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={cn(styles.formContent, styles.inputRequired)}>
+            <div className={cn(styles.inputWrapper, styles.inputRequired)}>
               <label className={styles.label}>
                 Название
                 <input
@@ -161,7 +169,7 @@ export const EditProductPage: FC = () => {
                 {errors.title && <p>{errors.title.message}</p>}
               </div>
             </div>
-            <div className={cn(styles.formContent, styles.areaContent)}>
+            <div className={cn(styles.inputWrapper, styles.areaContent)}>
               <label className={styles.label}>
                 Описание
                 <textarea
@@ -174,9 +182,10 @@ export const EditProductPage: FC = () => {
                 />
               </label>
             </div>
-            <div className={styles.formContent}>
+            <div className={styles.inputWrapper}>
               <p className={styles.textPhoto}>
-                Фотографии товара&nbsp;&nbsp;
+                Фотографии товара
+                <br />
                 <span className={styles.limit}>
                   не более {NUMBER_OF_IMAGES} фотографий
                 </span>
@@ -190,7 +199,7 @@ export const EditProductPage: FC = () => {
                 />
               </div>
             </div>
-            <div className={cn(styles.formContent, styles.priceBlock)}>
+            <div className={cn(styles.inputWrapper, styles.priceBlock)}>
               <label className={styles.label}>
                 Цена
                 <div className={styles.priceInput}>
@@ -202,7 +211,7 @@ export const EditProductPage: FC = () => {
                         message: 'Введите корректную цену',
                       },
                     })}
-                    className={cn(styles.input, styles.price)}
+                    className={styles.input}
                     value={price}
                     onChange={handleChangePrice}
                   />

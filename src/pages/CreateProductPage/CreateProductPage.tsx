@@ -108,7 +108,7 @@ export const CreateProductPage = () => {
   }
 
   return (
-    <PageWrapper>
+    <PageWrapper scrollToTop={true}>
       <div className={styles.wrapper}>
         <h2 className={styles.title}>
           <img

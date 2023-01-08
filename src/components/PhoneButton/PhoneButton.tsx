@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
-import { Button } from '../../components/Button/Button'
+import { Button } from '../Button/Button'
 import { formatPhone } from '../../utils/formatPhone'
 import { formatHiddenPhone } from '../../utils/formatHiddenPhone'
 import { Product } from '../../types'

@@ -79,7 +79,7 @@ export const SignUpPage = () => {
   const focusHandler = () => setError('')
 
   return (
-    <PageWrapper>
+    <PageWrapper scrollToTop={true}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <img className={styles.logo} src={logo} alt="logo" />
         <div className={styles.inputWrapper}>
