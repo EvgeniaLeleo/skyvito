@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Avatar } from '../../components/Avatar/Avatar'
-import { Button } from '../../components/Button/Button'
 import { Gallery } from '../../components/Gallery/Gallery'
+import { PhoneButton } from '../../components/PhoneButton/PhoneButton'
 import { useGetProductsQuery } from '../../services/productsApi'
 import { formatDate } from '../../utils/formatDate'
-import { formatHiddenPhone } from '../../utils/formatHiddenPhone'
-import { formatPhone } from '../../utils/formatPhone'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 
 import styles from './style.module.css'
@@ -16,22 +13,9 @@ export const SellersPage = () => {
   const sellerId = Number(useParams()?.id)
   const { data: products, isLoading } = useGetProductsQuery(sellerId)
 
-  // TODO
   const seller = products?.length
     ? products[0].user
     : { id: 0, email: '', city: '', name: '', surname: '', phone: '' }
-
-  const [sellersPhone, setSellersPhone] = useState<string | undefined>(
-    formatPhone(seller?.phone)
-  )
-
-  const handleShowPhone = () => {
-    setSellersPhone(formatPhone(seller?.phone))
-  }
-
-  useEffect(() => {
-    setSellersPhone(formatHiddenPhone(seller?.phone))
-  }, [seller])
 
   return (
     <PageWrapper scrollToTop={true}>
@@ -56,15 +40,7 @@ export const SellersPage = () => {
             </p>
           </div>
 
-          {sellersPhone ? (
-            <Button size="l" mb="34px" onClick={handleShowPhone}>
-              Показать&nbsp;телефон {sellersPhone}
-            </Button>
-          ) : (
-            <Button size="l" mb="34px" buttonStatus="disabled">
-              Телефон не указан
-            </Button>
-          )}
+          <PhoneButton phone={seller?.phone} />
         </div>
 
         <h2 className={styles.subtitle}>Товары продавца</h2>

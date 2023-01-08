@@ -130,7 +130,7 @@ export const ProductPage: FC = () => {
               <p className={styles.price}>{product.price} ₽</p>
 
               {!isSeller ? (
-                <PhoneButton product={product} />
+                <PhoneButton phone={product.user.phone} />
               ) : (
                 <div className={styles.buttonWrapper}>
                   <Button size="xl" onClick={handleEditProduct}>

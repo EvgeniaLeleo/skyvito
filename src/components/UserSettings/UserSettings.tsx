@@ -52,6 +52,9 @@ export const UserSettings: FC<Props> = ({ user }) => {
 
   useEffect(() => {
     setIsBlocked(isBlocked)
+    if (!isBlocked) {
+      setButtonText('Сохранить')
+    }
   }, [isBlocked])
 
   const handleFieldChange = (
