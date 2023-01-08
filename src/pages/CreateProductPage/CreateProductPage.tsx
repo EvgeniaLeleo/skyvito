@@ -74,11 +74,6 @@ export const CreateProductPage = () => {
   }
 
   const onSubmit: SubmitHandler<Form> = async (data) => {
-    // if (!user.idToken) {
-    //   goToLoginWithMessage(EXP_MESSAGE)
-    //   return
-    // }
-
     let createdProductId: number | undefined
 
     try {
@@ -103,10 +98,9 @@ export const CreateProductPage = () => {
 
       setLoading(false)
       navigate(`${ROUTES.product}/${createdProductId}`)
-    } catch {
+    } catch (error) {
       setLoading(false)
-      console.log('error creating product')
-      // goToLoginWithMessage(EXP_MESSAGE)
+      console.log('error creating product', error)
     }
 
     formData = formData.map((element) => undefined)

@@ -67,7 +67,6 @@ export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
       await login({ email: data.email, password: data.password }).unwrap()
 
       setIsOpened(false)
-      // navigate(ROUTES.profile)
     } catch (error) {
       console.log(error)
       setError(getErrorMessage(error as AuthError))
@@ -82,13 +81,10 @@ export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
     setSignUpIsOpened(true)
   }
 
-  // console.log(isLoginModalShown)
-
   const inputPasswordStyle = classNames(styles.input, styles.inputPassword)
 
   return (
     <Modal isOpen={setIsOpened} handleEsc={logout}>
-      {/* {formMessage && <h2 className={styles.formMessage}>{formMessage}</h2>} */}
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div
           className={styles.closeButton}

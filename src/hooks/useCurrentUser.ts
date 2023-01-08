@@ -11,20 +11,11 @@ import { UserTokensRequest } from '../types'
 import { useAppSelector } from './useAppDispatch'
 import { useRefreshToken } from './useRefreshToken'
 
-/**
- * setIsOpened if for LoginModal
- * @param setIsOpened
- * @returns
- */
+// setIsOpened is if for LoginModal
+
 export const useCurrentUser = (setIsOpened?: Function) => {
   const timestamp = useRef(Date.now()).current
   const { data, isLoading, isError, error } = useGetCurrentUserQuery(timestamp)
-
-  // const dispatch = useAppDispatch()
-
-  // if (data) {
-  //   dispatch(updateCurrentUser(data))
-  // }
 
   const doRefreshToken = useRefreshToken()
 
@@ -38,14 +29,10 @@ export const useCurrentUser = (setIsOpened?: Function) => {
     if ('error' in newTokens && setIsOpened) {
       setIsOpened(true)
     }
-
-    // navigate(ROUTES.login)
   }
 
   const shouldRefreshTokens = () =>
     error ? 'status' in error && error.status === 401 : false
-
-  // console.log(shouldRefreshTokens())
 
   useEffect(() => {
     if (isError) {
@@ -57,10 +44,6 @@ export const useCurrentUser = (setIsOpened?: Function) => {
         setResultError(false)
         handleRefreshToken(oldTokens)
       }
-      // else {
-      //   // navigate(ROUTES.login)
-      //   setIsOpened(true)
-      // }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError, oldTokens.access_token, oldTokens.refresh_token])

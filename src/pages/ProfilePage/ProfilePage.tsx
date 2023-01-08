@@ -2,9 +2,7 @@ import { useRef } from 'react'
 
 import { Gallery } from '../../components/Gallery/Gallery'
 import { UserSettings } from '../../components/UserSettings/UserSettings'
-import { useAppSelector } from '../../hooks/useAppDispatch'
 import { useGetCurrentUserQuery } from '../../services/usersApi'
-import { currentUserSelector } from '../../store/selectors/currentUser'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 
 import styles from './style.module.css'

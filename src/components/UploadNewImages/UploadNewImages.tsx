@@ -21,7 +21,7 @@ export const UploadNewImages: FC<Props> = ({
 }) => {
   const [uploadedImages, setUploadedImages] = useState(uploadedImagesArray)
 
-  // Обновление массива фото-превью
+  // Updating the photo-preview array
   useEffect(() => {
     setUploadedImages(uploadedImagesArray)
   }, [uploadedImagesArray])
@@ -30,7 +30,7 @@ export const UploadNewImages: FC<Props> = ({
     const files = event.target.files
     const file = files[0]
 
-    // загрузка превью
+    // Loading photo-preview
     setUploadedImages((prev: Blob[] | MediaSource[]) => [
       ...prev.slice(0, index),
       file,

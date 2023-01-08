@@ -153,7 +153,6 @@ export const ProductPage: FC = () => {
                       ? ROUTES.profile
                       : `${ROUTES.seller}/${product.user.id}`
                   }
-                  // onMouseEnter={() => prefetchCourse(product.id!)}
                 >
                   <div className={styles.avatarWrapper}>
                     <Avatar user={product.user} cursor="pointer" />
@@ -167,7 +166,6 @@ export const ProductPage: FC = () => {
                         : `${ROUTES.seller}/${product.user.id}`
                     }
                     className={styles.link}
-                    // onMouseEnter={() => prefetchCourse(product.id!)}
                   >
                     <p className={styles.sellerName}>
                       {product.user.name ? product.user.name : 'Продавец'}

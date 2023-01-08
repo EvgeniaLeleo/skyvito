@@ -32,13 +32,6 @@ export const productsApi = createApi({
     getProduct: build.query<Product, number>({
       query: (idx: number) => `ads/${idx}`,
       providesTags: () => [{ type: 'Products', id: 'LIST' }],
-
-      // transformResponse: (response: CourseData) => {
-      //   if (!response) throw Error('Нет такого курса')
-      //   if (response.description)
-      //     response.description = parseFirebaseString(response.description)
-      //   return response
-      // },
     }),
     getProductComments: build.query<Feedback[], number>({
       query: (idx: number) => `ads/${idx}/comments`,
@@ -67,11 +60,6 @@ export const productsApi = createApi({
         body,
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
-      // invalidatesTags: (result, error, arg) => [
-      //   { type: 'UserCourse', id: arg.arg.courseId },
-      //   { type: 'UserCourse', id: 'LIST' },
-      //   'User',
-      // ],
     }),
     createProduct: build.mutation<
       Product,

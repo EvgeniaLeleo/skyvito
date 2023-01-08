@@ -81,11 +81,6 @@ export const EditProductPage: FC = () => {
   }
 
   const onSubmit: SubmitHandler<Form> = async (data) => {
-    // if (!user.idToken) {
-    //   goToLoginWithMessage(EXP_MESSAGE)
-    //   return
-    // }
-
     try {
       setLoading(true)
       await changeProductDetails({
@@ -124,11 +119,9 @@ export const EditProductPage: FC = () => {
       }
 
       setLoading(false)
-      // setIsOpened(false)
       navigate(`${ROUTES.product}/${product?.id}`)
     } catch {
       setLoading(false)
-      // goToLoginWithMessage(EXP_MESSAGE)
     }
 
     formData = formData.map((element) => undefined)

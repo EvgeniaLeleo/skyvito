@@ -73,7 +73,7 @@ export const ProductImages: FC<Props> = ({
     formData[index].append('file', file)
   }
 
-  // Обновление массива фото-превью
+  // Updating the photo-preview array
   useEffect(() => {
     setUploadedImages(uploadedImagesArray)
   }, [uploadedImagesArray])

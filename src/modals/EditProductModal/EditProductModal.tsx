@@ -78,11 +78,6 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
   }
 
   const onSubmit: SubmitHandler<Form> = async (data) => {
-    // if (!user.idToken) {
-    //   goToLoginWithMessage(EXP_MESSAGE)
-    //   return
-    // }
-
     try {
       setLoading(true)
       await changeProductDetails({
@@ -122,7 +117,6 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
       setIsOpened(false)
     } catch {
       setLoading(false)
-      // goToLoginWithMessage(EXP_MESSAGE)
     }
 
     formData = formData.map((element) => undefined)

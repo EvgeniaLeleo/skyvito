@@ -74,13 +74,10 @@ export const LoginPage = () => {
     navigate(ROUTES.signUp)
   }
 
-  // console.log(isLoginModalShown)
-
   const inputPasswordStyle = classNames(styles.input, styles.inputPassword)
 
   return (
     <PageWrapper searchHeader={true}>
-      {/* {formMessage && <h2 className={styles.formMessage}>{formMessage}</h2>} */}
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <img className={styles.logo} src={logo} alt="logo" />
         <div className={styles.inputs}>
@@ -143,5 +140,3 @@ export const LoginPage = () => {
     </PageWrapper>
   )
 }
-
-// <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}></Link>

@@ -41,10 +41,6 @@ export const FeedbackModal: FC<Props> = ({ setIsOpened, productId }) => {
   })
 
   const onSubmit: SubmitHandler<{ text: string }> = async (data) => {
-    // if (!user.idToken) {
-    //   goToLoginWithMessage(EXP_MESSAGE)
-    //   return
-    // }
     try {
       setLoading(true)
 
@@ -60,9 +56,8 @@ export const FeedbackModal: FC<Props> = ({ setIsOpened, productId }) => {
       setLoading(false)
 
       setIsOpened(false)
-    } catch {
-      // TODO error
-      // goToLoginWithMessage(EXP_MESSAGE)
+    } catch (error) {
+      console.log('error creating comment', error)
     }
   }
 

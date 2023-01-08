@@ -13,5 +13,3 @@ export const MainPage = () => {
     </PageWrapper>
   )
 }
-
-// <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}></Link>

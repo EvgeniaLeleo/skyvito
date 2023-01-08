@@ -26,8 +26,6 @@ export const SearchBar: FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewQuery(e.target.value)
-    // Для мгновенного поиска:
-    // dispatch(setQuery(e.target.value))
     if (e.target.value === '') {
       dispatch(setQuery(''))
     }

@@ -79,10 +79,6 @@ export const UserSettings: FC<Props> = ({ user }) => {
   const { register, handleSubmit } = useForm<Form>({ mode: 'onBlur' })
 
   const onSubmit: SubmitHandler<any> = async (data: Form) => {
-    // if (!user.idToken) {
-    //   goToLoginWithMessage(EXP_MESSAGE)
-    //   return
-    // }
     setIsBlocked(true)
 
     try {
@@ -106,7 +102,6 @@ export const UserSettings: FC<Props> = ({ user }) => {
       setIsBlocked(false)
 
       setError('⚠ Ошибка! Попробуйте еще раз!')
-      // goToLoginWithMessage(EXP_MESSAGE)
     }
 
     formData = []

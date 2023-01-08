@@ -12,14 +12,6 @@ import { ProfilePage } from './pages/ProfilePage/ProfilePage'
 import { SellersPage } from './pages/SellersPage/SellersPage'
 import { SignUpPage } from './pages/SignUpPage/SignUpPage'
 
-// const Main = lazy(() => import('./pages/Main/Main'))
-// const AboutCourse = lazy(() => import('./pages/AboutCourse/AboutCourse'))
-// const AdminPage = lazy(() => import('./pages/AdminPage/AdminPage'))
-// const SignUpForm = lazy(() => import('./pages/AuthForm/SignUpForm'))
-// const LoginForm = lazy(() => import('./pages/AuthForm/LoginForm'))
-// const ProfilePage = lazy(() => import('./pages/ProfilePage/ProfilePage'))
-// const Workout = lazy(() => import('./pages/WorkoutPage/Workout'))
-
 export const ROUTES = {
   main: '/',
   login: '/login',

@@ -13,12 +13,7 @@ export const ERRORS: ErrorTypes = {
 
 export const SCREEN_SIZE = {
   mobile: '(max-width: 425px)',
-  // tablet_desktop: '(max-width: 680px) and (min-width: 425.99px)',
   desktop: '(min-width: 425.99px)',
 }
-
-// export const EXP_MESSAGE = 'Ваша сессия истекла. Пожалуйста, войдите в систему!'
-
-// export const accessTokenName = 'idToken'
 
 export const validPasswordLength = 6
