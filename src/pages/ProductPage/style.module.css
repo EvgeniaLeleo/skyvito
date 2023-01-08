@@ -176,7 +176,6 @@
   font-size: 16px;
   line-height: 1.5;
 
-  width: 792px;
   padding: 0;
   margin: 0;
   margin-bottom: 117px;
@@ -238,7 +237,49 @@
   }
 
   .imgBlock {
+    position: relative;
+
     width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .bottomShadow,
+  .shadow {
+    position: absolute;
+    z-index: 1;
+
+    width: 100%;
+    height: 70px;
+    box-sizing: border-box;
+  }
+
+  .shadow {
+    top: 0;
+
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .bottomShadow {
+    bottom: 0;
+
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .backbtn {
+    width: 15px;
+    padding-left: 10px;
+    padding-right: 23px;
+    padding-top: 20px;
+
+    cursor: pointer;
   }
 
   .previewWrapper {
@@ -267,6 +308,8 @@
   }
 
   .productData {
+    align-items: stretch;
+
     width: 100%;
     padding-right: calc(50% - 139px);
     padding-left: calc(50% - 139px);
@@ -306,5 +349,41 @@
     margin-bottom: 84px;
     padding-right: calc(50% - 139px);
     padding-left: calc(50% - 139px);
+  }
+
+  .swiperButtons {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    bottom: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 7px;
+
+    box-sizing: border-box;
+
+    transform: translateX(-50%);
+  }
+
+  .swiperButton {
+    width: 8px;
+    height: 8px;
+
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    transition: 0.2s all ease;
+  }
+
+  .swiperButton:hover,
+  .swiperButton:active {
+    background-color: #ffffff;
+  }
+
+  .active {
+    background-color: #ffffff;
   }
 }

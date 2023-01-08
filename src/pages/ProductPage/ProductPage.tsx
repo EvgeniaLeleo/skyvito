@@ -1,5 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useMediaQuery } from 'react-responsive'
+import cn from 'classnames'
 
 import { Button } from '../../components/Button/Button'
 import { Avatar } from '../../components/Avatar/Avatar'
@@ -8,6 +10,7 @@ import { FeedbackModal } from '../../modals/FeedbackModal/FeedbackModal'
 import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 import {
   useDeleteProductMutation,
+  useGetProductCommentsQuery,
   useGetProductQuery,
 } from '../../services/productsApi'
 import { convertDate } from '../../utils/convertDate'
@@ -15,14 +18,15 @@ import { ROUTES } from '../../routes'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 import { API_URL, SCREEN_SIZE } from '../../constants'
 import { formatDate } from '../../utils/formatDate'
-import { NumberOfComments } from '../../components/NumberOfComments/NumberOfComments'
 import { PhoneButton } from '../../components/PhoneButton/PhoneButton'
 import { useAppSelector } from '../../hooks/useAppDispatch'
 import { accessTokenSelector } from '../../store/selectors/tokens'
 import { getUserEmailFromJWT } from '../../utils/parseTokens'
+import { ending } from '../../utils/ending'
+import { Feedback } from '../../types'
 
+import back from './assets/back.svg'
 import styles from './style.module.css'
-import { useMediaQuery } from 'react-responsive'
 
 export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
@@ -38,11 +42,18 @@ export const ProductPage: FC = () => {
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
   const [delProduct] = useDeleteProductMutation()
+  const { data: productComments } = useGetProductCommentsQuery(product?.id)
 
   const [isFeedbackModalShown, setIsFeedbackModalShown] =
     useState<boolean>(false)
   const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
+  const [comments, setComments] = useState<Feedback[] | undefined>(
+    productComments
+  )
+  const [numberOfComments, setNumberOfComments] = useState<number | undefined>(
+    productComments?.length
+  )
 
   const [imgUrl, setImgUrl] = useState(
     product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
@@ -52,7 +63,12 @@ export const ProductPage: FC = () => {
   const isSeller = userEmail === product?.user.email
 
   const handleFeedbackClick = () => {
-    setIsFeedbackModalShown(true)
+    if (isDesktop) {
+      setIsFeedbackModalShown(true)
+    }
+    if (isMobile && product?.id) {
+      navigate(`${ROUTES.comments}/${product?.id}`)
+    }
   }
 
   const handleEditProduct = () => {
@@ -73,22 +89,31 @@ export const ProductPage: FC = () => {
     }
   }
 
-  const handleShowImage = (event: { target: { src: string } }) => {
+  const handleShowImage = (event: any) => {
     let target = event.target.src //? event.target.src : ''
     setImgUrl(target)
   }
+
+  const handleShowImageMobile = (index: number) => {
+    if (product) {
+      setImgUrl(API_URL + product.images[index].url)
+    }
+  }
+
+  const handleBack = () => {
+    navigate(-1)
+  }
+
+  // console.log('comments', comments)
 
   useEffect(() => {
     setImgUrl(product?.images[0]?.url ? API_URL + product?.images[0]?.url : '')
   }, [product?.images])
 
   useEffect(() => {
-    if (isFeedbackModalShown || isEditModalShown) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isFeedbackModalShown, isEditModalShown])
+    setComments(productComments)
+    setNumberOfComments(productComments?.length)
+  }, [productComments])
 
   if (productIsLoading)
     return (
@@ -97,112 +122,146 @@ export const ProductPage: FC = () => {
       </PageWrapper>
     )
 
+  if (!product)
+    return (
+      <PageWrapper>
+        <p>Такого объявления нет</p>
+      </PageWrapper>
+    )
+
   return (
     <PageWrapper scrollToTop={true}>
-      {!product && <p>Такого объявления нет</p>}
-
-      {!!product && (
-        <div className={styles.wrapper}>
-          <div className={styles.productContent}>
-            <div className={styles.imgBlock}>
-              <ImageWrapper imageUrl={imgUrl} name={product.title} mb="20px" />
-              <div className={styles.previewWrapper}>
-                {product.images.map((image, index) => (
-                  <ImageWrapper
-                    imageUrl={image?.url ? API_URL + image?.url : ''}
-                    key={index.toString() + image?.url}
-                    onClick={handleShowImage}
-                    cursor="pointer"
-                  />
-                ))}
-              </div>
+      <div className={styles.wrapper}>
+        <div className={styles.productContent}>
+          <div className={styles.imgBlock}>
+            <div className={styles.shadow}>
+              <img
+                className={styles.backbtn}
+                src={back}
+                alt="back"
+                onClick={handleBack}
+              />
             </div>
 
-            <div className={styles.productData}>
-              <h1 className={styles.title}>{product.title}</h1>
-              <p className={styles.location}>{product.user.city}</p>
-              <p className={styles.date}>
-                {convertDate(product.created_on || '')}
-              </p>
-              <p className={styles.feedback} onClick={handleFeedbackClick}>
-                <NumberOfComments productId={product.id} />
-              </p>
-              <p className={styles.price}>{product.price} ₽</p>
+            <div className={styles.bottomShadow}></div>
 
-              {!isSeller ? (
-                <PhoneButton phone={product.user.phone} />
+            {isMobile && (
+              <div className={styles.swiperButtons}>
+                {product.images.map((image, index) => (
+                  <div
+                    className={cn(styles.swiperButton, {
+                      [styles.active]: API_URL + image.url === imgUrl,
+                    })}
+                    onClick={() => handleShowImageMobile(index)}
+                  ></div>
+                ))}
+              </div>
+            )}
+
+            <ImageWrapper imageUrl={imgUrl} name={product.title} />
+            <div className={styles.previewWrapper}>
+              {product.images.map((image, index) => (
+                <ImageWrapper
+                  imageUrl={image?.url ? API_URL + image?.url : ''}
+                  key={index.toString() + image?.url}
+                  onClick={handleShowImage}
+                  cursor="pointer"
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.productData}>
+            <h1 className={styles.title}>{product.title}</h1>
+            <p className={styles.location}>{product.user.city}</p>
+            <p className={styles.date}>
+              {convertDate(product.created_on || '')}
+            </p>
+            <p className={styles.feedback} onClick={handleFeedbackClick}>
+              {/* <NumberOfComments product={product} /> */}
+              {numberOfComments ? (
+                <span>
+                  {numberOfComments} отзыв{ending(numberOfComments)}
+                </span>
               ) : (
-                <div className={styles.buttonWrapper}>
-                  <Button size="xl" onClick={handleEditProduct}>
-                    Редактировать
-                  </Button>
-                  <Button
-                    size="xl"
-                    onClick={handleDeleteProduct}
-                    buttonStatus={isBlocked ? 'disabled' : 'normal'}
-                  >
-                    Снять с публикации
-                  </Button>
-                </div>
+                'Нет отзывов'
               )}
+            </p>
+            <p className={styles.price}>{product.price} ₽</p>
 
-              <div className={styles.seller}>
+            {!isSeller ? (
+              <PhoneButton phone={product.user.phone} />
+            ) : (
+              <div className={styles.buttonWrapper}>
+                <Button size="xl" onClick={handleEditProduct}>
+                  Редактировать
+                </Button>
+                <Button
+                  size="xl"
+                  onClick={handleDeleteProduct}
+                  buttonStatus={isBlocked ? 'disabled' : 'normal'}
+                >
+                  Снять с публикации
+                </Button>
+              </div>
+            )}
+
+            <div className={styles.seller}>
+              <Link
+                to={
+                  isSeller
+                    ? ROUTES.profile
+                    : `${ROUTES.seller}/${product.user.id}`
+                }
+              >
+                <div className={styles.avatarWrapper}>
+                  <Avatar user={product.user} cursor="pointer" />
+                </div>
+              </Link>
+              <div className={styles.sellerData}>
                 <Link
                   to={
                     isSeller
                       ? ROUTES.profile
                       : `${ROUTES.seller}/${product.user.id}`
                   }
+                  className={styles.link}
                 >
-                  <div className={styles.avatarWrapper}>
-                    <Avatar user={product.user} cursor="pointer" />
-                  </div>
-                </Link>
-                <div className={styles.sellerData}>
-                  <Link
-                    to={
-                      isSeller
-                        ? ROUTES.profile
-                        : `${ROUTES.seller}/${product.user.id}`
-                    }
-                    className={styles.link}
-                  >
-                    <p className={styles.sellerName}>
-                      {product.user.name ? product.user.name : 'Продавец'}
-                    </p>
-                  </Link>
-                  <p className={styles.sellerExp}>
-                    {product.user?.sells_from && (
-                      <span>
-                        Продает товары с {formatDate(product.user?.sells_from)}
-                      </span>
-                    )}
+                  <p className={styles.sellerName}>
+                    {product.user.name ? product.user.name : 'Продавец'}
                   </p>
-                </div>
+                </Link>
+                <p className={styles.sellerExp}>
+                  {product.user?.sells_from && (
+                    <span>
+                      Продает товары с {formatDate(product.user?.sells_from)}
+                    </span>
+                  )}
+                </p>
               </div>
             </div>
           </div>
-
-          <h2 className={styles.subtitle}>Описание товара</h2>
-          <p className={styles.description}>
-            {product.description ? product.description : 'Описание отсутствует'}
-          </p>
-
-          {isFeedbackModalShown && (
-            <FeedbackModal
-              setIsOpened={setIsFeedbackModalShown}
-              productId={product.id}
-            />
-          )}
-
-          {isEditModalShown && (
-            <EditProductModal
-              setIsOpened={setIsEditModalShown}
-              product={product}
-            />
-          )}
         </div>
-      )}
+
+        <h2 className={styles.subtitle}>Описание товара</h2>
+        <p className={styles.description}>
+          {product.description ? product.description : 'Описание отсутствует'}
+        </p>
+
+        {isFeedbackModalShown && (
+          <FeedbackModal
+            setIsOpened={setIsFeedbackModalShown}
+            productId={product.id}
+          />
+        )}
+
+        {isEditModalShown && (
+          <EditProductModal
+            setIsOpened={setIsEditModalShown}
+            product={product}
+          />
+        )}
+      </div>
     </PageWrapper>
   )
 }

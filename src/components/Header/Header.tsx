@@ -15,10 +15,7 @@ type Props = {
   searchHeader?: boolean
 }
 
-export const Header: FC<Props> = ({
-  isAuthorized = true,
-  searchHeader = false,
-}) => {
+export const Header: FC<Props> = ({ isAuthorized, searchHeader = false }) => {
   const [scrolled, setScrolled] = useState(false)
 
   const isDesktop = useMediaQuery({

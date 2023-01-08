@@ -177,17 +177,22 @@
     margin-bottom: 18px;
   }
 
-  .nameWrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
   .label {
     font-weight: 400;
     font-size: 14px;
 
-    margin-left: 16px;
+    margin: 0;
+  }
+
+  .labelText {
+    display: inline-block;
+    padding-left: 16px;
     margin-bottom: 6px;
+  }
+
+  .nameWrapper {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 
   .input {
@@ -198,5 +203,13 @@
 
     border: 1px solid #d9d9d9;
     border-radius: 30px;
+  }
+
+  .buttonsWrapper {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: start;
+    align-items: stretch;
+    gap: 10px;
   }
 }

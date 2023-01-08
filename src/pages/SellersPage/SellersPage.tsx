@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { Avatar } from '../../components/Avatar/Avatar'
 import { Gallery } from '../../components/Gallery/Gallery'
@@ -7,20 +7,34 @@ import { useGetProductsQuery } from '../../services/productsApi'
 import { formatDate } from '../../utils/formatDate'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 
+import back from './assets/back.svg'
 import styles from './style.module.css'
 
 export const SellersPage = () => {
   const sellerId = Number(useParams()?.id)
   const { data: products, isLoading } = useGetProductsQuery(sellerId)
+  const navigate = useNavigate()
 
   const seller = products?.length
     ? products[0].user
     : { id: 0, email: '', city: '', name: '', surname: '', phone: '' }
 
+  const handleBack = () => {
+    navigate(-1)
+  }
+
   return (
     <PageWrapper scrollToTop={true}>
       <div className={styles.wrapper}>
-        <h1 className={styles.title}>Профиль продавца</h1>
+        <h2 className={styles.title}>
+          <img
+            className={styles.backbtn}
+            src={back}
+            alt="back"
+            onClick={handleBack}
+          />
+          Профиль продавца
+        </h2>
 
         <div className={styles.sellersInfo}>
           <div className={styles.sellerAvatar}>
@@ -40,7 +54,9 @@ export const SellersPage = () => {
             </p>
           </div>
 
-          <PhoneButton phone={seller?.phone} />
+          <div className={styles.phoneButton}>
+            <PhoneButton phone={seller?.phone} size="xxl" />
+          </div>
         </div>
 
         <h2 className={styles.subtitle}>Товары продавца</h2>

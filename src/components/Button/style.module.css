@@ -117,6 +117,11 @@
   min-width: 158px;
 }
 
+.unset {
+  width: unset;
+  min-width: none;
+}
+
 @media (max-width: 425px) {
   .xl {
     width: 100%;
@@ -127,9 +132,9 @@
     min-height: 46px;
     padding: 11px 20px;
   }
-  /* .l {
-    width: 250px;
-  }
 
-*/
+  .xxl {
+    font-size: 14px;
+    width: 100%;
+  }
 }

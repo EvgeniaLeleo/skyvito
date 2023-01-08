@@ -44,7 +44,7 @@ export const AvatarBlock: FC<Props> = ({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.avatarBlockWrapper}>
       <div className={styles.avatarBlock}>
         <AvatarImageBlock
           user={user}

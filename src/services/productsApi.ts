@@ -33,8 +33,8 @@ export const productsApi = createApi({
       query: (idx: number) => `ads/${idx}`,
       providesTags: () => [{ type: 'Products', id: 'LIST' }],
     }),
-    getProductComments: build.query<Feedback[], number>({
-      query: (idx: number) => `ads/${idx}/comments`,
+    getProductComments: build.query<Feedback[], number | undefined>({
+      query: (idx?: number) => `ads/${idx}/comments`,
       providesTags: (result) =>
         result
           ? [
@@ -84,6 +84,30 @@ export const productsApi = createApi({
       query: ({ idx, imgUrl }) => ({
         url: `ads/${idx}/image?file_url=${imgUrl}`,
         method: 'DELETE',
+      }),
+      invalidatesTags: [{ type: 'Products', id: 'LIST' }],
+    }),
+    getComments: build.query<Feedback[], number>({
+      query: (productId) => `ads/${productId}/comments`,
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Products', id: 'LIST' },
+              ...result.map(({ id }) => ({
+                type: 'Products' as const,
+                id,
+              })),
+            ]
+          : [{ type: 'Products', id: 'LIST' }],
+    }),
+    createComment: build.mutation<
+      Feedback,
+      { productId: number; body: { text: string } }
+    >({
+      query: ({ productId, body }) => ({
+        url: `ads/${productId}/comments`,
+        method: 'POST',
+        body,
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
     }),

@@ -11,13 +11,11 @@ import { ROUTES } from '../../routes'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { useCookies } from 'react-cookie'
 import { setToken } from '../../store/tokenSlice'
-import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 import { getErrorMessage } from '../../utils/getErrorMessage'
-import { useLogout } from '../../hooks/useLogout'
+import { PageWrapper } from '../PageWrapper/PageWrapper'
 
 import logo from './assets/skyLogo.svg'
 import styles from './style.module.css'
-import { PageWrapper } from '../PageWrapper/PageWrapper'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.\w{2,3}$/i)
 const validPasswordLength = 6
@@ -44,6 +42,8 @@ export const SignUpPage = () => {
           refresh_token: userTokens.refresh_token,
         })
       )
+
+      navigate(ROUTES.profile)
     }
     // eslint-disable-next-line
   }, [userTokens])
@@ -80,98 +80,100 @@ export const SignUpPage = () => {
 
   return (
     <PageWrapper scrollToTop={true}>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <img className={styles.logo} src={logo} alt="logo" />
-        <div className={styles.inputWrapper}>
-          <input
-            onFocus={focusHandler}
-            className={styles.input}
-            placeholder="E-mail"
-            {...register('email', {
-              required: 'Введите e-mail',
-              pattern: {
-                value: validEmail,
-                message: 'Введите корректный e-mail',
-              },
-            })}
-          />
-          <p className={styles.error}>
-            {errors.email && <span>{errors.email.message}</span>}
-          </p>
-        </div>
-
-        <div className={styles.inputWrapper}>
-          <input
-            onFocus={focusHandler}
-            className={styles.input}
-            placeholder="Пароль"
-            type="password"
-            {...register('password', {
-              required: 'Введите пароль',
-              minLength: {
-                value: validPasswordLength,
-                message: `Пароль должен быть не менее ${validPasswordLength} символов`,
-              },
-            })}
-          />
-          <p className={styles.error}>
-            {errors.password && <span>{errors.password.message}</span>}
-          </p>
-        </div>
-
-        <div className={styles.inputWrapper}>
-          <input
-            onFocus={focusHandler}
-            className={styles.input}
-            placeholder="Повторите пароль"
-            type="password"
-            {...register('confirmPassword', {
-              required: 'Подтвердите пароль',
-              validate: {
-                matchesPreviousPassword: (value) => {
-                  const { password } = getValues()
-                  return password === value || `Пароли не совпадают`
+      <div className={styles.wrapper}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          <img className={styles.logo} src={logo} alt="logo" />
+          <div className={styles.inputWrapper}>
+            <input
+              onFocus={focusHandler}
+              className={styles.input}
+              placeholder="E-mail"
+              {...register('email', {
+                required: 'Введите e-mail',
+                pattern: {
+                  value: validEmail,
+                  message: 'Введите корректный e-mail',
                 },
-              },
-            })}
-          />
-          <p className={styles.error}>
-            {errors.confirmPassword && (
-              <span>{errors.confirmPassword.message}</span>
-            )}
-          </p>
-        </div>
+              })}
+            />
+            <p className={styles.error}>
+              {errors.email && <span>{errors.email.message}</span>}
+            </p>
+          </div>
 
-        <input
-          className={cn(styles.input, styles.notRequired)}
-          placeholder="Имя (необязательно)"
-          {...register('name')}
-        />
+          <div className={styles.inputWrapper}>
+            <input
+              onFocus={focusHandler}
+              className={styles.input}
+              placeholder="Пароль"
+              type="password"
+              {...register('password', {
+                required: 'Введите пароль',
+                minLength: {
+                  value: validPasswordLength,
+                  message: `Пароль должен быть не менее ${validPasswordLength} символов`,
+                },
+              })}
+            />
+            <p className={styles.error}>
+              {errors.password && <span>{errors.password.message}</span>}
+            </p>
+          </div>
 
-        <input
-          className={cn(styles.input, styles.notRequired)}
-          placeholder="Фамилия (необязательно)"
-          {...register('surname')}
-        />
+          <div className={styles.inputWrapper}>
+            <input
+              onFocus={focusHandler}
+              className={styles.input}
+              placeholder="Повторите пароль"
+              type="password"
+              {...register('confirmPassword', {
+                required: 'Подтвердите пароль',
+                validate: {
+                  matchesPreviousPassword: (value) => {
+                    const { password } = getValues()
+                    return password === value || `Пароли не совпадают`
+                  },
+                },
+              })}
+            />
+            <p className={styles.error}>
+              {errors.confirmPassword && (
+                <span>{errors.confirmPassword.message}</span>
+              )}
+            </p>
+          </div>
 
-        <div className={styles.inputWrapper}>
           <input
-            className={cn(styles.input, styles.notRequired, styles.lastInput)}
-            placeholder="Город (необязательно)"
-            {...register('city')}
+            className={cn(styles.input, styles.notRequired)}
+            placeholder="Имя (необязательно)"
+            {...register('name')}
           />
 
-          <p className={classNames(styles.error, styles.back)}>
-            {error && <span>{error}</span>}
-          </p>
-        </div>
+          <input
+            className={cn(styles.input, styles.notRequired)}
+            placeholder="Фамилия (необязательно)"
+            {...register('surname')}
+          />
 
-        <div className={styles.buttons}>
-          <Button buttonStatus={isBlocked ? 'disabled' : 'normal'} size="xxl">
-            Зарегистрироваться
-          </Button>
-        </div>
-      </form>
+          <div className={styles.inputWrapper}>
+            <input
+              className={cn(styles.input, styles.notRequired, styles.lastInput)}
+              placeholder="Город (необязательно)"
+              {...register('city')}
+            />
+
+            <p className={classNames(styles.error, styles.generalError)}>
+              {error && <span>{error}</span>}
+            </p>
+          </div>
+
+          <div className={styles.buttons}>
+            <Button buttonStatus={isBlocked ? 'disabled' : 'normal'} size="xxl">
+              Зарегистрироваться
+            </Button>
+          </div>
+        </form>
+      </div>
     </PageWrapper>
   )
 }

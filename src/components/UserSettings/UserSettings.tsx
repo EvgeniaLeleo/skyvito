@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import cn from 'classnames'
 
 import { User } from '../../types'
@@ -9,11 +10,10 @@ import {
   useUploadUserAvatarMutation,
 } from '../../services/usersApi'
 import { AvatarBlock } from '../AvatarBlock/AvatarBlock'
+import { useLogout } from '../../hooks/useLogout'
+import { ROUTES } from '../../routes'
 
 import styles from './style.module.css'
-import { useLogout } from '../../hooks/useLogout'
-import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '../../routes'
 
 type Props = {
   user: User
@@ -128,7 +128,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
         <div className={styles.nameWrapper}>
           <div className={styles.inputWrapper}>
             <label className={styles.label}>
-              Имя
+              <span className={styles.labelText}>Имя</span>
               <input
                 {...register('name')}
                 className={styles.input}
@@ -141,7 +141,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
 
           <div className={styles.inputWrapper}>
             <label className={styles.label}>
-              Фамилия
+              <span className={styles.labelText}>Фамилия</span>
               <input
                 {...register('surname')}
                 className={styles.input}
@@ -152,10 +152,10 @@ export const UserSettings: FC<Props> = ({ user }) => {
             </label>
           </div>
         </div>
-        {/* <div className={cn(styles.inputWrapper, styles.sizeM)}> */}
+
         <div className={cn(styles.inputWrapper, styles.sizeL)}>
           <label className={styles.label}>
-            Город
+            <span className={styles.labelText}>Город</span>
             <input
               {...register('city')}
               className={styles.input}
@@ -167,7 +167,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
         </div>
         <div className={cn(styles.inputWrapper, styles.sizeL)}>
           <label className={styles.label}>
-            Телефон
+            <span className={styles.labelText}>Телефон</span>
             <input
               {...register('phone')}
               className={styles.input}

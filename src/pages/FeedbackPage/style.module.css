@@ -1,49 +1,61 @@
+/* TODO */
+
 .wrapper {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
 
   box-sizing: border-box;
   width: 100%;
 
   padding-right: calc(50% - 580px);
   padding-left: calc(50% - 580px);
-  padding-top: 95px;
+  padding-top: 85px;
 
   margin-bottom: 84px;
 }
 
-.logo {
-  align-self: center;
-  width: 120px;
+.title {
+  font-style: normal;
+  font-weight: 600;
+  /* font-weight: 500; */
+  font-size: 24px;
+  line-height: 1.2;
 
-  margin-bottom: 30px;
+  margin: 0;
+  margin-bottom: 24px;
+}
+
+.backbtn {
+  width: 10px;
+  padding-right: 23px;
+
+  cursor: pointer;
+}
+
+.formContent:focus-within .label {
+  color: #009ee4;
 }
 
 .form {
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
-  align-items: stretch;
+  align-items: flex-start;
 
   width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 30px;
+}
 
+.formContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 14px;
   box-sizing: border-box;
 }
 
-.inputs {
-  margin-bottom: 10px;
-}
-
-.inputRequired {
-  margin-bottom: 9px;
-}
-
-.notRequired {
-  margin-bottom: 14px;
-}
-
-.input {
+.textArea {
   font-family: inherit;
   font-style: normal;
   font-weight: 400;
@@ -51,50 +63,27 @@
   line-height: 1.5;
 
   width: 100%;
-  min-height: 40px;
-
   padding: 9px 17px;
+  min-height: 100px;
   box-sizing: border-box;
 
-  border: 1px solid #d9d9d9;
-  border-radius: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
 
   resize: none;
 }
 
-.input:focus {
+.textArea:focus,
+.textArea:hover {
   outline: none;
   border-color: #009ee4;
 }
 
-.input::placeholder {
+.textArea::placeholder {
   font-family: inherit;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   color: rgba(0, 0, 0, 0.3);
-}
-
-.error {
-  height: 14px;
-  margin: 0;
-  padding-left: 19px;
-
-  font-size: 10px;
-
-  color: #ff6b6b;
-}
-
-.error p {
-  margin: 0;
-}
-
-.error p::before {
-  display: inline;
-  content: '⚠ ';
-}
-
-.generalError {
-  margin-bottom: 6px;
 }

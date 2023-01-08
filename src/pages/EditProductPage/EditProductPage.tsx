@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import cn from 'classnames'
 
 import { Button } from '../../components/Button/Button'
-import { Product } from '../../types'
 import { NUMBER_OF_IMAGES } from '../../constants'
 import { ProductImages } from '../../components/ProductImages/ProductImages'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -135,7 +134,7 @@ export const EditProductPage: FC = () => {
     <PageWrapper scrollToTop={true}>
       {product && (
         <div className={styles.wrapper}>
-          <h2 className={styles.title}>
+          <h1 className={styles.title}>
             <img
               className={styles.backbtn}
               src={back}
@@ -143,7 +142,7 @@ export const EditProductPage: FC = () => {
               onClick={handleBack}
             />
             Редактировать
-          </h2>
+          </h1>
 
           <form
             className={styles.form}

@@ -7,24 +7,17 @@ import { LoginModal } from '../../modals/LoginModal/LoginModal'
 import { SignUpModal } from '../../modals/SignUpModal/SignUpModal'
 import { ROUTES } from '../../routes'
 import { Button } from '../Button/Button'
-import { useMediaQuery } from 'react-responsive'
 
 import homeIcon from './assets/home.svg'
 import plusIcon from './assets/plus.svg'
 import profileIcon from './assets/profile.svg'
 import styles from './style.module.css'
-import { SCREEN_SIZE } from '../../constants'
 
 type Props = {
   isAuthorized?: boolean
 }
 
 export const Navigation: FC<Props> = ({ isAuthorized = true }) => {
-  const isDesktop = useMediaQuery({
-    query: SCREEN_SIZE.desktop,
-  })
-  const isMobile = useMediaQuery({ query: SCREEN_SIZE.mobile })
-
   const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(false)
   const [isSingUpModalShown, setIsSignUpModalShown] = useState<boolean>(false)
   const [isCreateModalShown, setIsCreateModalShown] = useState<boolean>(false)

@@ -3,8 +3,12 @@ import { FC, useEffect, useState } from 'react'
 import { Button } from '../Button/Button'
 import { formatPhone } from '../../utils/formatPhone'
 import { formatHiddenPhone } from '../../utils/formatHiddenPhone'
+import { ButtonSize } from '../../types'
 
-export const PhoneButton: FC<{ phone?: string }> = ({ phone }) => {
+export const PhoneButton: FC<{ phone?: string; size?: ButtonSize }> = ({
+  phone,
+  size,
+}) => {
   const [sellersPhone, setSellersPhone] = useState<string | undefined>(
     formatPhone(phone)
   )
@@ -20,7 +24,7 @@ export const PhoneButton: FC<{ phone?: string }> = ({ phone }) => {
   return (
     <>
       {sellersPhone ? (
-        <Button size="l" mb="34px" onClick={handleShowPhone}>
+        <Button size={size} mb="34px" onClick={handleShowPhone}>
           <span>
             Показать&nbsp;телефон
             <br />
@@ -28,7 +32,7 @@ export const PhoneButton: FC<{ phone?: string }> = ({ phone }) => {
           </span>
         </Button>
       ) : (
-        <Button size="l" mb="34px" buttonStatus="disabled">
+        <Button size={size} mb="34px" buttonStatus="disabled">
           Телефон не указан
         </Button>
       )}

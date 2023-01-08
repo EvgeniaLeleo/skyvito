@@ -2,10 +2,11 @@ import { FC, ReactNode } from 'react'
 import cn from 'classnames'
 
 import styles from './style.module.css'
+import { ButtonSize } from '../../types'
 
 type Props = {
   type?: 'action' | 'outlined' | 'secondary'
-  size?: 's' | 'm' | 'l' | 'xl' | 'xxl'
+  size?: ButtonSize
   buttonStatus?: 'normal' | 'disabled'
   children?: string | ReactNode
   btnType?: 'button' | 'submit' //| 'reset'

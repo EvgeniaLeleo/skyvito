@@ -80,3 +80,5 @@ export type UserTokensRequest = {
   access_token?: string
   refresh_token?: string
 }
+
+export type ButtonSize = 'unset' | 's' | 'm' | 'l' | 'xl' | 'xxl'

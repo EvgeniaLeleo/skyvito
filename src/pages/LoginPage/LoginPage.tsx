@@ -25,7 +25,6 @@ export const LoginPage = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [login, { data: userTokens }] = useLoginMutation()
-  const logout = useLogout()
 
   const [error, setError] = useState<string>('')
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
