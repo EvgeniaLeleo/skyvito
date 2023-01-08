@@ -11,6 +11,9 @@ import {
 import { AvatarBlock } from '../AvatarBlock/AvatarBlock'
 
 import styles from './style.module.css'
+import { useLogout } from '../../hooks/useLogout'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../routes'
 
 type Props = {
   user: User
@@ -43,6 +46,9 @@ export const UserSettings: FC<Props> = ({ user }) => {
 
   const [changeUserDetails] = useChangeUserDetailsMutation()
   const [uploadAvatar, { error: avatarError }] = useUploadUserAvatarMutation()
+
+  const logout = useLogout()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setIsBlocked(isBlocked)
@@ -106,6 +112,11 @@ export const UserSettings: FC<Props> = ({ user }) => {
     formData = []
   }
 
+  const handleLogout = () => {
+    logout()
+    navigate(ROUTES.main)
+  }
+
   return (
     <div className={styles.userSettings}>
       <AvatarBlock
@@ -143,7 +154,8 @@ export const UserSettings: FC<Props> = ({ user }) => {
             </label>
           </div>
         </div>
-        <div className={cn(styles.inputWrapper, styles.sizeM)}>
+        {/* <div className={cn(styles.inputWrapper, styles.sizeM)}> */}
+        <div className={cn(styles.inputWrapper, styles.sizeL)}>
           <label className={styles.label}>
             Город
             <input
@@ -168,7 +180,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
             />
           </label>
         </div>
-        <div>
+        <div className={styles.buttonsWrapper}>
           <Button
             btnType="submit"
             buttonStatus={isBlocked ? 'disabled' : 'normal'}
@@ -176,6 +188,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
             {buttonText}
           </Button>
           <span className={styles.uploadError}>{error}</span>
+          <Button onClick={handleLogout}>Выйти</Button>
         </div>
       </form>
     </div>

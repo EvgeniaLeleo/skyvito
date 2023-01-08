@@ -1,11 +1,8 @@
-import React, { FC, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import cn from 'classnames'
 
 import { Button } from '../../components/Button/Button'
-import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
-import { Modal } from '../Modal/Modal'
-import { Product } from '../../types'
 import { NUMBER_OF_IMAGES } from '../../constants'
 import { UploadNewImages } from '../../components/UploadNewImages/UploadNewImages'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -14,13 +11,10 @@ import {
   useUploadProductImageMutation,
 } from '../../services/productsApi'
 import { ROUTES } from '../../routes'
+import { PageWrapper } from '../PageWrapper/PageWrapper'
 
+import back from './assets/back.svg'
 import styles from './style.module.css'
-
-type Props = {
-  setIsOpened: Function
-  product?: Product
-}
 
 type Form = {
   title?: string
@@ -34,7 +28,7 @@ const regexp = new RegExp(/[^0-9.]/i)
 let uploadedImagesArray = Array.from(Array(NUMBER_OF_IMAGES))
 let formData = Array.from(Array(NUMBER_OF_IMAGES))
 
-export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
+export const CreateProductPage = () => {
   const initialValue = {
     title: '',
     description: '',
@@ -45,7 +39,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
 
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
   const [loading, setLoading] = useState<boolean>(false)
-  const [price, setPrice] = useState<string>(product?.price.toString() || '')
+  const [price, setPrice] = useState<string>('')
 
   const [createProduct] = useCreateProductMutation()
   const [uploadImage] = useUploadProductImageMutation()
@@ -75,8 +69,8 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
     setPrice(e.target.value)
   }
 
-  const handleClose = () => {
-    setIsOpened(false)
+  const handleBack = () => {
+    navigate(-1)
   }
 
   const onSubmit: SubmitHandler<Form> = async (data) => {
@@ -108,8 +102,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
       }
 
       setLoading(false)
-      setIsOpened(false)
-      navigate(ROUTES.product + '/' + createdProductId)
+      navigate(`${ROUTES.product}/${createdProductId}`)
     } catch {
       setLoading(false)
       console.log('error creating product')
@@ -121,18 +114,24 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
   }
 
   return (
-    <Modal isOpen={setIsOpened}>
-      <div className={styles.content}>
-        <h2 className={styles.title}>Новое объявление</h2>
-        <div className={styles.closeButton} onClick={handleClose}>
-          <CrossIcon />
-        </div>
+    <PageWrapper>
+      <div className={styles.wrapper}>
+        <h2 className={styles.title}>
+          <img
+            className={styles.backbtn}
+            src={back}
+            alt="back"
+            onClick={handleBack}
+          />
+          Новое объявление
+        </h2>
+
         <form
           className={styles.form}
           onSubmit={handleSubmit(onSubmit)}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className={cn(styles.formContent, styles.inputRequired)}>
+          <div className={cn(styles.inputRequired, styles.inputWrapper)}>
             <label className={styles.label}>
               Название
               <input
@@ -151,7 +150,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
               {errors.title && <p>{errors.title.message}</p>}
             </div>
           </div>
-          <div className={cn(styles.formContent, styles.areaContent)}>
+          <div className={cn(styles.areaContent, styles.inputWrapper)}>
             <label className={styles.label}>
               Описание
               <textarea
@@ -164,9 +163,10 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
               />
             </label>
           </div>
-          <div className={styles.formContent}>
+          <div className={styles.imgContent}>
             <p className={styles.textPhoto}>
-              Фотографии товара&nbsp;&nbsp;
+              Фотографии товара
+              <br />
               <span className={styles.limit}>
                 не более {NUMBER_OF_IMAGES} фотографий
               </span>
@@ -178,7 +178,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
               />
             </div>
           </div>
-          <div className={cn(styles.formContent, styles.priceBlock)}>
+          <div className={cn(styles.priceBlock, styles.inputWrapper)}>
             <label className={styles.label}>
               Цена
               <div className={styles.priceInput}>
@@ -190,7 +190,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
                       message: 'Введите корректную цену',
                     },
                   })}
-                  className={cn(styles.input, styles.price)}
+                  className={styles.input}
                   value={price}
                   onChange={handleChangePrice}
                 />
@@ -210,6 +210,6 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
           </Button>
         </form>
       </div>
-    </Modal>
+    </PageWrapper>
   )
 }

@@ -11,7 +11,12 @@ import { UserTokensRequest } from '../types'
 import { useAppSelector } from './useAppDispatch'
 import { useRefreshToken } from './useRefreshToken'
 
-export const useCurrentUser = (setIsOpened: Function) => {
+/**
+ * setIsOpened if for LoginModal
+ * @param setIsOpened
+ * @returns
+ */
+export const useCurrentUser = (setIsOpened?: Function) => {
   const timestamp = useRef(Date.now()).current
   const { data, isLoading, isError, error } = useGetCurrentUserQuery(timestamp)
 
@@ -30,7 +35,7 @@ export const useCurrentUser = (setIsOpened: Function) => {
   const handleRefreshToken = async (tokens: UserTokensRequest) => {
     const newTokens = await doRefreshToken(tokens)
 
-    if ('error' in newTokens) {
+    if ('error' in newTokens && setIsOpened) {
       setIsOpened(true)
     }
 

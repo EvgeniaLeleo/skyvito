@@ -71,7 +71,7 @@ export const UploadNewImages: FC<Props> = ({
           )}
 
           {!uploadedImages[index] && (
-            <label>
+            <label className={styles.labelUpload}>
               <PlusIconInSquare />
               <input
                 className={styles.input}

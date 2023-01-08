@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 425px) {
   .logo {
     width: 20px;
     height: 13px;

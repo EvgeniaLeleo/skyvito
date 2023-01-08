@@ -2,10 +2,15 @@ import { FC } from 'react'
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom'
 
 import { useLoadCredentialsFromCookies } from './hooks/useLoadCredentialsFromCookies'
+import { CreateProductPage } from './pages/CreateProductPage/CreateProductPage'
+import { EditProductPage } from './pages/EditProductPage/EditProductPage'
+import { LoginPage } from './pages/LoginPage/LoginPage'
 import { MainPage } from './pages/MainPage/MainPage'
+import { NotFound } from './pages/NotFound/NotFound'
 import { ProductPage } from './pages/ProductPage/ProductPage'
 import { ProfilePage } from './pages/ProfilePage/ProfilePage'
 import { SellersPage } from './pages/SellersPage/SellersPage'
+import { SignUpPage } from './pages/SignUpPage/SignUpPage'
 
 // const Main = lazy(() => import('./pages/Main/Main'))
 // const AboutCourse = lazy(() => import('./pages/AboutCourse/AboutCourse'))
@@ -20,6 +25,9 @@ export const ROUTES = {
   login: '/login',
   signup: '/signup',
   product: '/product',
+  createProduct: '/createproduct',
+  editProduct: '/editproduct',
+  signUp: '/signup',
   profile: '/profile',
   seller: '/seller',
 }
@@ -48,11 +56,16 @@ export const AppRoutes = () => {
       <Route path={ROUTES.main} element={<MainPage />} />
       <Route path={ROUTES.seller + '/:id'} element={<SellersPage />} />
       <Route path={ROUTES.product + '/:id'} element={<ProductPage />} />
-      {/* <Route path={ROUTES.login} element={<LoginForm />} /> */}
-      {/* <Route path={ROUTES.signup} element={<SignUpForm />} /> */}
+      <Route path={ROUTES.login} element={<LoginPage />} />
+      <Route path={ROUTES.signUp} element={<SignUpPage />} />
       <Route element={<ProtectedRoute isAllowed={isLoggedIn} />}>
         <Route path={ROUTES.profile} element={<ProfilePage />} />
-        {/* <Route path="*" element={<NotFound />} /> */}
+        <Route path={ROUTES.createProduct} element={<CreateProductPage />} />
+        <Route
+          path={ROUTES.editProduct + '/:id'}
+          element={<EditProductPage />}
+        />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   )

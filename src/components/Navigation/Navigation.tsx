@@ -7,14 +7,24 @@ import { LoginModal } from '../../modals/LoginModal/LoginModal'
 import { SignUpModal } from '../../modals/SignUpModal/SignUpModal'
 import { ROUTES } from '../../routes'
 import { Button } from '../Button/Button'
+import { useMediaQuery } from 'react-responsive'
 
+import homeIcon from './assets/home.svg'
+import plusIcon from './assets/plus.svg'
+import profileIcon from './assets/profile.svg'
 import styles from './style.module.css'
+import { SCREEN_SIZE } from '../../constants'
 
 type Props = {
-  authorized?: boolean
+  isAuthorized?: boolean
 }
 
-export const Navigation: FC<Props> = ({ authorized = true }) => {
+export const Navigation: FC<Props> = ({ isAuthorized = true }) => {
+  const isDesktop = useMediaQuery({
+    query: SCREEN_SIZE.desktop,
+  })
+  const isMobile = useMediaQuery({ query: SCREEN_SIZE.mobile })
+
   const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(false)
   const [isSingUpModalShown, setIsSignUpModalShown] = useState<boolean>(false)
   const [isCreateModalShown, setIsCreateModalShown] = useState<boolean>(false)
@@ -24,7 +34,7 @@ export const Navigation: FC<Props> = ({ authorized = true }) => {
   useCurrentUser(setIsLoginModalShown)
 
   const handleLoginClick = () => {
-    if (!authorized) {
+    if (!isAuthorized) {
       setIsLoginModalShown(true)
     } else {
       navigate(ROUTES.profile)
@@ -35,7 +45,7 @@ export const Navigation: FC<Props> = ({ authorized = true }) => {
     setIsCreateModalShown(true)
   }
 
-  const nav = authorized
+  const nav = isAuthorized
     ? [
         <Button type="secondary" onClick={handleCreateProduct}>
           Разместить объявление
@@ -70,26 +80,12 @@ export const Navigation: FC<Props> = ({ authorized = true }) => {
         </div>
 
         <ul className={styles.icons}>
-          <img
-            className={styles.icon}
-            src="./assets/images/home.svg"
-            alt="Home"
-          />
-          <img
-            className={styles.icon}
-            src="./assets/images/plus.svg"
-            alt="Add"
-          />
-          <Link
-            to={ROUTES.profile}
-            className={styles.link}
-            // onMouseEnter={() => prefetchCourse(product.id!)}
-          >
-            <img
-              className={styles.icon}
-              src="./assets/images/profile.svg"
-              alt="Profile"
-            />
+          <Link to={ROUTES.main} className={styles.link}>
+            <img className={styles.icon} src={homeIcon} alt="Home" />
+          </Link>
+          <img className={styles.icon} src={plusIcon} alt="Add" />
+          <Link to={ROUTES.profile} className={styles.link}>
+            <img className={styles.icon} src={profileIcon} alt="Profile" />
           </Link>
         </ul>
       </nav>

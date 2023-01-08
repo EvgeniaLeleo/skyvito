@@ -26,9 +26,6 @@ export const AvatarBlock: FC<Props> = ({
 }) => {
   const [uploadedAvatar, setUploadedAvatar] = useState<string>()
 
-  const logout = useLogout()
-  const navigate = useNavigate()
-
   const handleUploadAvatar = async (event: { target: { files: any } }) => {
     const files = event.target.files
     const file = files[0]
@@ -44,11 +41,6 @@ export const AvatarBlock: FC<Props> = ({
       setUploadedAvatar(URL.createObjectURL(file))
       setIsBlocked(false)
     }
-  }
-
-  const handleLogout = () => {
-    logout()
-    navigate(ROUTES.main)
   }
 
   return (
@@ -70,8 +62,6 @@ export const AvatarBlock: FC<Props> = ({
           />
         </label>
       </div>
-
-      <Button onClick={handleLogout}>Выйти</Button>
     </div>
   )
 }

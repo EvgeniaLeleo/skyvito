@@ -13,7 +13,7 @@ import {
 import { convertDate } from '../../utils/convertDate'
 import { ROUTES } from '../../routes'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
-import { API_URL } from '../../constants'
+import { API_URL, SCREEN_SIZE } from '../../constants'
 import { formatDate } from '../../utils/formatDate'
 import { NumberOfComments } from '../NumberOfComments/NumberOfComments'
 import { PhoneButton } from '../PhoneButton/PhoneButton'
@@ -22,12 +22,18 @@ import { accessTokenSelector } from '../../store/selectors/tokens'
 import { getUserEmailFromJWT } from '../../utils/parseTokens'
 
 import styles from './style.module.css'
+import { useMediaQuery } from 'react-responsive'
 
 export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
   const navigate = useNavigate()
 
   const access_token = useAppSelector(accessTokenSelector)
+
+  const isDesktop = useMediaQuery({
+    query: SCREEN_SIZE.desktop,
+  })
+  const isMobile = useMediaQuery({ query: SCREEN_SIZE.mobile })
 
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
@@ -50,7 +56,12 @@ export const ProductPage: FC = () => {
   }
 
   const handleEditProduct = () => {
-    setIsEditModalShown(true)
+    if (isDesktop) {
+      setIsEditModalShown(true)
+    }
+    if (isMobile) {
+      navigate(`${ROUTES.editProduct}/${product?.id}`)
+    }
   }
 
   const handleDeleteProduct = async () => {

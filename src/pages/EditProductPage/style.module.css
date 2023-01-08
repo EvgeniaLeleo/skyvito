@@ -1,0 +1,205 @@
+/* TODO check */
+
+.content {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding: 20px 50px 42px;
+
+  width: 600px;
+  height: min(800px, 98vh);
+  box-sizing: border-box;
+
+  background: #ffffff;
+  border-radius: 12px;
+}
+
+.title {
+  font-style: normal;
+  font-weight: 600;
+  /* font-weight: 500; */
+  font-size: 32px;
+  line-height: 2.2;
+
+  margin: 0;
+  /* margin-bottom: 10px; */
+  margin-bottom: 1.52%;
+}
+
+.closeButton {
+  position: absolute;
+  right: 42px;
+  top: 37px;
+
+  /* z-index: 3; */
+  cursor: pointer;
+}
+
+.label {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+
+  margin: 0;
+  padding: 0;
+
+  transition: all 0.1s ease;
+}
+
+.formContent:focus-within .label {
+  color: #009ee4;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: 100%;
+  height: 90%;
+
+  box-sizing: border-box;
+}
+
+.formContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  /* margin-bottom: 20px; */
+  margin-bottom: 3.04%;
+  box-sizing: border-box;
+}
+
+.inputRequired {
+  margin-bottom: 1.52%;
+}
+
+.input,
+.textArea {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+
+  width: 100%;
+  padding: 10px 19px 15px;
+  margin-top: 4px;
+  box-sizing: border-box;
+
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+
+  resize: none;
+}
+
+.textArea {
+  min-height: 50px;
+  max-height: min(20vh, 200px);
+  height: 20vh;
+}
+
+.input:focus,
+.textArea:focus,
+.textArea:hover {
+  outline: none;
+  border-color: #009ee4;
+}
+
+.input::placeholder,
+.textArea::placeholder {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.textPhoto {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+
+  margin: 0;
+  /* margin-bottom: 10px; */
+  margin-bottom: 1.52px;
+}
+
+.limit {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.priceBlock {
+  /* margin-bottom: 30px; */
+  /* margin-bottom: 4.7%; */
+  margin-bottom: 3.18%;
+}
+
+.priceInput {
+  position: relative;
+}
+
+.price {
+  width: 200px;
+  padding-right: 35px;
+}
+
+.currency {
+  position: absolute;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+
+  bottom: 13px;
+  left: 171px;
+}
+
+.imagesWrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+
+  /* margin-bottom: 5px; */
+  margin-bottom: 0.8%;
+
+  overflow: hidden;
+}
+
+.error {
+  height: 10px;
+  margin: 0;
+  /* padding-left: 19px; */
+
+  font-size: 10px;
+
+  color: #ff6b6b;
+}
+
+.error p {
+  margin: 0;
+}
+
+.error p::before {
+  display: inline;
+  content: '⚠ ';
+}
+
+/* .img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  aspect-ratio: 1 / 1;
+
+  background-color: #f0f0f0;
+} */

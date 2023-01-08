@@ -1,22 +1,30 @@
 import { FC, useEffect, useState } from 'react'
 import cn from 'classnames'
+import { useMediaQuery } from 'react-responsive'
 
 import { Navigation } from '../Navigation/Navigation'
 import { ProfileHeader } from '../ProfileHeader/ProfileHeader'
 import { SearchBar } from '../SearchBar/SearchBar'
+import { SCREEN_SIZE } from '../../constants'
+import { NavigationMobile } from '../NavigationMobile/NavigationMobile'
 
 import styles from './style.module.css'
 
 type Props = {
-  authorized?: boolean
+  isAuthorized?: boolean
   searchHeader?: boolean
 }
 
 export const Header: FC<Props> = ({
-  authorized = true,
+  isAuthorized = true,
   searchHeader = false,
 }) => {
   const [scrolled, setScrolled] = useState(false)
+
+  const isDesktop = useMediaQuery({
+    query: SCREEN_SIZE.desktop,
+  })
+  const isMobile = useMediaQuery({ query: SCREEN_SIZE.mobile })
 
   useEffect(() => {
     window.onscroll = function () {
@@ -31,7 +39,8 @@ export const Header: FC<Props> = ({
   return (
     <>
       <div className={styles.navWrapper}>
-        <Navigation authorized={authorized} />
+        {isDesktop && <Navigation isAuthorized={isAuthorized} />}
+        {isMobile && <NavigationMobile isAuthorized={isAuthorized} />}
       </div>
       <div
         className={cn(styles.searchWrapper, { [styles.scrolled]: scrolled })}

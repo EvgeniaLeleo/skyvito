@@ -27,7 +27,7 @@ export const PageWrapper: FC<Props> = ({
   return (
     <>
       {scrollToTop && <ScrollToTop />}
-      <Header authorized={isAuthorized} searchHeader={searchHeader} />
+      <Header isAuthorized={isAuthorized} searchHeader={searchHeader} />
       <div className={styles.wrapper}>{children}</div>
       {/* <Footer />  */}
     </>
