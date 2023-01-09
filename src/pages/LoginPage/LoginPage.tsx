@@ -5,7 +5,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 import { Button } from '../../components/Button/Button'
-import { validPasswordLength } from '../../constants'
+import { INCORRECT_EMAIL_WARNING, validPasswordLength } from '../../constants'
 import { AuthError, FormData } from '../../types'
 import { useLoginMutation } from '../../services/authApi'
 import { ROUTES } from '../../routes'
@@ -91,7 +91,7 @@ export const LoginPage = () => {
                 required: 'Введите e-mail',
                 pattern: {
                   value: validEmail,
-                  message: 'Введите корректный e-mail',
+                  message: INCORRECT_EMAIL_WARNING,
                 },
               })}
             />

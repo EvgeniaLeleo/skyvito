@@ -11,6 +11,10 @@ export const ERRORS: ErrorTypes = {
   'Incorrect password': 'Неверный пароль',
 }
 
+export const INCORRECT_EMAIL_WARNING = 'Введите корректный e-mail'
+export const INCORRECT_PASSWORD_WARNING =
+  'Пароль должен быть не менее 6 символов'
+
 export const SCREEN_SIZE = {
   mobile: '(max-width: 425px)',
   desktop: '(min-width: 425.99px)',

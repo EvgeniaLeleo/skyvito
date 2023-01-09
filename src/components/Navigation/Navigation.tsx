@@ -1,11 +1,11 @@
-import { FC, useEffect,   useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 
 import { CreateProductModal } from '../../modals/CreateProductModal/CreateProductModal '
 import { LoginModal } from '../../modals/LoginModal/LoginModal'
 import { SignUpModal } from '../../modals/SignUpModal/SignUpModal'
-import { ROUTES } from '../../routes' 
+import { ROUTES } from '../../routes'
 import { Button } from '../Button/Button'
 
 import homeIcon from './assets/home.svg'
@@ -17,7 +17,7 @@ type Props = {
   isLoggedIn?: boolean
 }
 
-export const Navigation: FC<Props> = ({ isLoggedIn = true }) => {
+export const Navigation: FC<Props> = ({ isLoggedIn }) => {
   const navigate = useNavigate()
 
   const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(false)

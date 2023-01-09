@@ -13,6 +13,7 @@ import { useCookies } from 'react-cookie'
 import { setToken } from '../../store/tokenSlice'
 import { getErrorMessage } from '../../utils/getErrorMessage'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
+import { INCORRECT_EMAIL_WARNING } from '../../constants'
 
 import logo from './assets/skyLogo.svg'
 import styles from './style.module.css'
@@ -96,7 +97,7 @@ export const SignUpPage: FC = () => {
                 required: 'Введите e-mail',
                 pattern: {
                   value: validEmail,
-                  message: 'Введите корректный e-mail',
+                  message: INCORRECT_EMAIL_WARNING,
                 },
               })}
             />

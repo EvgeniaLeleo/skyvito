@@ -48,6 +48,7 @@ export const SearchBar: FC = () => {
       <input
         className={styles.input}
         placeholder="Поиск по объявлениям"
+        type="search"
         value={newQuery}
         onChange={handleChange}
       />

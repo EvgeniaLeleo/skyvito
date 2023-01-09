@@ -15,6 +15,7 @@ import { setToken } from '../../store/tokenSlice'
 import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 import { getErrorMessage } from '../../utils/getErrorMessage'
 import { useLogout } from '../../hooks/useLogout'
+import { INCORRECT_EMAIL_WARNING } from '../../constants'
 
 import logo from './assets/skyLogo.svg'
 import styles from './style.module.css'
@@ -86,7 +87,11 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
 
   return (
     <Modal isOpen={setIsOpened} handleEsc={logout}>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit(onSubmit)}
+        data-cy="signup-modal"
+      >
         <div
           className={styles.closeButton}
           onClick={() => {
@@ -101,12 +106,13 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
           <input
             onFocus={focusHandler}
             className={styles.input}
+            data-cy="signup-email"
             placeholder="E-mail"
             {...register('email', {
               required: 'Введите e-mail',
               pattern: {
                 value: validEmail,
-                message: 'Введите корректный e-mail',
+                message: INCORRECT_EMAIL_WARNING,
               },
             })}
           />
@@ -120,6 +126,7 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
             onFocus={focusHandler}
             className={styles.input}
             placeholder="Пароль"
+            data-cy="signup-password"
             type="password"
             {...register('password', {
               required: 'Введите пароль',
@@ -139,6 +146,7 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
             onFocus={focusHandler}
             className={styles.input}
             placeholder="Повторите пароль"
+            data-cy="signup-confirmPassword"
             type="password"
             {...register('confirmPassword', {
               required: 'Подтвердите пароль',

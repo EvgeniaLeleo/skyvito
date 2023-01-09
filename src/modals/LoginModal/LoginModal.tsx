@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 import { Button } from '../../components/Button/Button'
-import { validPasswordLength } from '../../constants'
+import { INCORRECT_EMAIL_WARNING, validPasswordLength } from '../../constants'
 import { AuthError, FormData } from '../../types'
 import { Modal } from '../Modal/Modal'
 import { useLoginMutation } from '../../services/authApi'
@@ -29,12 +29,13 @@ type Props = {
 export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const [login, { data: userTokens }] = useLoginMutation()
   const logout = useLogout()
 
-  const [error, setError] = useState<string>('')
+  const [login, { data: userTokens }] = useLoginMutation()
+
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
   const [, setCookies] = useCookies(['access', 'refresh'])
+  const [error, setError] = useState<string>('')
 
   useEffect(() => {
     if (userTokens) {
@@ -85,7 +86,11 @@ export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
 
   return (
     <Modal isOpen={setIsOpened} handleEsc={logout}>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit(onSubmit)}
+        data-cy="login-modal"
+      >
         <div
           className={styles.closeButton}
           onClick={() => {
@@ -101,11 +106,12 @@ export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
             onFocus={focusHandler}
             className={styles.input}
             placeholder="E-mail"
+            data-cy="login-email"
             {...register('email', {
               required: 'Введите e-mail',
               pattern: {
                 value: validEmail,
-                message: 'Введите корректный e-mail',
+                message: INCORRECT_EMAIL_WARNING,
               },
             })}
           />
@@ -118,6 +124,7 @@ export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
             className={inputPasswordStyle}
             placeholder="Пароль"
             type="password"
+            data-cy="login-password"
             {...register('password', {
               required: 'Введите пароль',
               minLength: {
