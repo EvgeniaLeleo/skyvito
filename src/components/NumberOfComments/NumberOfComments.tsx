@@ -1,6 +1,4 @@
-// TODO
-
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { ending } from '../../utils/ending'
 import { useGetProductCommentsQuery } from '../../services/productsApi'
@@ -10,19 +8,26 @@ type Props = {
 }
 
 export const NumberOfComments: FC<Props> = ({ productId }) => {
-  const { data: comments } = useGetProductCommentsQuery(productId)
+  const { data: comments, isLoading: isLoadingComments } =
+    useGetProductCommentsQuery(productId)
 
-  const numberOfComments = comments?.length ? comments.length : 0
+  const [numberOfComments, setNumberOfComments] = useState<number | undefined>(
+    comments?.length
+  )
+
+  useEffect(() => {
+    setNumberOfComments(comments?.length)
+  }, [comments])
 
   return (
     <>
-      {numberOfComments ? (
+      {isLoadingComments && 'Загрузка...'}
+      {!!numberOfComments && (
         <span>
           {numberOfComments} отзыв{ending(numberOfComments)}
         </span>
-      ) : (
-        'Нет отзывов'
       )}
+      {!numberOfComments && !isLoadingComments && 'Нет отзывов'}
     </>
   )
 }

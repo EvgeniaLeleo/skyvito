@@ -10,7 +10,6 @@ import { CommentModal } from '../../modals/CommentModal/CommentModal'
 import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 import {
   useDeleteProductMutation,
-  useGetProductCommentsQuery,
   useGetProductQuery,
 } from '../../services/productsApi'
 import { convertDate } from '../../utils/convertDate'
@@ -22,7 +21,7 @@ import { PhoneButton } from '../../components/PhoneButton/PhoneButton'
 import { useAppSelector } from '../../hooks/useAppDispatch'
 import { accessTokenSelector } from '../../store/selectors/tokens'
 import { getUserEmailFromJWT } from '../../utils/parseTokens'
-import { ending } from '../../utils/ending'
+import { NumberOfComments } from '../../components/NumberOfComments/NumberOfComments'
 
 import back from './assets/back.svg'
 import styles from './style.module.css'
@@ -42,16 +41,11 @@ export const ProductPage: FC = () => {
     useGetProductQuery(productId)
 
   const [delProduct] = useDeleteProductMutation()
-  const { data: productComments, isLoading: isLoadingComments } =
-    useGetProductCommentsQuery(productId)
 
   const [isCommentModalShown, setIsCommentModalShown] = useState<boolean>(false)
   const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
   const [buttonText, setButtonText] = useState<string>('Снять с публикации')
-  const [numberOfComments, setNumberOfComments] = useState<number | undefined>(
-    productComments?.length
-  )
 
   const [imgUrl, setImgUrl] = useState(
     product?.images[0]?.url ? API_URL + product?.images[0]?.url : ''
@@ -111,10 +105,6 @@ export const ProductPage: FC = () => {
   useEffect(() => {
     setImgUrl(product?.images[0]?.url ? API_URL + product?.images[0]?.url : '')
   }, [product?.images])
-
-  useEffect(() => {
-    setNumberOfComments(productComments?.length)
-  }, [productComments])
 
   useEffect(() => {
     if (isCommentModalShown || isEditModalShown) {
@@ -192,13 +182,7 @@ export const ProductPage: FC = () => {
               {convertDate(product.created_on || '')}
             </p>
             <p className={styles.comment} onClick={handleCommentClick}>
-              {isLoadingComments && 'Загрузка...'}
-              {!!numberOfComments && (
-                <span>
-                  {numberOfComments} отзыв{ending(numberOfComments)}
-                </span>
-              )}
-              {!numberOfComments && !isLoadingComments && 'Нет отзывов'}
+              <NumberOfComments productId={productId} />
             </p>
 
             <p className={styles.price}>{product.price} ₽</p>

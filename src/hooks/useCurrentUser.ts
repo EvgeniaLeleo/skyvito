@@ -16,7 +16,6 @@ import { useAppSelector } from './useAppDispatch'
 import { useRefreshToken } from './useRefreshToken'
 
 // Property 'setIsOpened' is if for LoginModal
-
 export const useCurrentUser = (setIsOpened?: Function) => {
   const timestamp = useRef(Date.now()).current
   const { data, isLoading, isError, error } = useGetCurrentUserQuery(timestamp)

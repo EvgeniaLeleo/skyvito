@@ -21,7 +21,6 @@ export const UploadNewImages: FC<Props> = ({
 }) => {
   const [uploadedImages, setUploadedImages] = useState(uploadedImagesArray)
 
-  // Updating the photo-preview array
   useEffect(() => {
     setUploadedImages(uploadedImagesArray)
   }, [uploadedImagesArray])

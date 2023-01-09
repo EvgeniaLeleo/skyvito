@@ -24,9 +24,11 @@ export const AvatarBlock: FC<Props> = ({
 }) => {
   const [uploadedAvatar, setUploadedAvatar] = useState<string>()
 
-  const handleUploadAvatar = async (event: { target: { files: any } }) => {
+  const handleUploadAvatar = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = event.target.files
-    const file = files[0]
+    const file = files ? files[0] : null
 
     if (!file) {
       return
