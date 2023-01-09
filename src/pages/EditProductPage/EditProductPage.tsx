@@ -33,8 +33,8 @@ let urlArrayForDeleting: string[] = []
 
 export const EditProductPage: FC = () => {
   const productId = Number(useParams()?.id)
-  const { data: product, isLoading: productIsLoading } =
-    useGetProductQuery(productId)
+  const { data: product } = useGetProductQuery(productId)
+
   const navigate = useNavigate()
 
   const initialValue = {

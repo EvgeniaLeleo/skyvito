@@ -6,7 +6,7 @@ export const NotFound = () => {
   return (
     <PageWrapper>
       <div className={styles.wrapper}>
-        <p>Такой страницы нет</p>
+        <h2 className={styles.subtitle}>404 такой страницы нет</h2>
       </div>
     </PageWrapper>
   )

@@ -124,7 +124,7 @@ export const ProductPage: FC = () => {
   if (!product)
     return (
       <PageWrapper>
-        <p>Такого объявления нет</p>
+        <h2 className={styles.subtitle}>Такого объявления нет</h2>
       </PageWrapper>
     )
 

@@ -20,7 +20,7 @@ import styles from './style.module.css'
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.\w{2,3}$/i)
 const validPasswordLength = 6
 
-export const SignUpPage = () => {
+export const SignUpPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 

@@ -19,6 +19,7 @@ export const useEscapeKey: ({
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isOpen]
   )
 
