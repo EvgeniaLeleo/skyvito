@@ -7,7 +7,7 @@ import {
   USER_NEW_PHONE,
 } from '../support/constants'
 
-describe('The main profile page of the application', () => {
+describe('The profile page of the application', () => {
   it('should display navigation', () => {
     cy.login(USER_EMAIL, USER_PASSWORD)
 

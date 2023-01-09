@@ -125,6 +125,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
           className={styles.form}
           onSubmit={handleSubmit(onSubmit)}
           onClick={(e) => e.stopPropagation()}
+          data-cy="create-modal"
         >
           <div className={cn(styles.formContent, styles.inputRequired)}>
             <label className={styles.label}>
@@ -135,6 +136,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
                 })}
                 className={styles.input}
                 type="text"
+                data-cy="create-title"
                 placeholder="Введите название"
                 value={fieldValue.title || ''}
                 onChange={(e) => handleFieldChange(e, 'title')}
@@ -153,6 +155,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
                 className={styles.textArea}
                 rows={1}
                 placeholder="Введите описание"
+                data-cy="create-description"
                 value={fieldValue.description}
                 onChange={(e) => handleFieldChange(e, 'description')}
               />
@@ -186,6 +189,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
                   })}
                   className={cn(styles.input, styles.price)}
                   value={price}
+                  data-cy="create-price"
                   onChange={handleChangePrice}
                 />
                 <div className={styles.currency}>₽</div>

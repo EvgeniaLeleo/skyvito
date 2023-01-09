@@ -13,6 +13,20 @@
 
   background: #ffffff;
   border-radius: 12px;
+  overflow-y: auto;
+  scrollbar-color: #ffffff #2e2e2e;
+  scrollbar-width: thin;
+  scrollbar-width: 0px;
+}
+
+.content::-webkit-scrollbar {
+  width: 6px;
+  background-color: #ffffff;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: #d9d9d9;
+  border-radius: 10px;
 }
 
 .title {

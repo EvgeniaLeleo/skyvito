@@ -17,6 +17,11 @@ export const INCORRECT_CONFIRM_PASSWORD_WARNING = 'Пароли не совпа�
 export const INCORRECT_PASSWORD_WARNING =
   'Пароль должен быть не менее 6 символов'
 
+export const NEW_PRODUCT_TITLE = 'Новое объявление'
+export const NEW_PRODUCT_PRICE = '100.25'
+export const NEW_PRODUCT_DESCRIPTION =
+  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero possimus sed ut totam! Aliquid eos doloribus, odit voluptatem quia veniam facilis, reiciendis laboriosam qui tempore cupiditate accusamus expedita error! Esse?'
+
 export const USER_DATA = {
   name: USER_NAME,
   surname: USER_SURNAME,

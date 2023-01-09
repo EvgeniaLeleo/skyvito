@@ -28,7 +28,7 @@ export const PageWrapper: FC<Props> = ({
     <>
       {scrollToTop && <ScrollToTop />}
       <Header isLoggedIn={isLoggedIn} searchHeader={searchHeader} />
-      <div className={styles.wrapper}>{children}</div>
+      <div className={styles.pageWrapper}>{children}</div>
     </>
   )
 }
