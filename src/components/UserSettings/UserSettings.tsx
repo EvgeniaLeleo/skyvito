@@ -133,6 +133,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
                 {...register('name')}
                 className={styles.input}
                 value={fieldValue.name}
+                data-cy="settings-name"
                 placeholder="Имя"
                 onChange={(e) => handleFieldChange(e, 'name')}
               />
@@ -146,6 +147,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
                 {...register('surname')}
                 className={styles.input}
                 value={fieldValue.surname}
+                data-cy="settings-surname"
                 placeholder="Фамилия"
                 onChange={(e) => handleFieldChange(e, 'surname')}
               />
@@ -160,6 +162,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
               {...register('city')}
               className={styles.input}
               value={fieldValue.city}
+              data-cy="settings-city"
               placeholder="Город"
               onChange={(e) => handleFieldChange(e, 'city')}
             />
@@ -171,6 +174,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
             <input
               {...register('phone')}
               className={styles.input}
+              data-cy="settings-phone"
               type="tel"
               value={phone}
               placeholder="Телефон"

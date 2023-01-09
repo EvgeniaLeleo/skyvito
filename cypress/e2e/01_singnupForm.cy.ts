@@ -6,8 +6,11 @@ import {
   INCORRECT_EMAIL_WARNING,
   INCORRECT_PASSWORD_WARNING,
   TAKEN_EMAIL_WARNING,
+  USER_CITY,
   USER_EMAIL,
+  USER_NAME,
   USER_PASSWORD,
+  USER_SURNAME,
 } from '../support/constants'
 
 describe('Test registration', () => {
@@ -63,32 +66,13 @@ describe('Test registration', () => {
   })
 
   it('should successfully submit the signup form', () => {
-    cy.clickButtonAndOpenSignupModal()
-
-    cy.get('form[data-cy="signup-modal"]').within(() => {
-      cy.root()
-        .find('input[data-cy="signup-email"]')
-        .clear()
-        .type(USER_EMAIL)
-        .should('have.value', USER_EMAIL)
-      cy.root().contains(INCORRECT_EMAIL_WARNING).should('not.exist')
-
-      cy.root()
-        .find('input[data-cy="signup-password"]')
-        .clear()
-        .type(USER_PASSWORD)
-        .should('have.value', USER_PASSWORD)
-      cy.root().contains(INCORRECT_PASSWORD_WARNING).should('not.exist')
-
-      cy.root()
-        .find('input[data-cy="signup-confirmPassword"]')
-        .type(USER_PASSWORD)
-        .should('have.value', USER_PASSWORD)
-
-      cy.root().submit()
-      cy.root().contains(TAKEN_EMAIL_WARNING).should('not.exist')
-      cy.location('pathname').should('eq', '/profile')
-    })
+    cy.successfulSubmitSignupForm(
+      USER_EMAIL,
+      USER_PASSWORD,
+      USER_NAME,
+      USER_SURNAME,
+      USER_CITY
+    )
   })
 
   it('should output errors when the user enters taken e-mail', () => {

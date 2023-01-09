@@ -34,25 +34,6 @@ describe('Test login', () => {
   })
 
   it('should successfully submit the login form', () => {
-    cy.clickButtonAndOpenLoginModal()
-
-    cy.get('form[data-cy="login-modal"]').within(() => {
-      cy.root()
-        .find('input[data-cy="login-email"]')
-        .clear()
-        .type(USER_EMAIL)
-        .should('have.value', USER_EMAIL)
-      cy.root().contains(INCORRECT_EMAIL_WARNING).should('not.exist')
-
-      cy.root()
-        .find('input[data-cy="login-password"]')
-        .clear()
-        .type(USER_PASSWORD)
-        .should('have.value', USER_PASSWORD)
-      cy.root().contains(INCORRECT_PASSWORD_WARNING).should('not.exist')
-
-      cy.root().submit()
-      cy.location('pathname').should('eq', '/profile')
-    })
+    cy.login(USER_EMAIL, USER_PASSWORD)
   })
 })

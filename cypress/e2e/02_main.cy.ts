@@ -16,6 +16,8 @@ describe('The main page of the application', () => {
 
   it('should display title', () => {
     cy.visit('/')
-    cy.get('h1').contains('Объявления').should('exist')
+    cy.get('h1').contains('Объявления').should('exist').as('ButtonReturn')
+
+    cy.get('@ButtonReturn').click()
   })
 })

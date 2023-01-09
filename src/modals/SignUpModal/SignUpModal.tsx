@@ -168,12 +168,14 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
         <input
           className={cn(styles.input, styles.notRequired)}
           placeholder="Имя (необязательно)"
+          data-cy="signup-name"
           {...register('name')}
         />
 
         <input
           className={cn(styles.input, styles.notRequired)}
           placeholder="Фамилия (необязательно)"
+          data-cy="signup-surname"
           {...register('surname')}
         />
 
@@ -181,6 +183,7 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
           <input
             className={cn(styles.input, styles.notRequired, styles.lastInput)}
             placeholder="Город (необязательно)"
+            data-cy="signup-city"
             {...register('city')}
           />
 

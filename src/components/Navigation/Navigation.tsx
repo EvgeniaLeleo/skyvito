@@ -48,7 +48,7 @@ export const Navigation: FC<Props> = ({ isLoggedIn }) => {
 
   return (
     <>
-      <nav className={styles.nav}>
+      <nav className={styles.nav} data-cy="navigation">
         <div className={styles.buttonsWrapper}>
           {isLoggedIn && (
             <>
