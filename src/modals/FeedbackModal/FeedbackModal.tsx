@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Button } from '../../components/Button/Button'
@@ -11,6 +11,7 @@ import { useGetProductCommentsQuery } from '../../services/productsApi'
 import { useLoadCredentialsFromCookies } from '../../hooks/useLoadCredentialsFromCookies'
 
 import styles from './style.module.css'
+import { Feedback } from '../../types'
 
 type Props = {
   setIsOpened: Function
@@ -18,16 +19,26 @@ type Props = {
 }
 
 export const FeedbackModal: FC<Props> = ({ setIsOpened, productId }) => {
-  const [isBlocked, setIsBlocked] = useState<boolean>(true)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [feedback, setFeedback] = useState<string>('')
-
-  const { data: comments } = useGetProductCommentsQuery(productId)
+  const { data: productComments, isLoading: isLoadingComments } =
+    useGetProductCommentsQuery(productId)
   const [createComment] = useCreateCommentMutation()
 
   const isLoggedIn = useLoadCredentialsFromCookies()
 
+  const { register, handleSubmit } = useForm<{ text: string }>({
+    mode: 'onBlur',
+  })
+
+  const [isBlocked, setIsBlocked] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [feedback, setFeedback] = useState<string>('')
+  const [buttonText, setButtonText] = useState<string>('Опубликовать')
+  const [comments, setComments] = useState<Feedback[] | undefined>(
+    productComments
+  )
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setButtonText('Опубликовать')
     setFeedback(e.target.value)
     setIsBlocked(!e.target.value.trim().length)
   }
@@ -36,26 +47,32 @@ export const FeedbackModal: FC<Props> = ({ setIsOpened, productId }) => {
     setIsOpened(false)
   }
 
-  const { register, handleSubmit } = useForm<{ text: string }>({
-    mode: 'onBlur',
-  })
+  useEffect(() => {
+    setComments(productComments)
+  }, [productComments?.length])
 
-  const onSubmit: SubmitHandler<{ text: string }> = async (data) => {
+  const onSubmit: SubmitHandler<{ text: string }> = async (newComment) => {
     try {
       setLoading(true)
+      setButtonText('Публикуется...')
 
-      await createComment({
+      const newCommentData = await createComment({
         productId,
         body: {
-          text: data.text,
+          text: newComment.text,
         },
       }).unwrap()
 
+      if (comments) {
+        setComments([newCommentData, ...comments])
+      } else {
+        setComments([newCommentData])
+      }
+
+      setButtonText('Опубликовано')
       setFeedback('')
       setIsBlocked(true)
       setLoading(false)
-
-      setIsOpened(false)
     } catch (error) {
       console.log('error creating comment', error)
     }
@@ -95,7 +112,7 @@ export const FeedbackModal: FC<Props> = ({ setIsOpened, productId }) => {
                 btnType="submit"
                 size="xl"
               >
-                Опубликовать
+                {buttonText}
               </Button>
             </form>
           )}

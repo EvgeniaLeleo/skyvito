@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie'
 import { Header } from '../../components/Header/Header'
 import { ScrollToTop } from '../../components/ScrollToTop/ScrollToTop'
 import { useAppSelector } from '../../hooks/useAppDispatch'
+import { useLoadCredentialsFromCookies } from '../../hooks/useLoadCredentialsFromCookies'
 import { accessTokenSelector } from '../../store/selectors/tokens'
 
 import styles from './style.module.css'
@@ -22,12 +23,12 @@ export const PageWrapper: FC<Props> = ({
   const [cookies] = useCookies(['access', 'refresh'])
   const access_token = useAppSelector(accessTokenSelector)
 
-  const isAuthorized = cookies && cookies.access && access_token ? true : false
+  const isLoggedIn = cookies && cookies.access && access_token ? true : false
 
   return (
     <>
       {scrollToTop && <ScrollToTop />}
-      <Header isAuthorized={isAuthorized} searchHeader={searchHeader} />
+      <Header isLoggedIn={isLoggedIn} searchHeader={searchHeader} />
       <div className={styles.wrapper}>{children}</div>
       {/* <Footer />  */}
     </>

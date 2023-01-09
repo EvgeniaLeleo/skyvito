@@ -23,10 +23,10 @@ import { useAppSelector } from '../../hooks/useAppDispatch'
 import { accessTokenSelector } from '../../store/selectors/tokens'
 import { getUserEmailFromJWT } from '../../utils/parseTokens'
 import { ending } from '../../utils/ending'
-import { Feedback } from '../../types'
 
 import back from './assets/back.svg'
 import styles from './style.module.css'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 
 export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
@@ -41,16 +41,20 @@ export const ProductPage: FC = () => {
 
   const { data: product, isLoading: productIsLoading } =
     useGetProductQuery(productId)
+
   const [delProduct] = useDeleteProductMutation()
-  const { data: productComments } = useGetProductCommentsQuery(product?.id)
+  const { data: productComments, isLoading: isLoadingComments } =
+    useGetProductCommentsQuery(productId, {
+      refetchOnMountOrArgChange: true,
+    })
 
   const [isFeedbackModalShown, setIsFeedbackModalShown] =
     useState<boolean>(false)
   const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
-  const [comments, setComments] = useState<Feedback[] | undefined>(
-    productComments
-  )
+  // const [comments, setComments] = useState<Feedback[] | undefined>(
+  //   productComments
+  // )
   const [numberOfComments, setNumberOfComments] = useState<number | undefined>(
     productComments?.length
   )
@@ -111,7 +115,7 @@ export const ProductPage: FC = () => {
   }, [product?.images])
 
   useEffect(() => {
-    setComments(productComments)
+    // setComments(productComments)
     setNumberOfComments(productComments?.length)
   }, [productComments])
 
@@ -158,7 +162,11 @@ export const ProductPage: FC = () => {
               </div>
             )}
 
-            <ImageWrapper imageUrl={imgUrl} name={product.title} />
+            <ImageWrapper
+              imageUrl={imgUrl}
+              name={product.title}
+              mb={isDesktop ? '30px' : '0'}
+            />
             <div className={styles.previewWrapper}>
               {product.images.map((image, index) => (
                 <ImageWrapper
@@ -178,15 +186,15 @@ export const ProductPage: FC = () => {
               {convertDate(product.created_on || '')}
             </p>
             <p className={styles.feedback} onClick={handleFeedbackClick}>
-              {/* <NumberOfComments product={product} /> */}
-              {numberOfComments ? (
+              {isLoadingComments && 'Загрузка...'}
+              {!!numberOfComments && (
                 <span>
                   {numberOfComments} отзыв{ending(numberOfComments)}
                 </span>
-              ) : (
-                'Нет отзывов'
               )}
+              {!numberOfComments && !isLoadingComments && 'Нет отзывов'}
             </p>
+
             <p className={styles.price}>{product.price} ₽</p>
 
             {!isSeller ? (

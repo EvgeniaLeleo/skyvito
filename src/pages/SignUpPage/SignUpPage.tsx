@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import cn from 'classnames'
 
 import { Button } from '../../components/Button/Button'
@@ -29,7 +29,9 @@ export const SignUpPage = () => {
   const [signUp] = useRegisterMutation()
   const [login, { data: userTokens }] = useLoginMutation()
 
-  const [, setCookies] = useCookies(['access', 'refresh'])
+  const [cookies, setCookies] = useCookies(['access', 'refresh'])
+
+  const isLoggedIn = !!cookies && !!cookies.access
 
   useEffect(() => {
     if (userTokens) {
@@ -77,6 +79,8 @@ export const SignUpPage = () => {
   }
 
   const focusHandler = () => setError('')
+
+  if (isLoggedIn) return <Navigate to={ROUTES.profile} replace={true} />
 
   return (
     <PageWrapper scrollToTop={true}>

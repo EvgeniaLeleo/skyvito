@@ -11,10 +11,10 @@ import profileIcon from './assets/profile.svg'
 import styles from './style.module.css'
 
 type Props = {
-  isAuthorized?: boolean
+  isLoggedIn?: boolean
 }
 
-export const NavigationMobile: FC<Props> = ({ isAuthorized }) => {
+export const NavigationMobile: FC<Props> = ({ isLoggedIn }) => {
   useCurrentUser()
 
   return (
@@ -25,12 +25,12 @@ export const NavigationMobile: FC<Props> = ({ isAuthorized }) => {
             <img className={styles.icon} src={homeIcon} alt="Home" />
           </Link>
 
-          <Link to={isAuthorized ? ROUTES.createProduct : ROUTES.login}>
+          <Link to={isLoggedIn ? ROUTES.createProduct : ROUTES.login}>
             <img className={styles.icon} src={plusIcon} alt="Add" />
           </Link>
 
           <Link
-            to={isAuthorized ? ROUTES.profile : ROUTES.login}
+            to={isLoggedIn ? ROUTES.profile : ROUTES.login}
             className={styles.link}
           >
             <img className={styles.icon} src={profileIcon} alt="Profile" />

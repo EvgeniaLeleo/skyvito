@@ -55,7 +55,7 @@ export const SellersPage = () => {
           </div>
 
           <div className={styles.phoneButton}>
-            <PhoneButton phone={seller?.phone} size="xxl" />
+            <PhoneButton phone={seller?.phone} size="l" />
           </div>
         </div>
 

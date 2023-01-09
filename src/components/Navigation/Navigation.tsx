@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 
@@ -6,6 +6,7 @@ import { CreateProductModal } from '../../modals/CreateProductModal/CreateProduc
 import { LoginModal } from '../../modals/LoginModal/LoginModal'
 import { SignUpModal } from '../../modals/SignUpModal/SignUpModal'
 import { ROUTES } from '../../routes'
+import { useGetCurrentUserQuery } from '../../services/usersApi'
 import { Button } from '../Button/Button'
 
 import homeIcon from './assets/home.svg'
@@ -14,20 +15,20 @@ import profileIcon from './assets/profile.svg'
 import styles from './style.module.css'
 
 type Props = {
-  isAuthorized?: boolean
+  isLoggedIn?: boolean
 }
 
-export const Navigation: FC<Props> = ({ isAuthorized = true }) => {
+export const Navigation: FC<Props> = ({ isLoggedIn = true }) => {
+  const navigate = useNavigate()
+
   const [isLoginModalShown, setIsLoginModalShown] = useState<boolean>(false)
   const [isSingUpModalShown, setIsSignUpModalShown] = useState<boolean>(false)
   const [isCreateModalShown, setIsCreateModalShown] = useState<boolean>(false)
 
-  const navigate = useNavigate()
-
   useCurrentUser(setIsLoginModalShown)
 
   const handleLoginClick = () => {
-    if (!isAuthorized) {
+    if (!isLoggedIn) {
       setIsLoginModalShown(true)
     } else {
       navigate(ROUTES.profile)
@@ -37,21 +38,6 @@ export const Navigation: FC<Props> = ({ isAuthorized = true }) => {
   const handleCreateProduct = () => {
     setIsCreateModalShown(true)
   }
-
-  const nav = isAuthorized
-    ? [
-        <Button type="secondary" onClick={handleCreateProduct}>
-          Разместить объявление
-        </Button>,
-        <Button type="secondary" onClick={handleLoginClick}>
-          Личный кабинет
-        </Button>,
-      ]
-    : [
-        <Button type="secondary" onClick={handleLoginClick}>
-          Вход в личный кабинет
-        </Button>,
-      ]
 
   useEffect(() => {
     if (isLoginModalShown || isSingUpModalShown || isCreateModalShown) {
@@ -64,12 +50,23 @@ export const Navigation: FC<Props> = ({ isAuthorized = true }) => {
   return (
     <>
       <nav className={styles.nav}>
-        <div className={styles.buttonWrapper}>
-          <ul className={styles.items}>
-            {nav.map((item, index) => (
-              <li key={index.toString()}>{item}</li>
-            ))}
-          </ul>
+        <div className={styles.buttonsWrapper}>
+          {isLoggedIn && (
+            <>
+              <Button type="secondary" onClick={handleCreateProduct}>
+                Разместить объявление
+              </Button>
+              <Button type="secondary" onClick={handleLoginClick}>
+                Личный кабинет
+              </Button>
+            </>
+          )}
+
+          {!isLoggedIn && (
+            <Button type="secondary" onClick={handleLoginClick}>
+              Вход в личный кабинет
+            </Button>
+          )}
         </div>
 
         <ul className={styles.icons}>
@@ -82,12 +79,6 @@ export const Navigation: FC<Props> = ({ isAuthorized = true }) => {
           </Link>
         </ul>
       </nav>
-
-      {/* <Link to={isLoggedIn ? ROUTES.profile : ROUTES.login}>
-              <Button type="tertiary" size="s">
-                Войти
-              </Button>
-            </Link>*/}
 
       {isLoginModalShown && (
         <LoginModal

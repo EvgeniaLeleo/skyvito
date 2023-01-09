@@ -27,6 +27,11 @@
   width: 41.38%;
 }
 
+.shadow,
+.bottomShadow {
+  display: none;
+}
+
 .productData {
   display: flex;
   flex-direction: column;
@@ -223,6 +228,10 @@
     padding-right: calc(50% - 200px);
     padding-left: calc(50% - 200px);
   }
+
+  .subtitle {
+    font-size: 30px;
+  }
 }
 
 @media (max-width: 425px) {
@@ -247,6 +256,8 @@
   .shadow {
     position: absolute;
     z-index: 1;
+
+    display: block;
 
     width: 100%;
     height: 70px;

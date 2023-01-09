@@ -11,11 +11,11 @@ import { NavigationMobile } from '../NavigationMobile/NavigationMobile'
 import styles from './style.module.css'
 
 type Props = {
-  isAuthorized?: boolean
+  isLoggedIn?: boolean
   searchHeader?: boolean
 }
 
-export const Header: FC<Props> = ({ isAuthorized, searchHeader = false }) => {
+export const Header: FC<Props> = ({ isLoggedIn, searchHeader = false }) => {
   const [scrolled, setScrolled] = useState(false)
 
   const isDesktop = useMediaQuery({
@@ -36,8 +36,8 @@ export const Header: FC<Props> = ({ isAuthorized, searchHeader = false }) => {
   return (
     <>
       <div className={styles.navWrapper}>
-        {isDesktop && <Navigation isAuthorized={isAuthorized} />}
-        {isMobile && <NavigationMobile isAuthorized={isAuthorized} />}
+        {isDesktop && <Navigation isLoggedIn={isLoggedIn} />}
+        {isMobile && <NavigationMobile isLoggedIn={isLoggedIn} />}
       </div>
       <div
         className={cn(styles.searchWrapper, { [styles.scrolled]: scrolled })}

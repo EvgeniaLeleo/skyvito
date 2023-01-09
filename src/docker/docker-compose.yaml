@@ -8,8 +8,7 @@ services:
       - skyavito_ad_images:/code/ad_images # to get to ads images
       - skyavito_avatar_images:/code/avatar_images # to get to avatar images
     environment:
-      # - AC_TOKEN_EXP_TIME_MIN=720 # access token lifetime in minutes
-      - AC_TOKEN_EXP_TIME_MIN=1 # access token lifetime in minutes
+      - AC_TOKEN_EXP_TIME_MIN=720 # access token lifetime in minutes
       - R_TOKEN_EXP_TIME_MIN=1440 # refresh token lifetime in minutes
     ports:
       - '127.0.0.1:8090:80'

@@ -18,7 +18,9 @@ export const FeedbackPage: FC = () => {
   const productId = Number(useParams()?.id)
 
   const navigate = useNavigate()
-  const { data: productComments } = useGetProductCommentsQuery(productId)
+  const { data: productComments, isLoading: isLoadingComments } =
+    useGetProductCommentsQuery(productId)
+
   const [createComment] = useCreateCommentMutation()
   const isLoggedIn = useLoadCredentialsFromCookies()
 
@@ -39,6 +41,7 @@ export const FeedbackPage: FC = () => {
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setButtonText('Опубликовать')
     setFeedback(e.target.value)
     setIsBlocked(!e.target.value.trim().length)
   }
@@ -116,7 +119,9 @@ export const FeedbackPage: FC = () => {
             </form>
           )}
 
-          {!comments?.length && <p>Отзывов пока нет</p>}
+          {isLoadingComments && <p>Загрузка отзывов...</p>}
+
+          {!isLoadingComments && !comments?.length && <p>Отзывов пока нет</p>}
 
           {comments?.map((comment) => (
             <FeedbackBlock comment={comment} key={comment.created_on} />

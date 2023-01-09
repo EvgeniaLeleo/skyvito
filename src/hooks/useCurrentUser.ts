@@ -18,14 +18,12 @@ import { useRefreshToken } from './useRefreshToken'
 // Property 'setIsOpened' is if for LoginModal
 
 export const useCurrentUser = (setIsOpened?: Function) => {
-  const navigate = useNavigate()
-
   const timestamp = useRef(Date.now()).current
   const { data, isLoading, isError, error } = useGetCurrentUserQuery(timestamp)
 
   const doRefreshToken = useRefreshToken()
-
   const oldTokens = useAppSelector(tokensSelector)
+  const navigate = useNavigate()
 
   const [resultError, setResultError] = useState(false)
 
@@ -51,16 +49,18 @@ export const useCurrentUser = (setIsOpened?: Function) => {
     : false
 
   useEffect(() => {
-    console.log('shouldRefreshTokens', shouldRefreshTokens)
     if (isError) {
       if (
         shouldRefreshTokens &&
         oldTokens.access_token &&
         oldTokens.refresh_token
       ) {
-        console.log('refreshed')
         setResultError(false)
         handleRefreshToken(oldTokens)
+      } else {
+        if (isMobile) {
+          navigate(ROUTES.login)
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

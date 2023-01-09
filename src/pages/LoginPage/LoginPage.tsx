@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 import { Button } from '../../components/Button/Button'
@@ -18,6 +18,7 @@ import { useLogout } from '../../hooks/useLogout'
 import logo from './assets/skyLogo.svg'
 import styles from './style.module.css'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
+import { useLoadCredentialsFromCookies } from '../../hooks/useLoadCredentialsFromCookies'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.[a-z]{2,3}$/i)
 
@@ -28,7 +29,9 @@ export const LoginPage = () => {
 
   const [error, setError] = useState<string>('')
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
-  const [, setCookies] = useCookies(['access', 'refresh'])
+  const [cookies, setCookies] = useCookies(['access', 'refresh'])
+
+  const isLoggedIn = !!cookies && !!cookies.access
 
   useEffect(() => {
     if (userTokens) {
@@ -74,6 +77,8 @@ export const LoginPage = () => {
   }
 
   const inputPasswordStyle = classNames(styles.input, styles.inputPassword)
+
+  if (isLoggedIn) return <Navigate to={ROUTES.profile} replace={true} />
 
   return (
     <PageWrapper>

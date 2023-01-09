@@ -10,6 +10,7 @@ import { useAppDispatch } from './useAppDispatch'
 
 export const useRefreshToken = () => {
   const [, setCookies] = useCookies(['access', 'refresh'])
+
   const [doRefreshToken] = useRefreshTokenMutation()
   const dispatch = useAppDispatch()
 
@@ -31,6 +32,7 @@ export const useRefreshToken = () => {
 
       return { access_token, refresh_token }
     } catch (err) {
+      console.log('error refreshing tokens')
       return { error: err }
     }
   }

@@ -12,6 +12,12 @@
   margin-right: 60px;
 }
 
+@media (max-width: 768px) {
+  .logoWrapper {
+    margin-right: 20px;
+  }
+}
+
 @media (max-width: 425px) {
   .logoWrapper {
     display: flex;

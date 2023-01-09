@@ -2,7 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6%;
-  /* gap: 50px; */
   max-width: 834px;
   min-height: 204px;
 
@@ -140,6 +139,26 @@
   gap: 30px;
 
   width: 100%;
+}
+
+@media (max-width: 680px) {
+  .userSettings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6%;
+    max-width: none;
+    min-height: unset;
+
+    margin-bottom: 70px;
+  }
+
+  .settingsForm {
+    width: 100%;
+  }
+
+  .buttonsWrapper {
+    gap: 15px;
+  }
 }
 
 @media (max-width: 425px) {

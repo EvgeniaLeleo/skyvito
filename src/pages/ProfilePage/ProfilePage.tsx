@@ -2,6 +2,7 @@ import { useRef } from 'react'
 
 import { Gallery } from '../../components/Gallery/Gallery'
 import { UserSettings } from '../../components/UserSettings/UserSettings'
+import { useCurrentUser } from '../../hooks/useCurrentUser'
 import { useGetCurrentUserQuery } from '../../services/usersApi'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 
@@ -9,33 +10,31 @@ import styles from './style.module.css'
 
 export const ProfilePage = () => {
   const timestamp = useRef(Date.now()).current
-  const { data: user, error, isLoading } = useGetCurrentUserQuery(timestamp)
+  const {
+    data: user,
+    error,
+    isLoading,
+  } = useGetCurrentUserQuery(timestamp, { refetchOnMountOrArgChange: true })
+  // const { user, error, isLoading } = useCurrentUser()
 
   // const user = useAppSelector(currentUserSelector)
 
-  // if (error) {
-  //   return (
-  //     <PageWrapper scrollToTop={true}>
-  //       <p>Извините, произошла ошибка! </p>
-  //       <p>{JSON.stringify(error)}</p>
-  //     </PageWrapper>
-  //   )
-  // }
-  if (!user) {
+  if (error) {
     return (
       <PageWrapper scrollToTop={true}>
         <p>Извините, произошла ошибка! </p>
+        <p>{JSON.stringify(error)}</p>
       </PageWrapper>
     )
   }
 
-  // if (isLoading) {
-  //   return (
-  //     <PageWrapper scrollToTop={true}>
-  //       <p>Загрузка...</p>
-  //     </PageWrapper>
-  //   )
-  // }
+  if (isLoading) {
+    return (
+      <PageWrapper scrollToTop={true}>
+        <p>Загрузка...</p>
+      </PageWrapper>
+    )
+  }
 
   return (
     <PageWrapper scrollToTop={true}>

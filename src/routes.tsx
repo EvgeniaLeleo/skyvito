@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom'
+import { useCurrentUser } from './hooks/useCurrentUser'
 
 import { useLoadCredentialsFromCookies } from './hooks/useLoadCredentialsFromCookies'
 import { CreateProductPage } from './pages/CreateProductPage/CreateProductPage'

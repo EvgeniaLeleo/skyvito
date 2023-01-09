@@ -192,12 +192,21 @@
   content: '⚠ ';
 }
 
-/* .img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@media (max-width: 680px) {
+  .content {
+    padding: 10px 20px 20px;
 
-  aspect-ratio: 1 / 1;
+    width: 400px;
+    height: min(800px, 98vh);
+  }
 
-  background-color: #f0f0f0;
-} */
+  .closeButton {
+    right: 10px;
+    top: 12px;
+  }
+
+  .title {
+    font-size: 30px;
+    line-height: 1.3;
+  }
+}

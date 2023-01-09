@@ -39,23 +39,21 @@ export const SearchBar: FC = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <Link to={ROUTES.main} className={styles.link}>
         <div className={styles.logoWrapper}>
           <Logo />
         </div>
       </Link>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input
-          className={styles.input}
-          placeholder="Поиск по объявлениям"
-          value={newQuery}
-          onChange={handleChange}
-        />
-        <div className={styles.buttonWrapper}>
-          <Button btnType="submit">Найти</Button>
-        </div>
-      </form>
-    </div>
+      <input
+        className={styles.input}
+        placeholder="Поиск по объявлениям"
+        value={newQuery}
+        onChange={handleChange}
+      />
+      <div className={styles.buttonWrapper}>
+        <Button btnType="submit">Найти</Button>
+      </div>
+    </form>
   )
 }
