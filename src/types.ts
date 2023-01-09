@@ -25,7 +25,7 @@ export type ChangeUserDetailsArg = {
   phone?: string
 }
 
-export type Feedback = {
+export type Comment = {
   id: number
   text: string
   created_on: string
@@ -33,14 +33,14 @@ export type Feedback = {
 }
 
 export type Product = {
+  id: number
+  price: number
+  user_id: number
   title: string
   description: string
-  price: number
-  id: number
-  images: ProductImage[]
-  user_id: number
   created_on: string
   user: User
+  images: ProductImage[]
 }
 
 export type ProductImage = {
@@ -79,6 +79,12 @@ export type UserTokensResponse = {
 export type UserTokensRequest = {
   access_token?: string
   refresh_token?: string
+}
+
+export type Form = {
+  title?: string
+  description?: string
+  price?: string
 }
 
 export type ButtonSize = 'unset' | 's' | 'm' | 'l' | 'xl' | 'xxl'

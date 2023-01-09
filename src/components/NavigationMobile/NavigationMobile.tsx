@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { useCurrentUser } from '../../hooks/useCurrentUser'
 
+import { useCurrentUser } from '../../hooks/useCurrentUser'
 import { ROUTES } from '../../routes'
 
 import homeIcon from './assets/home.svg'

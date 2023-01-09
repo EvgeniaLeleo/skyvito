@@ -45,7 +45,6 @@
 }
 
 .title {
-  /* font-family: 'Noto Sans'; */
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
@@ -59,7 +58,6 @@
 .price {
   font-style: normal;
   font-weight: 600;
-  /* font-weight: 500; */
   font-size: 22px;
   line-height: 1.5;
   color: #000000;
@@ -88,8 +86,7 @@
   cursor: pointer;
 }
 
-.feedback {
-  /* font-family: 'Noto Sans'; */
+.comment {
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -105,7 +102,6 @@
 }
 
 .price {
-  /* font-family: 'Noto Sans'; */
   font-style: normal;
   font-weight: 700;
   font-size: 28px;
@@ -127,11 +123,9 @@
 
 .avatarWrapper {
   width: 40px;
-  /* min-height: 40px; */
 }
 
 .sellerName {
-  /* font-family: 'Noto Sans'; */
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -144,7 +138,6 @@
 }
 
 .sellerExp {
-  /* font-family: 'Noto Sans'; */
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -159,7 +152,6 @@
 .subtitle {
   font-style: normal;
   font-weight: 600;
-  /* font-weight: 500; */
   font-size: 32px;
   line-height: 2.2;
 
@@ -253,7 +245,7 @@
     line-height: 1.2;
   }
 
-  .feedback {
+  .comment {
     font-size: 14px;
     line-height: 1.36;
 

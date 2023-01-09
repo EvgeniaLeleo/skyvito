@@ -2,7 +2,6 @@ import { useRef } from 'react'
 
 import { Gallery } from '../../components/Gallery/Gallery'
 import { UserSettings } from '../../components/UserSettings/UserSettings'
-import { useCurrentUser } from '../../hooks/useCurrentUser'
 import { useGetCurrentUserQuery } from '../../services/usersApi'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
 
@@ -15,9 +14,6 @@ export const ProfilePage = () => {
     error,
     isLoading,
   } = useGetCurrentUserQuery(timestamp, { refetchOnMountOrArgChange: true })
-  // const { user, error, isLoading } = useCurrentUser()
-
-  // const user = useAppSelector(currentUserSelector)
 
   if (error) {
     return (

@@ -1,49 +1,48 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
 
 import { Button } from '../../components/Button/Button'
-import { FeedbackBlock } from '../../components/FeedbackBlock/FeedbackBlock'
-import { useCreateCommentMutation } from '../../services/commentsApi'
-import { useGetProductCommentsQuery } from '../../services/productsApi'
+import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
+import { CommentBlock } from '../../components/CommentBlock/CommentBlock'
+import { Modal } from '../Modal/Modal'
+import {
+  useCreateCommentMutation,
+  useGetProductCommentsQuery,
+} from '../../services/productsApi'
 import { useLoadCredentialsFromCookies } from '../../hooks/useLoadCredentialsFromCookies'
-import { PageWrapper } from '../PageWrapper/PageWrapper'
-import { Feedback } from '../../types'
-import { ROUTES } from '../../routes'
 
-import back from './assets/back.svg'
 import styles from './style.module.css'
 
-export const FeedbackPage: FC = () => {
-  const productId = Number(useParams()?.id)
+type Props = {
+  setIsOpened: Function
+  productId: number
+}
 
-  const navigate = useNavigate()
-  const { data: productComments, isLoading: isLoadingComments } =
+export const CommentModal: FC<Props> = ({ setIsOpened, productId }) => {
+  const { data: comments, isLoading: isLoadingComments } =
     useGetProductCommentsQuery(productId)
-
   const [createComment] = useCreateCommentMutation()
+
   const isLoggedIn = useLoadCredentialsFromCookies()
-
-  const [isBlocked, setIsBlocked] = useState<boolean>(true)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [feedback, setFeedback] = useState<string>('')
-  const [buttonText, setButtonText] = useState<string>('Опубликовать')
-  const [comments, setComments] = useState<Feedback[] | undefined>(
-    productComments
-  )
-
-  useEffect(() => {
-    setComments(productComments)
-  }, [productComments?.length])
 
   const { register, handleSubmit } = useForm<{ text: string }>({
     mode: 'onBlur',
   })
 
+  const [isBlocked, setIsBlocked] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [comment, setComment] = useState<string>('')
+  const [buttonText, setButtonText] = useState<string>('Опубликовать')
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const trimmedTextLength = e.target.value.trim().length
     setButtonText('Опубликовать')
-    setFeedback(e.target.value)
-    setIsBlocked(!e.target.value.trim().length)
+    setComment(e.target.value)
+    setIsBlocked(!trimmedTextLength)
+  }
+
+  const handleClose = () => {
+    setIsOpened(false)
   }
 
   const onSubmit: SubmitHandler<{ text: string }> = async (newComment) => {
@@ -51,45 +50,30 @@ export const FeedbackPage: FC = () => {
       setLoading(true)
       setButtonText('Публикуется...')
 
-      const newCommentData = await createComment({
+      await createComment({
         productId,
         body: {
           text: newComment.text,
         },
       }).unwrap()
 
-      if (comments) {
-        setComments([newCommentData, ...comments])
-      } else {
-        setComments([newCommentData])
-      }
-
       setButtonText('Опубликовано')
-      setFeedback('')
+      setComment('')
       setIsBlocked(true)
       setLoading(false)
     } catch (error) {
+      setButtonText('Ошибка')
       console.log('error creating comment', error)
     }
   }
 
-  const handleBack = () => {
-    // navigate(-1)
-    navigate(ROUTES.product + '/' + productId)
-  }
-
   return (
-    <PageWrapper scrollToTop={true}>
-      <div className={styles.wrapper}>
-        <h1 className={styles.title}>
-          <img
-            className={styles.backbtn}
-            src={back}
-            alt="back"
-            onClick={handleBack}
-          />
-          Отзывы о товаре
-        </h1>
+    <Modal isOpen={setIsOpened}>
+      <div className={styles.content}>
+        <h2 className={styles.title}>Отзывы о товаре</h2>
+        <div className={styles.closeButton} onClick={handleClose}>
+          <CrossIcon />
+        </div>
 
         <div className={styles.contentWrapper}>
           {isLoggedIn && (
@@ -99,13 +83,16 @@ export const FeedbackPage: FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className={styles.formContent}>
+                <label htmlFor="text" className={styles.label}>
+                  Добавить отзыв
+                </label>
                 <textarea
                   {...register('text')}
                   className={styles.textArea}
                   rows={3}
                   placeholder="Введите отзыв"
                   onChange={handleChange}
-                  value={feedback}
+                  value={comment}
                 />
               </div>
 
@@ -123,11 +110,11 @@ export const FeedbackPage: FC = () => {
 
           {!isLoadingComments && !comments?.length && <p>Отзывов пока нет</p>}
 
-          {comments?.map((comment) => (
-            <FeedbackBlock comment={comment} key={comment.created_on} />
+          {comments?.map((comment, index) => (
+            <CommentBlock comment={comment} key={comment.created_on + index} />
           ))}
         </div>
       </div>
-    </PageWrapper>
+    </Modal>
   )
 }

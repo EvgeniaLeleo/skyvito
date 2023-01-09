@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { FC, useState } from 'react'
 
 import { API_URL, NUMBER_OF_IMAGES } from '../../constants'
-import { Product } from '../../types'
+import { Product, ProductImage } from '../../types'
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper'
 import { PlusIconInSquare } from '../PlusIconInSquare/PlusIconInSquare'
 
@@ -13,8 +13,8 @@ const imgArray = Array.from(Array(NUMBER_OF_IMAGES).keys())
 
 type Props = {
   product: Product
-  formData: any
-  uploadedImagesArray: any // Blob[] | MediaSource[]
+  formData: FormData[] | any[]
+  uploadedImagesArray: Blob[] | MediaSource[] | any[]
   urlArrayForDeleting: string[]
 }
 
@@ -33,7 +33,7 @@ export const ProductImages: FC<Props> = ({
     : imgArray
 
   const handleDeleteNewImages = (index: number) => {
-    setUploadedImages((prev: any) => [
+    setUploadedImages((prev) => [
       ...prev.slice(0, index),
       undefined,
       ...prev.slice(index + 1),
@@ -43,7 +43,7 @@ export const ProductImages: FC<Props> = ({
   }
 
   const handleDeleteOldImages = (index: number) => {
-    setUploadedImages((prev: any) => [
+    setUploadedImages((prev) => [
       ...prev.slice(0, index),
       undefined,
       ...prev.slice(index + 1),
@@ -51,7 +51,7 @@ export const ProductImages: FC<Props> = ({
 
     urlArrayForDeleting.push(oldImages[index].url)
 
-    setOldImages((prev: any) => [
+    setOldImages((prev: ProductImage[]) => [
       ...prev.slice(0, index),
       ...prev.slice(index + 1),
     ])
@@ -59,9 +59,12 @@ export const ProductImages: FC<Props> = ({
     formData[index] = undefined
   }
 
-  const handleChange = async (event: any, index: number) => {
+  const handleChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const files = event.target.files
-    const file = files[0]
+    const file = files ? files[0] : null
 
     setUploadedImages((prev: Blob[] | MediaSource[]) => [
       ...prev.slice(0, index),

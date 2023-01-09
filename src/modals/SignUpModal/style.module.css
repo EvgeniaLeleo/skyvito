@@ -19,13 +19,11 @@
   right: 11px;
   top: 32px;
 
-  /* z-index: 3; */
   cursor: pointer;
 }
 
 .logo {
   margin: 0 auto;
-  /* margin-bottom: 38px; */
 }
 
 .input {
@@ -79,22 +77,3 @@
 .back {
   top: 42px;
 }
-
-/* .notRequired {
-  margin-bottom: 30px;
-} */
-
-/*  
-.formMessage {
-  color: #ffffff;
-  font-weight: 400;
-  line-height: 1.4;
-  text-align: center;
-
-  margin-bottom: 30px;
-}
-
-.input:focus {
-  border-bottom: 1px solid #580ea2;
-}
- */

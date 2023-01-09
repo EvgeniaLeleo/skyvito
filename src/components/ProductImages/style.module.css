@@ -19,10 +19,6 @@
   cursor: pointer;
 }
 
-/* .blocked {
-  cursor: not-allowed;
-} */
-
 .input {
   opacity: 0;
   height: 0;

@@ -19,10 +19,6 @@
   cursor: pointer;
 }
 
-/* .blocked {
-  cursor: not-allowed;
-} */
-
 .input {
   opacity: 0;
   height: 0;
@@ -31,7 +27,3 @@
   padding: 0;
   margin: 0;
 }
-/* 
-.labelUpload {
-  margin-bottom: 0;
-} */

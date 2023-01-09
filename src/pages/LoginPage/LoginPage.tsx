@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
@@ -12,13 +12,10 @@ import { ROUTES } from '../../routes'
 import { getErrorMessage } from '../../utils/getErrorMessage'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { setToken } from '../../store/tokenSlice'
-import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
-import { useLogout } from '../../hooks/useLogout'
+import { PageWrapper } from '../PageWrapper/PageWrapper'
 
 import logo from './assets/skyLogo.svg'
 import styles from './style.module.css'
-import { PageWrapper } from '../PageWrapper/PageWrapper'
-import { useLoadCredentialsFromCookies } from '../../hooks/useLoadCredentialsFromCookies'
 
 const validEmail = new RegExp(/^[\w]{1}[\w-.]*@[\w-]+\.[a-z]{2,3}$/i)
 

@@ -6,9 +6,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
+
 import { SCREEN_SIZE } from '../constants'
 import { ROUTES } from '../routes'
-
 import { useGetCurrentUserQuery } from '../services/usersApi'
 import { tokensSelector } from '../store/selectors/tokens'
 import { UserTokensRequest } from '../types'

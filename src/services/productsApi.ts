@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { API_URL } from '../constants'
 import { RootState } from '../store/store'
-import { Feedback, Product } from '../types'
+import { Comment, Product } from '../types'
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
@@ -33,7 +33,7 @@ export const productsApi = createApi({
       query: (idx: number) => `ads/${idx}`,
       providesTags: () => [{ type: 'Products', id: 'LIST' }],
     }),
-    getProductComments: build.query<Feedback[], number | undefined>({
+    getProductComments: build.query<Comment[], number | undefined>({
       query: (idx?: number) => `ads/${idx}/comments`,
       providesTags: (result) =>
         result
@@ -87,7 +87,7 @@ export const productsApi = createApi({
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
     }),
-    getComments: build.query<Feedback[], number>({
+    getComments: build.query<Comment[], number>({
       query: (productId) => `ads/${productId}/comments`,
       providesTags: (result) =>
         result
@@ -101,7 +101,7 @@ export const productsApi = createApi({
           : [{ type: 'Products', id: 'LIST' }],
     }),
     createComment: build.mutation<
-      Feedback,
+      Comment,
       { productId: number; body: { text: string } }
     >({
       query: ({ productId, body }) => ({
@@ -123,4 +123,6 @@ export const {
   useDeleteProductMutation,
   useDeleteProductImageMutation,
   useChangeProductDetailsMutation,
+  useCreateCommentMutation,
+  useGetCommentsQuery,
 } = productsApi

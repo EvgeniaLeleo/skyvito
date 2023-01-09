@@ -3,6 +3,7 @@
  */
 
 import { useCookies } from 'react-cookie'
+
 import { useRefreshTokenMutation } from '../services/authApi'
 import { setToken } from '../store/tokenSlice'
 import { UserTokensRequest } from '../types'

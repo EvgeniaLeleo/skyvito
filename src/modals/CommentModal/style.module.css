@@ -19,7 +19,6 @@
 .title {
   font-style: normal;
   font-weight: 600;
-  /* font-weight: 500; */
   font-size: 32px;
   line-height: 2.2;
 
@@ -34,7 +33,6 @@
 }
 
 .label {
-  /* font-family: 'Noto Sans'; */
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -133,12 +131,22 @@
   border-radius: 10px;
 }
 
+@media (max-width: 840px) {
+  .content {
+    width: 600px;
+  }
+
+  .contentWrapper {
+    width: 100%;
+    padding-right: 40px;
+  }
+}
+
 @media (max-width: 680px) {
   .content {
     padding: 10px 20px 20px;
 
     width: 400px;
-    height: min(800px, 98vh);
   }
 
   .closeButton {

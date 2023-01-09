@@ -6,9 +6,9 @@ import { ROUTES } from '../../routes'
 import { Button } from '../Button/Button'
 import { Logo } from '../Logo/Logo'
 import { setQuery } from '../../store/filteredProductsSlice'
+import { querySelector } from '../../store/selectors/querySelector'
 
 import styles from './style.module.css'
-import { querySelector } from '../../store/selectors/querySelector'
 
 export const SearchBar: FC = () => {
   const dispatch = useAppDispatch()

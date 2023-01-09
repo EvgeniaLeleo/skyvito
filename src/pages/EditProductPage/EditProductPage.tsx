@@ -47,6 +47,7 @@ export const EditProductPage: FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [price, setPrice] = useState<string>(product?.price.toString() || '')
   const [deleting, setDeleting] = useState(false)
+  const [buttonText, setButtonText] = useState<string>('Сохранить')
 
   const [changeProductDetails] = useChangeProductDetailsMutation()
   const [uploadImage] = useUploadProductImageMutation()
@@ -62,6 +63,7 @@ export const EditProductPage: FC = () => {
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     field: string
   ) => {
+    setButtonText('Сохранить')
     setFieldValue((prev: Form) => ({ ...prev, [field]: e.target.value }))
   }
 
@@ -73,6 +75,7 @@ export const EditProductPage: FC = () => {
     }
 
     setPrice(e.target.value)
+    setButtonText('Сохранить')
   }
 
   const handleBack = () => {
@@ -82,6 +85,8 @@ export const EditProductPage: FC = () => {
   const onSubmit: SubmitHandler<Form> = async (data) => {
     try {
       setLoading(true)
+      setButtonText('Сохраняется...')
+
       await changeProductDetails({
         idx: product?.id,
         body: {
@@ -112,15 +117,18 @@ export const EditProductPage: FC = () => {
             }).unwrap()
           }
         } catch (error) {
+          setButtonText('Ошибка')
           console.log(error)
         }
         setDeleting(false)
       }
 
       setLoading(false)
+      setButtonText('Сохранено')
       navigate(`${ROUTES.product}/${product?.id}`)
     } catch {
       setLoading(false)
+      setButtonText('Ошибка')
     }
 
     formData = formData.map((element) => undefined)
@@ -226,7 +234,7 @@ export const EditProductPage: FC = () => {
               btnType="submit"
               buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
             >
-              Сохранить
+              {buttonText}
             </Button>
           </form>
         </div>

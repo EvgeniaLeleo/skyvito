@@ -9,7 +9,7 @@ type Props = {
   size?: ButtonSize
   buttonStatus?: 'normal' | 'disabled'
   children?: string | ReactNode
-  btnType?: 'button' | 'submit' //| 'reset'
+  btnType?: 'button' | 'submit'
   onClick?: VoidFunction
   mb?: string
 }

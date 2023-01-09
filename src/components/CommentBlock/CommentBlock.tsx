@@ -1,14 +1,14 @@
 import { FC } from 'react'
 
-import { Feedback } from '../../types'
+import { Comment } from '../../types'
 import { convertDate } from '../../utils/convertDate'
 import { Avatar } from '../Avatar/Avatar'
 
 import styles from './style.module.css'
 
-type Props = { comment: Feedback }
+type Props = { comment: Comment }
 
-export const FeedbackBlock: FC<Props> = ({ comment }) => {
+export const CommentBlock: FC<Props> = ({ comment }) => {
   return (
     <div className={styles.review}>
       <div className={styles.avatarWrapper}>
@@ -20,7 +20,6 @@ export const FeedbackBlock: FC<Props> = ({ comment }) => {
           {comment.author.name}{' '}
           <span className={styles.date}>{convertDate(comment.created_on)}</span>
         </p>
-        {/* <h3 className={styles.comment}>Комментарий</h3> */}
         <p className={styles.text}>{comment.text}</p>
       </div>
     </div>

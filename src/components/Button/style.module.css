@@ -122,6 +122,12 @@
   min-width: none;
 }
 
+@media (max-width: 1024px) {
+  .xl {
+    width: 100%;
+  }
+}
+
 @media (max-width: 680px) {
   .button {
     font-size: 14px;

@@ -72,7 +72,7 @@ export const SignUpPage = () => {
       if (user)
         await login({ email: data.email, password: data.password }).unwrap()
       navigate(ROUTES.profile)
-    } catch (error: any) {
+    } catch (error) {
       setError(getErrorMessage(error as AuthError))
       setIsBlocked(false)
     }

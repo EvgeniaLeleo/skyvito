@@ -43,15 +43,3 @@
     padding: 0;
   }
 }
-
-/* 
-@media (max-width: 425px) {
-  .l {
-    width: 250px;
-  }
-  .button {
-    font-size: 16px;
-    min-height: 40px;
-    padding: 14px;
-  }
-} */

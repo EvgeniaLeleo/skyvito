@@ -11,8 +11,8 @@ import styles from './style.module.css'
 const imgArray = Array.from(Array(NUMBER_OF_IMAGES).keys())
 
 type Props = {
-  formData: any
-  uploadedImagesArray: any // Blob[] | MediaSource[]
+  formData: FormData[] | any[]
+  uploadedImagesArray: Blob[] | MediaSource[] | any[]
 }
 
 export const UploadNewImages: FC<Props> = ({
@@ -26,9 +26,12 @@ export const UploadNewImages: FC<Props> = ({
     setUploadedImages(uploadedImagesArray)
   }, [uploadedImagesArray])
 
-  const handleChange = async (event: any, index: number) => {
+  const handleChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const files = event.target.files
-    const file = files[0]
+    const file = files ? files[0] : null
 
     // Loading photo-preview
     setUploadedImages((prev: Blob[] | MediaSource[]) => [
@@ -42,7 +45,7 @@ export const UploadNewImages: FC<Props> = ({
   }
 
   const handleDeleteImages = (index: number) => {
-    setUploadedImages((prev: any) => [
+    setUploadedImages((prev) => [
       ...prev.slice(0, index),
       undefined,
       ...prev.slice(index + 1),
@@ -54,7 +57,7 @@ export const UploadNewImages: FC<Props> = ({
   return (
     <>
       {imgArray.map((el, index) => (
-        <React.Fragment key={index.toString()}>
+        <React.Fragment key={el}>
           {!!uploadedImages[index] && (
             <div className={styles.imgContainer}>
               <img

@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react'
 import cn from 'classnames'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { Button } from '../../components/Button/Button'
 import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
@@ -7,7 +8,6 @@ import { Modal } from '../Modal/Modal'
 import { Product } from '../../types'
 import { NUMBER_OF_IMAGES } from '../../constants'
 import { ProductImages } from '../../components/ProductImages/ProductImages'
-import { SubmitHandler, useForm } from 'react-hook-form'
 import {
   useChangeProductDetailsMutation,
   useDeleteProductImageMutation,
@@ -43,6 +43,7 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
 
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
   const [loading, setLoading] = useState<boolean>(false)
+  const [buttonText, setButtonText] = useState<string>('Сохранить')
   const [price, setPrice] = useState<string>(product.price.toString() || '')
   const [deleting, setDeleting] = useState(false)
 
@@ -60,6 +61,7 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     field: string
   ) => {
+    setButtonText('Сохранить')
     setFieldValue((prev: Form) => ({ ...prev, [field]: e.target.value }))
   }
 
@@ -71,6 +73,7 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
     }
 
     setPrice(e.target.value)
+    setButtonText('Сохранить')
   }
 
   const handleClose = () => {
@@ -80,6 +83,8 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
   const onSubmit: SubmitHandler<Form> = async (data) => {
     try {
       setLoading(true)
+      setButtonText('Сохраняется...')
+
       await changeProductDetails({
         idx: product.id,
         body: {
@@ -109,14 +114,18 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
           }).unwrap()
         } catch (error) {
           console.log(error)
+          setLoading(false)
+          setButtonText('Ошибка')
         }
         setDeleting(false)
       }
 
       setLoading(false)
+      setButtonText('Сохранено')
       setIsOpened(false)
     } catch {
       setLoading(false)
+      setButtonText('Ошибка')
     }
 
     formData = formData.map((element) => undefined)
@@ -215,7 +224,7 @@ export const EditProductModal: FC<Props> = ({ setIsOpened, product }) => {
             btnType="submit"
             buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
           >
-            Сохранить
+            {buttonText}
           </Button>
         </form>
       </div>

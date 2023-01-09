@@ -6,7 +6,7 @@ import cn from 'classnames'
 import { Button } from '../../components/Button/Button'
 import { Avatar } from '../../components/Avatar/Avatar'
 import { ImageWrapper } from '../../components/ImageWrapper/ImageWrapper'
-import { FeedbackModal } from '../../modals/FeedbackModal/FeedbackModal'
+import { CommentModal } from '../../modals/CommentModal/CommentModal'
 import { EditProductModal } from '../../modals/EditProductModal/EditProductModal'
 import {
   useDeleteProductMutation,
@@ -26,7 +26,6 @@ import { ending } from '../../utils/ending'
 
 import back from './assets/back.svg'
 import styles from './style.module.css'
-import { skipToken } from '@reduxjs/toolkit/dist/query'
 
 export const ProductPage: FC = () => {
   const productId = Number(useParams()?.id)
@@ -44,17 +43,12 @@ export const ProductPage: FC = () => {
 
   const [delProduct] = useDeleteProductMutation()
   const { data: productComments, isLoading: isLoadingComments } =
-    useGetProductCommentsQuery(productId, {
-      refetchOnMountOrArgChange: true,
-    })
+    useGetProductCommentsQuery(productId)
 
-  const [isFeedbackModalShown, setIsFeedbackModalShown] =
-    useState<boolean>(false)
+  const [isCommentModalShown, setIsCommentModalShown] = useState<boolean>(false)
   const [isEditModalShown, setIsEditModalShown] = useState<boolean>(false)
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
-  // const [comments, setComments] = useState<Feedback[] | undefined>(
-  //   productComments
-  // )
+  const [buttonText, setButtonText] = useState<string>('Снять с публикации')
   const [numberOfComments, setNumberOfComments] = useState<number | undefined>(
     productComments?.length
   )
@@ -66,9 +60,9 @@ export const ProductPage: FC = () => {
   const userEmail = access_token ? getUserEmailFromJWT(access_token) : ''
   const isSeller = userEmail === product?.user.email
 
-  const handleFeedbackClick = () => {
+  const handleCommentClick = () => {
     if (isDesktop) {
-      setIsFeedbackModalShown(true)
+      setIsCommentModalShown(true)
     }
     if (isMobile && product?.id) {
       navigate(`${ROUTES.comments}/${product?.id}`)
@@ -87,14 +81,20 @@ export const ProductPage: FC = () => {
   const handleDeleteProduct = async () => {
     if (product && product.id) {
       setIsBlocked(true)
-      await delProduct(product.id).unwrap()
-      setIsBlocked(false)
-      navigate(ROUTES.profile)
+      try {
+        await delProduct(product.id).unwrap()
+        setIsBlocked(false)
+        navigate(ROUTES.profile)
+      } catch (error) {
+        setIsBlocked(false)
+        console.log('error deleting', error)
+        setButtonText('Ошибка')
+      }
     }
   }
 
-  const handleShowImage = (event: any) => {
-    let target = event.target.src //? event.target.src : ''
+  const handleShowImage = (event: { target: { src: string } }) => {
+    let target = event.target.src
     setImgUrl(target)
   }
 
@@ -108,16 +108,21 @@ export const ProductPage: FC = () => {
     navigate(-1)
   }
 
-  // console.log('comments', comments)
-
   useEffect(() => {
     setImgUrl(product?.images[0]?.url ? API_URL + product?.images[0]?.url : '')
   }, [product?.images])
 
   useEffect(() => {
-    // setComments(productComments)
     setNumberOfComments(productComments?.length)
   }, [productComments])
+
+  useEffect(() => {
+    if (isCommentModalShown || isEditModalShown) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isCommentModalShown, isEditModalShown])
 
   if (productIsLoading)
     return (
@@ -157,6 +162,7 @@ export const ProductPage: FC = () => {
                       [styles.active]: API_URL + image.url === imgUrl,
                     })}
                     onClick={() => handleShowImageMobile(index)}
+                    key={image.url}
                   ></div>
                 ))}
               </div>
@@ -185,7 +191,7 @@ export const ProductPage: FC = () => {
             <p className={styles.date}>
               {convertDate(product.created_on || '')}
             </p>
-            <p className={styles.feedback} onClick={handleFeedbackClick}>
+            <p className={styles.comment} onClick={handleCommentClick}>
               {isLoadingComments && 'Загрузка...'}
               {!!numberOfComments && (
                 <span>
@@ -209,7 +215,7 @@ export const ProductPage: FC = () => {
                   onClick={handleDeleteProduct}
                   buttonStatus={isBlocked ? 'disabled' : 'normal'}
                 >
-                  Снять с публикации
+                  {buttonText}
                 </Button>
               </div>
             )}
@@ -256,9 +262,9 @@ export const ProductPage: FC = () => {
           {product.description ? product.description : 'Описание отсутствует'}
         </p>
 
-        {isFeedbackModalShown && (
-          <FeedbackModal
-            setIsOpened={setIsFeedbackModalShown}
+        {isCommentModalShown && (
+          <CommentModal
+            setIsOpened={setIsCommentModalShown}
             productId={product.id}
           />
         )}

@@ -12,15 +12,10 @@ import {
 } from '../../services/productsApi'
 import { ROUTES } from '../../routes'
 import { PageWrapper } from '../PageWrapper/PageWrapper'
+import { Form } from '../../types'
 
 import back from './assets/back.svg'
 import styles from './style.module.css'
-
-type Form = {
-  title?: string
-  description?: string
-  price?: string
-}
 
 const validPrice = new RegExp(/^([0-9]*[.]?)?(\d{1,2})?$/i)
 const regexp = new RegExp(/[^0-9.]/i)
@@ -40,6 +35,7 @@ export const CreateProductPage = () => {
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
   const [loading, setLoading] = useState<boolean>(false)
   const [price, setPrice] = useState<string>('')
+  const [buttonText, setButtonText] = useState<string>('Опубликовать')
 
   const [createProduct] = useCreateProductMutation()
   const [uploadImage] = useUploadProductImageMutation()
@@ -56,6 +52,7 @@ export const CreateProductPage = () => {
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     field: string
   ) => {
+    setButtonText('Опубликовать')
     setFieldValue((prev: Form) => ({ ...prev, [field]: e.target.value }))
   }
 
@@ -67,6 +64,7 @@ export const CreateProductPage = () => {
     }
 
     setPrice(e.target.value)
+    setButtonText('Опубликовать')
   }
 
   const handleBack = () => {
@@ -78,6 +76,7 @@ export const CreateProductPage = () => {
 
     try {
       setLoading(true)
+      setButtonText('Публикуется...')
 
       const response = await createProduct({
         title: data.title,
@@ -97,9 +96,11 @@ export const CreateProductPage = () => {
       }
 
       setLoading(false)
+      setButtonText('Опубликовано')
       navigate(`${ROUTES.product}/${createdProductId}`)
     } catch (error) {
       setLoading(false)
+      setButtonText('Ошибка')
       console.log('error creating product', error)
     }
 
@@ -200,7 +201,7 @@ export const CreateProductPage = () => {
             btnType="submit"
             buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
           >
-            Опубликовать
+            {buttonText}
           </Button>
         </form>
       </div>

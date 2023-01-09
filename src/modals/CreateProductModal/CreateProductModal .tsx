@@ -1,14 +1,14 @@
 import React, { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import cn from 'classnames'
 
 import { Button } from '../../components/Button/Button'
 import { CrossIcon } from '../../components/CrossIcon/CrossIcon'
 import { Modal } from '../Modal/Modal'
-import { Product } from '../../types'
+import { Form, Product } from '../../types'
 import { NUMBER_OF_IMAGES } from '../../constants'
 import { UploadNewImages } from '../../components/UploadNewImages/UploadNewImages'
-import { SubmitHandler, useForm } from 'react-hook-form'
 import {
   useCreateProductMutation,
   useUploadProductImageMutation,
@@ -20,12 +20,6 @@ import styles from './style.module.css'
 type Props = {
   setIsOpened: Function
   product?: Product
-}
-
-type Form = {
-  title?: string
-  description?: string
-  price?: string
 }
 
 const validPrice = new RegExp(/^([0-9]*[.]?)?(\d{1,2})?$/i)
@@ -45,6 +39,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
 
   const [fieldValue, setFieldValue] = useState<Form>(initialValue)
   const [loading, setLoading] = useState<boolean>(false)
+  const [buttonText, setButtonText] = useState<string>('Опубликовать')
   const [price, setPrice] = useState<string>(product?.price.toString() || '')
 
   const [createProduct] = useCreateProductMutation()
@@ -62,6 +57,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     field: string
   ) => {
+    setButtonText('Опубликовать')
     setFieldValue((prev: Form) => ({ ...prev, [field]: e.target.value }))
   }
 
@@ -73,6 +69,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
     }
 
     setPrice(e.target.value)
+    setButtonText('Опубликовать')
   }
 
   const handleClose = () => {
@@ -84,6 +81,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
 
     try {
       setLoading(true)
+      setButtonText('Публикуется...')
 
       const response = await createProduct({
         title: data.title,
@@ -103,10 +101,12 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
       }
 
       setLoading(false)
+      setButtonText('Опубликовано')
       setIsOpened(false)
       navigate(ROUTES.product + '/' + createdProductId)
     } catch (error) {
       setLoading(false)
+      setButtonText('Ошибка')
       console.log('error creating product', error)
     }
 
@@ -200,7 +200,7 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
             btnType="submit"
             buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
           >
-            Опубликовать
+            {buttonText}
           </Button>
         </form>
       </div>

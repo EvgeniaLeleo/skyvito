@@ -5,7 +5,6 @@
 
   box-sizing: border-box;
   width: 100%;
-  /* margin-bottom: 43px; */
 }
 
 .logoWrapper {
@@ -38,15 +37,3 @@
     display: none;
   }
 }
-/* 
-@media (max-width: 425px) {
-  .l {
-    width: 250px;
-  }
-
-  .button {
-    font-size: 16px;
-    min-height: 40px;
-    padding: 14px;
-  }
-} */

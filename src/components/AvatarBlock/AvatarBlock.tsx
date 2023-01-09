@@ -1,11 +1,9 @@
+import { SerializedError } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 import { FC, useState } from 'react'
 
 import { User } from '../../types'
 import { AvatarImageBlock } from '../AvatarImageBlock/AvatarImageBlock'
-import { Button } from '../Button/Button'
-import { useLogout } from '../../hooks/useLogout'
-import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '../../routes'
 
 import styles from './style.module.css'
 
@@ -13,8 +11,8 @@ type Props = {
   user: User
   loading: boolean
   setIsBlocked: Function
-  formData: any
-  avatarError?: any
+  formData: FormData[]
+  avatarError?: FetchBaseQueryError | SerializedError
 }
 
 export const AvatarBlock: FC<Props> = ({

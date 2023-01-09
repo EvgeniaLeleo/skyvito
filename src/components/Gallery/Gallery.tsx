@@ -29,8 +29,6 @@ export const Gallery: FC<Props> = ({ sellerId, isProfilePage }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products])
 
-  // const prefetchCourse = usePrefetch('getCourse')
-
   if (isLoading) {
     return <div className={styles.content}>Загрузка...</div>
   }
@@ -40,7 +38,6 @@ export const Gallery: FC<Props> = ({ sellerId, isProfilePage }) => {
       <p className={styles.errorMessage}>
         Извините, произошла ошибка! {JSON.stringify(error)}
       </p>
-      // {error.status} {error.data.message}
     )
   }
 
@@ -60,7 +57,6 @@ export const Gallery: FC<Props> = ({ sellerId, isProfilePage }) => {
             key={product.id}
             to={`${ROUTES.product}/${product.id}`}
             className={styles.link}
-            // onMouseEnter={() => prefetchCourse(product.id!)}
           >
             <Card product={product} key={product.images[0]?.url + index} />
           </Link>

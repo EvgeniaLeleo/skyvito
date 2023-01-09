@@ -27,7 +27,7 @@ type Form = {
 }
 
 const regexp = new RegExp(/[^0-9+]/i)
-let formData: any = []
+let formData: FormData[] = []
 
 export const UserSettings: FC<Props> = ({ user }) => {
   const initialValue = {
@@ -81,7 +81,7 @@ export const UserSettings: FC<Props> = ({ user }) => {
 
   const { register, handleSubmit } = useForm<Form>({ mode: 'onBlur' })
 
-  const onSubmit: SubmitHandler<any> = async (data: Form) => {
+  const onSubmit: SubmitHandler<Form> = async (data: Form) => {
     setIsBlocked(true)
 
     try {

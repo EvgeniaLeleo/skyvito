@@ -76,7 +76,7 @@ export const SignUpModal: FC<Props> = ({ setIsOpened }) => {
         await login({ email: data.email, password: data.password }).unwrap()
       navigate(ROUTES.profile)
       setIsOpened(false)
-    } catch (error: any) {
+    } catch (error) {
       setError(getErrorMessage(error as AuthError))
       setIsBlocked(false)
     }

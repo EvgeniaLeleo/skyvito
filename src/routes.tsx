@@ -1,11 +1,10 @@
 import { FC } from 'react'
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom'
-import { useCurrentUser } from './hooks/useCurrentUser'
 
 import { useLoadCredentialsFromCookies } from './hooks/useLoadCredentialsFromCookies'
 import { CreateProductPage } from './pages/CreateProductPage/CreateProductPage'
 import { EditProductPage } from './pages/EditProductPage/EditProductPage'
-import { FeedbackPage } from './pages/FeedbackPage/FeedbackPage'
+import { CommentPage } from './pages/CommentPage/CommentPage'
 import { LoginPage } from './pages/LoginPage/LoginPage'
 import { MainPage } from './pages/MainPage/MainPage'
 import { NotFound } from './pages/NotFound/NotFound'
@@ -29,16 +28,16 @@ export const ROUTES = {
 
 type Props = {
   redirectPath?: string
-  isAllowed?: boolean
+  isLoggedIn?: boolean
 }
 
 const ProtectedRoute: FC<Props> = ({
   redirectPath = ROUTES.main,
-  isAllowed,
+  isLoggedIn,
 }) => {
-  if (isAllowed === undefined) redirectPath = ROUTES.main
-
-  if (!isAllowed) return <Navigate to={redirectPath} replace={true} />
+  if (!isLoggedIn) {
+    return <Navigate to={redirectPath} replace={true} />
+  }
 
   return <Outlet />
 }
@@ -53,8 +52,8 @@ export const AppRoutes = () => {
       <Route path={ROUTES.product + '/:id'} element={<ProductPage />} />
       <Route path={ROUTES.login} element={<LoginPage />} />
       <Route path={ROUTES.signUp} element={<SignUpPage />} />
-      <Route path={ROUTES.comments + '/:id'} element={<FeedbackPage />} />
-      <Route element={<ProtectedRoute isAllowed={isLoggedIn} />}>
+      <Route path={ROUTES.comments + '/:id'} element={<CommentPage />} />
+      <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
         <Route path={ROUTES.profile} element={<ProfilePage />} />
         <Route path={ROUTES.createProduct} element={<CreateProductPage />} />
         <Route
