@@ -1,6 +1,14 @@
-export const USER_EMAIL = 'test-user-new-email-6@mail.ru'
-// export const USER_EMAIL = 'test-user-new-email-5@mail.ru'
-// export const USER_EMAIL = 'test-user-new-email-4@mail.ru'
+/**
+ * Already exist:
+ * USER_EMAIL = 'test-user-new-email-9@mail.ru'
+ * USER_EMAIL = 'test-user-new-email-8@mail.ru'
+ * USER_EMAIL = 'test-user-new-email-7@mail.ru'
+ * USER_EMAIL = 'test-user-new-email-6@mail.ru'
+ * USER_EMAIL = 'test-user-new-email-5@mail.ru'
+ * USER_EMAIL = 'test-user-new-email-4@mail.ru'
+ */
+
+export const USER_EMAIL = 'test-user-new-email-10@mail.ru'
 export const USER_PASSWORD = 'qwerty1234567'
 
 export const USER_NAME = 'Evgenia'
@@ -22,7 +30,7 @@ export const INCORRECT_PASSWORD_WARNING =
 export const NEW_PRODUCT_TITLE = 'Новое объявление'
 export const NEW_PRODUCT_PRICE = '100.25'
 export const NEW_PRODUCT_DESCRIPTION =
-  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero possimus sed ut totam! Aliquid eos doloribus, odit voluptatem quia veniam facilis, reiciendis laboriosam qui tempore cupiditate accusamus expedita error! Esse?'
+  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero possimus sed ut totam!'
 
 export const USER_DATA = {
   name: USER_NAME,

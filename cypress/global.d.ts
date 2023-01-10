@@ -11,5 +11,6 @@ declare namespace Cypress {
       city: string
     ): Chainable<void>
     changeUserSettings(parameter: 'name' | 'surname' | 'city'): Chainable<void>
+    createProduct(): Chainable<void>
   }
 }
