@@ -56,10 +56,6 @@ export const useCurrentUser = (setIsOpened?: Function) => {
       ) {
         setResultError(false)
         handleRefreshToken(oldTokens)
-      } else {
-        if (isMobile) {
-          navigate(ROUTES.login)
-        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

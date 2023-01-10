@@ -45,8 +45,6 @@ export const SignUpPage: FC = () => {
           refresh_token: userTokens.refresh_token,
         })
       )
-
-      navigate(ROUTES.profile)
     }
     // eslint-disable-next-line
   }, [userTokens])
@@ -70,8 +68,9 @@ export const SignUpPage: FC = () => {
         surname: data.surname,
         city: data.city,
       }).unwrap()
-      if (user)
+      if (user) {
         await login({ email: data.email, password: data.password }).unwrap()
+      }
       navigate(ROUTES.profile)
     } catch (error) {
       setError(getErrorMessage(error as AuthError))
@@ -81,7 +80,9 @@ export const SignUpPage: FC = () => {
 
   const focusHandler = () => setError('')
 
-  if (isLoggedIn) return <Navigate to={ROUTES.profile} replace={true} />
+  if (isLoggedIn) {
+    return <Navigate to={ROUTES.profile} replace={true} />
+  }
 
   return (
     <PageWrapper scrollToTop={true}>

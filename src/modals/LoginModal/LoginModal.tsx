@@ -48,8 +48,6 @@ export const LoginModal: FC<Props> = ({ setIsOpened, setSignUpIsOpened }) => {
           refresh_token: userTokens.refresh_token,
         })
       )
-
-      navigate(ROUTES.profile)
     }
     // eslint-disable-next-line
   }, [userTokens])

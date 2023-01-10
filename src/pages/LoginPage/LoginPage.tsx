@@ -41,8 +41,6 @@ export const LoginPage = () => {
           refresh_token: userTokens.refresh_token,
         })
       )
-
-      navigate(ROUTES.profile)
     }
     // eslint-disable-next-line
   }, [userTokens])
