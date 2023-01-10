@@ -4,31 +4,26 @@ services:
   api:
     image: ipotemkin/skyavito_api:v1.7
     volumes:
-      - skyavito_data:/code/data # to get to the database
-      - skyavito_ad_images:/code/ad_images # to get to ads images
-      - skyavito_avatar_images:/code/avatar_images # to get to avatar images
+      - ./data:/code/data # to get to the database
+      - ./data/ad_images:/code/ad_images # to get to ads images
+      - ./data/avatar_images:/code/avatar_images # to get to avatar images
     environment:
       - AC_TOKEN_EXP_TIME_MIN=720 # access token lifetime in minutes
-      - R_TOKEN_EXP_TIME_MIN=1440 # refresh token lifetime in minutes
+      - R_TOKEN_EXP_TIME_MIN=1440 # =24 hours # refresh token lifetime in minutes
     ports:
       - '127.0.0.1:8090:80'
-    depends_on:
-      migrations:
-        condition: service_completed_successfully
+    # depends_on:
+    #   migrations:
+    #     condition: service_completed_successfully
     restart: always
 
     command: uvicorn --host 0.0.0.0 --port 80 app:app # --workers 4
 
   migrations:
-    image: ipotemkin/skyavito_api:v1.5
+    image: ipotemkin/skyavito_api:v1.7
     volumes:
-      - skyavito_data:/code/data # to get to the database
-      - skyavito_ad_images:/code/ad_images # to get to ads images
-      - skyavito_avatar_images:/code/avatar_images # to get to avatar images
-    command: >
-      sh -c "alembic upgrade head"
-
-volumes:
-  skyavito_data:
-  skyavito_ad_images:
-  skyavito_avatar_images:
+      - ./data:/code/data # to get to the database
+      - ./data/ad_images:/code/ad_images # to get to ads images
+      - ./data/avatar_images:/code/avatar_images # to get to avatar images
+    # command: >
+    #   sh -c "alembic upgrade head"

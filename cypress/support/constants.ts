@@ -1,4 +1,6 @@
-export const USER_EMAIL = 'test-user-new-email-14@mail.ru'
+export const USER_EMAIL = 'test-user-new-email-6@mail.ru'
+// export const USER_EMAIL = 'test-user-new-email-5@mail.ru'
+// export const USER_EMAIL = 'test-user-new-email-4@mail.ru'
 export const USER_PASSWORD = 'qwerty1234567'
 
 export const USER_NAME = 'Evgenia'
