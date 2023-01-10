@@ -203,11 +203,11 @@ npm run build
 npm run cypress
 ```
 
-**_N.B._** Тест `signupForm.cy.ts` необходимо запустить первым - для регистрации пользователя.
+**_N.B._** Тест `01_signupForm.cy.ts` необходимо запустить первым - для регистрации пользователя.
 
-При повторном запуске в тесте `signupForm.cy.ts` возникнет ошибка, поскольку пользователь с тем же e-mail не может быть зарегистрирован.
+При повторном запуске в тесте `01_signupForm.cy.ts` возникнет ошибка, поскольку пользователь с тем же e-mail не может быть зарегистрирован.
 
-При необходимости создать нового пользователя следует задать новое значение переменной `USER_EMAIL` в файле `./cypress/support/constants.ts` и запустить `signupForm.cy.ts` еще раз.
+При необходимости создать нового пользователя следует задать новое значение переменной `USER_EMAIL` в файле `./cypress/support/constants.ts` и запустить `01_signupForm.cy.ts` еще раз.
 
 ### Технический стек приложения
 
@@ -216,5 +216,5 @@ npm run cypress
 - [x] React Router DOM, реализация routing
 - [x] js-cookie, react-responsive, react-hook-form
 - [x] TypeScript
-- [x] Cypress
+- [x] [Cypress](https://docs.cypress.io/)
 - [x] [Material UI](https://mui.com/material-ui/getting-started/overview/)

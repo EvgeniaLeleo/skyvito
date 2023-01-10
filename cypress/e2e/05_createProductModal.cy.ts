@@ -61,6 +61,12 @@ describe('Create product modal', () => {
         .type(NEW_PRODUCT_PRICE)
         .should('have.value', NEW_PRODUCT_PRICE)
       cy.get('@Submit').should('not.be.disabled')
+
+      cy.get('@Submit').click()
     })
+
+    cy.get('h1').contains(NEW_PRODUCT_TITLE).should('exist')
+    cy.get('p').contains(NEW_PRODUCT_PRICE).should('exist')
+    cy.get('p').contains(NEW_PRODUCT_DESCRIPTION).should('exist')
   })
 })
