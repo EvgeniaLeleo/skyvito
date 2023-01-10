@@ -4,7 +4,7 @@
 
 ### Бекенд
 
-Для запуска бекенда на компьютере должен быть установлен Docker и docker-compose ([https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)):
+Для запуска бекенда на компьютере должен быть установлен docker и docker-compose ([https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)):
 
 - Windows — Docker Desktop for Windows.
 - MacOS — Docker Desktop for Mac.
@@ -12,7 +12,7 @@
 
 Запустите Docker Desktop.
 
-Из директории со скриптом `docker-compose.yaml` (по умолчанию он находится в `./src/docker/`) скрипт необходимо запустить командой:
+Из корневой папки проекта, где находится скрипт `docker-compose.yaml`, необходимо запустить скрипт командой:
 
 ```sh
 docker-compose up -d
