@@ -8,7 +8,7 @@
  * USER_EMAIL = 'test-user-new-email-4@mail.ru'
  */
 
-export const USER_EMAIL = 'test-user-new-email-10@mail.ru'
+export const USER_EMAIL = 'test-user-new-email-4@mail.ru'
 export const USER_PASSWORD = 'qwerty1234567'
 
 export const USER_NAME = 'Evgenia'
