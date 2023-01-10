@@ -1,13 +1,10 @@
-.wrapper {
+.productWrapper {
   display: flex;
   flex-direction: column;
 
   box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
-
-  padding-right: calc(50% - 580px);
-  padding-left: calc(50% - 580px);
 }
 
 .productContent {
@@ -188,39 +185,30 @@
 }
 
 @media (max-width: 1280px) {
-  .wrapper {
-    padding-right: calc(50% - 440px);
-    padding-left: calc(50% - 440px);
+  .previewWrapper {
+    gap: 3px;
   }
 }
 
 @media (max-width: 1024px) {
-  .wrapper {
-    padding-right: calc(50% - 350px);
-    padding-left: calc(50% - 350px);
+  .imgWrapper {
+    margin-bottom: 10px !important;
   }
-}
 
-@media (max-width: 840px) {
-  .wrapper {
-    padding-right: calc(50% - 320px);
-    padding-left: calc(50% - 320px);
+  .comment {
+    margin-bottom: 15px;
   }
-}
 
-@media (max-width: 768px) {
-  .wrapper {
-    padding-right: calc(50% - 300px);
-    padding-left: calc(50% - 300px);
+  .price {
+    font-size: 24px;
+  }
+
+  .productContent {
+    margin-bottom: 30px;
   }
 }
 
 @media (max-width: 680px) {
-  .wrapper {
-    padding-right: calc(50% - 200px);
-    padding-left: calc(50% - 200px);
-  }
-
   .subtitle {
     font-size: 30px;
   }
@@ -392,6 +380,7 @@
 
   .swiperButton:active {
     background-color: #ffffff;
+    border: 1px solid #ffffff;
   }
 
   .active {

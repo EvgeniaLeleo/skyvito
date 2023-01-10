@@ -79,67 +79,66 @@ export const LoginPage = () => {
 
   return (
     <PageWrapper>
-      <div className={styles.wrapper}>
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <img className={styles.logo} src={logo} alt="logo" />
-          <div className={styles.inputs}>
-            <input
-              onFocus={focusHandler}
-              className={styles.input}
-              placeholder="E-mail"
-              {...register('email', {
-                required: 'Введите e-mail',
-                pattern: {
-                  value: validEmail,
-                  message: INCORRECT_EMAIL_WARNING,
-                },
-              })}
-            />
-            <p className={styles.error}>
-              {errors.email && <span>{errors.email.message}</span>}
-            </p>
-
-            <input
-              onFocus={focusHandler}
-              className={inputPasswordStyle}
-              placeholder="Пароль"
-              type="password"
-              {...register('password', {
-                required: 'Введите пароль',
-                minLength: {
-                  value: validPasswordLength,
-                  message: `Пароль должен быть не менее ${validPasswordLength} символов`,
-                },
-              })}
-            />
-            <p className={styles.error}>
-              {errors.password && <span>{errors.password.message}</span>}
-            </p>
-          </div>
-          <p className={classNames(styles.error, styles.back)}>
-            {error && <span>{error}</span>}
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <img className={styles.logo} src={logo} alt="logo" />
+        <div className={styles.inputs}>
+          <input
+            onFocus={focusHandler}
+            className={styles.input}
+            placeholder="E-mail"
+            {...register('email', {
+              required: 'Введите e-mail',
+              pattern: {
+                value: validEmail,
+                message: INCORRECT_EMAIL_WARNING,
+              },
+            })}
+          />
+          <p className={styles.error}>
+            {errors.email && <span>{errors.email.message}</span>}
           </p>
-          <div className={styles.buttons}>
-            <Button
-              buttonStatus={isBlocked ? 'disabled' : 'normal'}
-              size="xxl"
-              mb="20px"
-              btnType="submit"
-            >
-              Войти
-            </Button>
-            <Button
-              type="outlined"
-              btnType="button"
-              onClick={handleSignUpClick}
-              buttonStatus={isBlocked ? 'disabled' : 'normal'}
-              size="xxl"
-            >
-              Зарегистрироваться
-            </Button>
-          </div>
-        </form>
-      </div>
+
+          <input
+            onFocus={focusHandler}
+            className={inputPasswordStyle}
+            placeholder="Пароль"
+            type="password"
+            {...register('password', {
+              required: 'Введите пароль',
+              minLength: {
+                value: validPasswordLength,
+                message: `Пароль должен быть не менее ${validPasswordLength} символов`,
+              },
+            })}
+          />
+          <p className={styles.error}>
+            {errors.password && <span>{errors.password.message}</span>}
+          </p>
+        </div>
+        <p className={classNames(styles.error, styles.back)}>
+          {error && <span>{error}</span>}
+        </p>
+        <div className={styles.buttons}>
+          <Button
+            buttonStatus={isBlocked ? 'disabled' : 'normal'}
+            size="xxl"
+            mb="20px"
+            btnType="submit"
+          >
+            Войти
+          </Button>
+          <Button
+            type="outlined"
+            btnType="button"
+            onClick={handleSignUpClick}
+            buttonStatus={isBlocked ? 'disabled' : 'normal'}
+            size="xxl"
+            mb="84px"
+          >
+            Зарегистрироваться
+          </Button>
+        </div>
+      </form>
     </PageWrapper>
   )
 }

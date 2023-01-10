@@ -21,7 +21,7 @@ export const AvatarImageBlock: FC<Props> = ({
   uploadedAvatar,
 }) => {
   if (loading) {
-    return <div className={styles.wrapper}>Загрузка...</div>
+    return <div className={styles.avatarImageWrapper}>Загрузка...</div>
   }
 
   if (avatarError) {

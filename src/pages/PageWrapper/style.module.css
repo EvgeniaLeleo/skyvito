@@ -78,6 +78,11 @@
     padding-left: calc(50% - 160px);
     padding-top: 0;
   }
+
+  .pageWrapper.noPadding {
+    padding-right: 0;
+    padding-left: 0;
+  }
 }
 
 @media (max-width: 375px) {

@@ -1,14 +1,4 @@
-.wrapper {
-  display: flex;
-  flex-direction: column;
-
-  box-sizing: border-box;
-  width: 100%;
-
-  padding-right: calc(50% - 580px);
-  padding-left: calc(50% - 580px);
-  padding-top: 85px;
-
+.commentsPageWrapper {
   margin-bottom: 84px;
 }
 
@@ -20,6 +10,7 @@
 
   margin: 0;
   margin-bottom: 24px;
+  padding-top: 85px;
 }
 
 .backbtn {

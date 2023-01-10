@@ -104,7 +104,7 @@ export const ProductImages: FC<Props> = ({
         plusButtonArray.map((el, index) => (
           <React.Fragment key={el}>
             {!uploadedImages[index] && (
-              <label>
+              <label className={styles.labelUpload}>
                 <PlusIconInSquare />
                 <input
                   className={styles.input}

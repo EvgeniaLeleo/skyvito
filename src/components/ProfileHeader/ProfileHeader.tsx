@@ -15,7 +15,7 @@ export const ProfileHeader: FC = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.headerWrapper}>
       <Link to={ROUTES.main} className={styles.link}>
         <div className={styles.logoWrapper}>
           <Logo />

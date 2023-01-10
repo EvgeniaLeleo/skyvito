@@ -25,7 +25,7 @@ export const SellersPage = () => {
 
   return (
     <PageWrapper scrollToTop={true}>
-      <div className={styles.wrapper}>
+      <>
         <h2 className={styles.title}>
           <img
             className={styles.backbtn}
@@ -61,7 +61,7 @@ export const SellersPage = () => {
 
         <h2 className={styles.subtitle}>Товары продавца</h2>
         <Gallery sellerId={sellerId} />
-      </div>
+      </>
     </PageWrapper>
   )
 }

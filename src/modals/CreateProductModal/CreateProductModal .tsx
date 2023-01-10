@@ -117,10 +117,12 @@ export const CreateProductModal: FC<Props> = ({ setIsOpened, product }) => {
   return (
     <Modal isOpen={setIsOpened}>
       <div className={styles.content}>
-        <h2 className={styles.title}>Новое объявление</h2>
         <div className={styles.closeButton} onClick={handleClose}>
           <CrossIcon />
         </div>
+
+        <h2 className={styles.title}>Новое объявление</h2>
+
         <form
           className={styles.form}
           onSubmit={handleSubmit(onSubmit)}

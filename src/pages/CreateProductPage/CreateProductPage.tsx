@@ -110,101 +110,100 @@ export const CreateProductPage = () => {
 
   return (
     <PageWrapper scrollToTop={true}>
-      <div className={styles.wrapper}>
-        <h2 className={styles.title}>
-          <img
-            className={styles.backbtn}
-            src={back}
-            alt="back"
-            onClick={handleBack}
-          />
-          Новое объявление
-        </h2>
+      <h2 className={styles.title}>
+        <img
+          className={styles.backbtn}
+          src={back}
+          alt="back"
+          onClick={handleBack}
+        />
+        Новое объявление
+      </h2>
 
-        <form
-          className={styles.form}
-          onSubmit={handleSubmit(onSubmit)}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className={cn(styles.inputRequired, styles.inputWrapper)}>
-            <label className={styles.label}>
-              Название
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit(onSubmit)}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={cn(styles.inputRequired, styles.inputWrapper)}>
+          <label className={styles.label}>
+            Название
+            <input
+              {...register('title', {
+                required: 'Введите название',
+              })}
+              className={styles.input}
+              type="text"
+              placeholder="Введите название"
+              value={fieldValue.title || ''}
+              onChange={(e) => handleFieldChange(e, 'title')}
+              autoFocus
+            />
+          </label>
+          <div className={styles.error}>
+            {errors.title && <p>{errors.title.message}</p>}
+          </div>
+        </div>
+        <div className={cn(styles.areaContent, styles.inputWrapper)}>
+          <label className={styles.label}>
+            Описание
+            <textarea
+              {...register('description')}
+              className={styles.textArea}
+              rows={1}
+              placeholder="Введите описание"
+              value={fieldValue.description}
+              onChange={(e) => handleFieldChange(e, 'description')}
+            />
+          </label>
+        </div>
+        <div className={styles.imgContent}>
+          <p className={styles.textPhoto}>
+            Фотографии товара
+            <br />
+            <span className={styles.limit}>
+              не более {NUMBER_OF_IMAGES} фотографий
+            </span>
+          </p>
+          <div className={styles.imagesWrapper}>
+            <UploadNewImages
+              formData={formData}
+              uploadedImagesArray={uploadedImagesArray}
+            />
+          </div>
+        </div>
+        <div className={cn(styles.priceBlock, styles.inputWrapper)}>
+          <label className={styles.label}>
+            Цена
+            <div className={styles.priceInput}>
               <input
-                {...register('title', {
-                  required: 'Введите название',
+                {...register('price', {
+                  required: 'Введите корректную цену',
+                  pattern: {
+                    value: validPrice,
+                    message: 'Введите корректную цену',
+                  },
                 })}
                 className={styles.input}
-                type="text"
-                placeholder="Введите название"
-                value={fieldValue.title || ''}
-                onChange={(e) => handleFieldChange(e, 'title')}
-                autoFocus
+                value={price}
+                onChange={handleChangePrice}
               />
-            </label>
-            <div className={styles.error}>
-              {errors.title && <p>{errors.title.message}</p>}
+              <div className={styles.currency}>₽</div>
             </div>
+          </label>
+          <div className={styles.error}>
+            {errors.price && <p>{errors.price.message}</p>}
           </div>
-          <div className={cn(styles.areaContent, styles.inputWrapper)}>
-            <label className={styles.label}>
-              Описание
-              <textarea
-                {...register('description')}
-                className={styles.textArea}
-                rows={1}
-                placeholder="Введите описание"
-                value={fieldValue.description}
-                onChange={(e) => handleFieldChange(e, 'description')}
-              />
-            </label>
-          </div>
-          <div className={styles.imgContent}>
-            <p className={styles.textPhoto}>
-              Фотографии товара
-              <br />
-              <span className={styles.limit}>
-                не более {NUMBER_OF_IMAGES} фотографий
-              </span>
-            </p>
-            <div className={styles.imagesWrapper}>
-              <UploadNewImages
-                formData={formData}
-                uploadedImagesArray={uploadedImagesArray}
-              />
-            </div>
-          </div>
-          <div className={cn(styles.priceBlock, styles.inputWrapper)}>
-            <label className={styles.label}>
-              Цена
-              <div className={styles.priceInput}>
-                <input
-                  {...register('price', {
-                    required: 'Введите корректную цену',
-                    pattern: {
-                      value: validPrice,
-                      message: 'Введите корректную цену',
-                    },
-                  })}
-                  className={styles.input}
-                  value={price}
-                  onChange={handleChangePrice}
-                />
-                <div className={styles.currency}>₽</div>
-              </div>
-            </label>
-            <div className={styles.error}>
-              {errors.price && <p>{errors.price.message}</p>}
-            </div>
-          </div>
+        </div>
 
-          <Button
-            btnType="submit"
-            buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
-          >
-            {buttonText}
-          </Button>
-        </form>
-      </div>
+        <Button
+          btnType="submit"
+          buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
+          mb="84px"
+        >
+          {buttonText}
+        </Button>
+      </form>
     </PageWrapper>
   )
 }

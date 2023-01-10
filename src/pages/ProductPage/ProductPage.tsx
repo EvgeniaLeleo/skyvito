@@ -129,8 +129,8 @@ export const ProductPage: FC = () => {
     )
 
   return (
-    <PageWrapper scrollToTop={true}>
-      <div className={styles.wrapper}>
+    <PageWrapper scrollToTop={true} noPadding={isMobile}>
+      <div className={styles.productWrapper}>
         <div className={styles.productContent}>
           <div className={styles.imgBlock}>
             <div className={styles.shadow}>

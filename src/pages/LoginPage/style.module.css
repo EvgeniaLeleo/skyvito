@@ -1,18 +1,3 @@
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-
-  box-sizing: border-box;
-  width: 100%;
-
-  padding-right: calc(50% - 580px);
-  padding-left: calc(50% - 580px);
-  padding-top: 95px;
-
-  margin-bottom: 84px;
-}
-
 .logo {
   align-self: center;
   width: 120px;
@@ -27,6 +12,7 @@
   align-items: stretch;
 
   width: 100%;
+  padding-top: 95px;
 
   box-sizing: border-box;
 }

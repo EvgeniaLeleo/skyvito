@@ -23,7 +23,7 @@ export const Avatar: FC<Props> = ({
 }) => {
   if (error) {
     return (
-      <div className={styles.wrapper} style={{ marginBottom: mb }}>
+      <div className={styles.avatarWrapper} style={{ marginBottom: mb }}>
         Ошибка
         <br /> загрузки
       </div>
@@ -32,7 +32,7 @@ export const Avatar: FC<Props> = ({
 
   if (user && uploadedAvatar)
     return (
-      <div className={styles.wrapper} style={{ marginBottom: mb }}>
+      <div className={styles.avatarWrapper} style={{ marginBottom: mb }}>
         <ImageWrapper
           imageUrl={uploadedAvatar}
           name={user.name}
@@ -43,7 +43,7 @@ export const Avatar: FC<Props> = ({
 
   if (!user || !user.avatar) {
     return (
-      <div className={styles.wrapper} style={{ marginBottom: mb }}>
+      <div className={styles.avatarWrapper} style={{ marginBottom: mb }}>
         Аватар
         <br /> не загружен
       </div>
@@ -51,7 +51,7 @@ export const Avatar: FC<Props> = ({
   }
 
   return (
-    <div className={styles.wrapper} style={{ marginBottom: mb }}>
+    <div className={styles.avatarWrapper} style={{ marginBottom: mb }}>
       {!uploadedAvatar && (
         <ImageWrapper
           imageUrl={user.avatar ? API_URL + user.avatar : ''}

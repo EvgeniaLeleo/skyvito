@@ -5,9 +5,7 @@ import styles from './style.module.css'
 export const NotFound = () => {
   return (
     <PageWrapper>
-      <div className={styles.wrapper}>
-        <h2 className={styles.subtitle}>404 такой страницы нет</h2>
-      </div>
+      <h2 className={styles.subtitle}>404 такой страницы нет</h2>
     </PageWrapper>
   )
 }

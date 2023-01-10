@@ -141,7 +141,7 @@ export const EditProductPage: FC = () => {
   return (
     <PageWrapper scrollToTop={true}>
       {product && (
-        <div className={styles.wrapper}>
+        <>
           <h1 className={styles.title}>
             <img
               className={styles.backbtn}
@@ -233,11 +233,12 @@ export const EditProductPage: FC = () => {
             <Button
               btnType="submit"
               buttonStatus={isFormValid && !loading ? 'normal' : 'disabled'}
+              mb="84px"
             >
               {buttonText}
             </Button>
           </form>
-        </div>
+        </>
       )}
     </PageWrapper>
   )

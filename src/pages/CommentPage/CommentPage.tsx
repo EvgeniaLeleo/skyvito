@@ -67,7 +67,7 @@ export const CommentPage: FC = () => {
 
   return (
     <PageWrapper scrollToTop={true}>
-      <div className={styles.wrapper}>
+      <div className={styles.commentsPageWrapper}>
         <h1 className={styles.title}>
           <img
             className={styles.backbtn}

@@ -35,7 +35,7 @@ export const ProfilePage = () => {
   return (
     <PageWrapper scrollToTop={true}>
       {!!user && (
-        <div className={styles.wrapper}>
+        <>
           <h1 className={styles.title}>
             Здравствуйте{user.name ? `, ${user.name}` : ''}!
           </h1>
@@ -45,7 +45,7 @@ export const ProfilePage = () => {
 
           <h2 className={styles.subtitle}>Мои товары</h2>
           <Gallery sellerId={user.id} isProfilePage={true} />
-        </div>
+        </>
       )}
     </PageWrapper>
   )

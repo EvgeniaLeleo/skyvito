@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react'
 import { useCookies } from 'react-cookie'
+import cn from 'classnames'
 
 import { Header } from '../../components/Header/Header'
 import { ScrollToTop } from '../../components/ScrollToTop/ScrollToTop'
@@ -12,10 +13,12 @@ type Props = {
   children?: ReactNode
   scrollToTop?: boolean
   searchHeader?: boolean
+  noPadding?: boolean
 }
 
 export const PageWrapper: FC<Props> = ({
   children,
+  noPadding = false,
   searchHeader = false,
   scrollToTop = false,
 }) => {
@@ -28,7 +31,11 @@ export const PageWrapper: FC<Props> = ({
     <>
       {scrollToTop && <ScrollToTop />}
       <Header isLoggedIn={isLoggedIn} searchHeader={searchHeader} />
-      <div className={styles.pageWrapper}>{children}</div>
+      <div
+        className={cn(styles.pageWrapper, { [styles.noPadding]: noPadding })}
+      >
+        {children}
+      </div>
     </>
   )
 }
