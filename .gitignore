@@ -25,6 +25,6 @@ yarn-error.log*
 # Local Netlify folder
 .netlify
 
-.questions.txt
+questions.txt
 
 /docker

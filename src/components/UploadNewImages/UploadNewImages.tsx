@@ -32,7 +32,7 @@ export const UploadNewImages: FC<Props> = ({
     const files = event.target.files
     const file = files ? files[0] : null
 
-    // Loading photo-preview
+    // Loading photo-preview in the corresponding input
     setUploadedImages((prev: Blob[] | MediaSource[]) => [
       ...prev.slice(0, index),
       file,

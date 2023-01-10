@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 
 import { ending } from '../../utils/ending'
 import { useGetProductCommentsQuery } from '../../services/productsApi'
@@ -11,13 +11,7 @@ export const NumberOfComments: FC<Props> = ({ productId }) => {
   const { data: comments, isLoading: isLoadingComments } =
     useGetProductCommentsQuery(productId)
 
-  const [numberOfComments, setNumberOfComments] = useState<number | undefined>(
-    comments?.length
-  )
-
-  useEffect(() => {
-    setNumberOfComments(comments?.length)
-  }, [comments])
+  const numberOfComments = comments?.length
 
   return (
     <>

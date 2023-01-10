@@ -1,6 +1,7 @@
 /**
  * Returns the current user, refreshing his token if necessary
  * Returns undefined if no logged in user or the refresh token is invalid
+ * Property 'setIsOpened' is if for LoginModal
  */
 
 import { useEffect, useRef, useState } from 'react'
@@ -15,7 +16,6 @@ import { UserTokensRequest } from '../types'
 import { useAppSelector } from './useAppDispatch'
 import { useRefreshToken } from './useRefreshToken'
 
-// Property 'setIsOpened' is if for LoginModal
 export const useCurrentUser = (setIsOpened?: Function) => {
   const timestamp = useRef(Date.now()).current
   const { data, isLoading, isError, error } = useGetCurrentUserQuery(timestamp)
