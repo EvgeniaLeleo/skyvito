@@ -33,7 +33,6 @@ docker-compose down
 Установите зависимости:
 
 ```sh
-cd skyvito
 npm install
 ```
 
