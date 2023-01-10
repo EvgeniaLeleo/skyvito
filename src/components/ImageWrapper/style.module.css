@@ -50,3 +50,9 @@
     margin-bottom: 10px !important;
   }
 }
+
+@media (max-width: 425px) {
+  .imgWrapper {
+    margin-bottom: 0 !important;
+  }
+}
